@@ -1,0 +1,25 @@
+
+<?php if (! $this->products->isEmpty()) { ?>
+    <div class="products">
+    	
+    	<?php foreach ($this->products as $product) { ?>
+    	<div class="product">
+    		
+    		<h2><a href="<?php echo $this->url(array('id' => $product->getId(),
+                                	                 'title' => $this->cleanUrl($product->getTitle())),
+                                	           'product', 
+                                	           true) ?>">
+                    <?php echo $this->escape($product->getTitle()); ?>
+                </a></h2>
+    		
+    		<p>cena: <span class="price"><?php echo $this->escape($product->printPrice()); ?></span></p>
+    		
+    		<p><?php echo $this->escape($product->getDescription()); ?></p>
+    		
+    	</div>
+    	<?php } ?>
+    	
+    </div>
+<?php } else { ?>
+    <p>Neexistuje žádný produkt.</p>
+<?php } ?>

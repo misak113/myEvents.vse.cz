@@ -1,0 +1,16 @@
+
+html, body {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+body {
+	color: #333333;
+	font: 15px Verdana, Arial, 'Helvetica', sans-serif;
+	padding-top: 30px;
+}
+
+h1 {
+	color: #d13b13;
+}
