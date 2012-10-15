@@ -6,6 +6,9 @@
 #
 common:
 	parameters:
+		debugMode: true
+		productionMode: false
+		environment: development
 
 	php:
 		date.timezone: Europe/Prague
