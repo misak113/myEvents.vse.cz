@@ -32,9 +32,12 @@ common:
 	services:
 		# Default services
 		fileTemplate: Nette\Templating\FileTemplate
+		titleLoader: app\services\TitleLoader
 
 		# Models
 		articleModel: ArticlesModel
+
+
 
 	factories:
 
