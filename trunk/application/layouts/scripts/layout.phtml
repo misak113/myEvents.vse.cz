@@ -1,83 +1,11 @@
-<?php
- 
-	echo $this->doctype();
-	
-?>
-
-<html>
-	
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title><?php echo $this->escape($this->title); ?></title>
-		<?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/css/global.css'); ?>
-	</head>
-	
-	<body>
-		
+<?php echo $this->render('head.phtml') ?>		
 		<!-- Hlavicka -->
 		<?php echo $this->render('header.phtml') ?>
-		
-		<div id="page">
-			
-			<!-- Hlavni logo -->
-			<?php echo $this->render('logo.phtml') ?>
-			
-			<!-- Hlavni obsah -->
-			<div id="wrapper">
-				
-				<div id="content">
-					
-					<h1><?php echo $this->escape($this->title); ?></h1>
-					
-					<?php echo $this->layout()->content; ?>
-					
-				</div>
-				
-			</div>
-			
-			<!-- Postranni obsah -->
-			<div id="sidebar">
-				
-				<div class="sidelist">
-					
-					<h2>Menu</h2>
-					
-					<ul>
-						
-						<li><a href="<?php echo $this->url(
-						            array('controller' => 'index'), 
-						            'default', 
-						            true) ?>">Úvod</a></li>
-						            
-						<li><a href="<?php echo $this->url(
-						            array(), 
-						            'productList', 
-						            true) ?>">Produkty</a></li>
-						<li><a href="<?php echo $this->url(
-							array(),
-							'articleList',
-							true) ?>">Články</a></li>
-						<li><a href="<?php echo $this->url(
-						            array(), 
-						            'aboutUs', 
-						            true) ?>">O nás</a></li>
-						            
-						<li><a href="<?php echo $this->url(
-						            array(), 
-						            'contact', 
-						            true) ?>">Kontakt</a></li>
-						
-					</ul>
-					
-				</div>
-				
-			</div>
-			
-			<br class="clear"/>
-			
-		</div>
-		
-		
+				<!-- Obsah -->
+		<div class="container">
+	
+					<?php echo $this->layout()->content; ?>		
+		</div>		
 		<!-- Paticka -->
 		<?php echo $this->render('footer.phtml') ?>
 		

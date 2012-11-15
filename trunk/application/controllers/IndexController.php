@@ -40,7 +40,7 @@ class IndexController extends BaseController {
 	 */
 	public function contactAction() {
 		
-		$this->view->title = 'Kontakt';
+		$this->view->title = 'kontakt';
 		
 	}
 	
