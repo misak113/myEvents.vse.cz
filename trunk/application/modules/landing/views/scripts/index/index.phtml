@@ -1,69 +1,35 @@
-<!DOCTYPE html5>
-<html>
-	<head>
-		<title>myEvents VŠE</title>
-		<meta charset="utf-8">
-		
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta name="description" content="Najdi si zábavu na škole... Studentské akce pro studenty" />
-		<meta name="keywords" content="studentský portál, VŠE" />
-		<meta name="robots" content="all, follow" />
-		
-		<!-- Scripts -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery.cookie.js"></script>
-		<script type="text/javascript" src="js/blur-input.js"></script>
-		<script type="text/javascript">
+<div class="wrap">
+	<div id="coming-soon-box">
+		<div class="left">
+			<img src="<?php echo $this->baseUrl(); ?>/img/logo.png" alt="myEvents VŠE"/>
+		</div>
+		<div class="right">
+			<h1>Stránky <strong>myEvents VŠE</strong> se již připravují!</h1>
+			<strong class="hi">Ahoj,</strong><br/>
 
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-36223837-1']);
-		  _gaq.push(['_trackPageview']);
-
-		  (function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-
-		</script>
-		
-		<!-- Stylesheet -->
-		<link rel="stylesheet" href="css/style.css">
-	</head>
-	<body>
-	
-	<div class="wrap">
-		<div id="coming-soon-box">
-			<div class="left">
-				<img src="img/logo.png" alt="myEvents VŠE"/>
-				
-			</div>
-			<div class="right">
-				<h1>Stránky <strong>myEvents VŠE</strong> se již připravují!</h1>
-				<strong class="hi">Ahoj,</strong><br />
-				<p>už se nemůžeš dočkat jako my, až spustíme nový <strong>studentský portál</strong>, kde najdeš <strong>studentské akce VŠE?</strong>				
+			<p>už se nemůžeš dočkat jako my, až spustíme nový <strong>studentský portál</strong>, kde najdeš <strong>studentské
+				akce VŠE?</strong>
 				Dej nám ještě nějaký čas, pracujeme na tom.</p>
-				
-				<p>Pokud máš jakýkoli dotaz, neváhej nám napsat na <a href="mailto:myeventsvse@gmail.com"><strong>myeventsvse[at]gmail.com</strong></a></p>
-				<p>Mezitím než bude nový web hotový, můžeš navštívit naši facebook stránku <a href="http://www.facebook.com/myEvents.vse.cz"><strong>myEvents VŠE</strong></a></p>
-				
-				<p class="hightlight email">Chceš být informován o spuštění webu? Není problém. Stačí vložit svůj e-mail a my Ti dáme včas vědět.</p>
-				<form method="post" action="send.php" class="form email">
-					<input type="text" class="input" name="email" value="Váš e-mail"  />
-					<input type="submit" class="button" value="Informuj mě!" />
-				</form>
-				<div class="message">E-mail byl odeslán a uložen!</div>
+
+			<p>Pokud máš jakýkoli dotaz, neváhej nám napsat na <a href="mailto:myeventsvse@gmail.com"><strong>myeventsvse[at]gmail.com</strong></a>
+			</p>
+
+			<p>Mezitím než bude nový web hotový, můžeš navštívit naši facebook stránku <a
+					href="http://www.facebook.com/myEvents.vse.cz"><strong>myEvents VŠE</strong></a></p>
+
+			<p class="hightlight email">Chceš být informován o spuštění webu? Není problém. Stačí vložit svůj e-mail a
+				my Ti dáme včas vědět.</p>
+
+			<form method="post" action="send.php" class="form email">
+				<input type="text" class="input" name="email" value="Váš e-mail"/>
+				<input type="submit" class="button" value="Informuj mě!"/>
+			</form>
+			<div class="message">E-mail byl odeslán a uložen!</div>
 			<script type="text/javascript">
 				if ($.cookie('email_sent') == 'sent') {
 					$('.message').css('display', 'block');
 				}
 			</script>
-			<div class="fb"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fmyeventsvse.cz&amp;send=false&amp;layout=standard&amp;width=250&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=80&amp;appId=150598068321889" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:500px; height:80px;" allowTransparency="true"></iframe></div>
-			</div>
 		</div>
 	</div>
-
-	</body>
-</html>
+</div>

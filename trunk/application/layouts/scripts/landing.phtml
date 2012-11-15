@@ -1,5 +1,21 @@
+<!DOCTYPE html5>
 <?php
 /**
-* @var Zend_View $this
-*/
+ * @var Zend_View $this
+ */
 ?>
+<html>
+<?php echo $this->render('head.phtml') ?>
+
+<body>
+
+<!-- Obsah -->
+<div class="container">
+	<?php echo $this->layout()->content; ?>
+</div>
+
+<!-- Paticka -->
+<?php echo $this->render('footer.phtml') ?>
+
+</body>
+</html>

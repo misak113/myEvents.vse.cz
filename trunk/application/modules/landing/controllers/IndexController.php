@@ -9,7 +9,7 @@ use Zette\UI\BaseController;
  * Time: 22:44
  * To change this template use File | Settings | File Templates.
  */
-class IndexController extends BaseController
+class Landing_IndexController extends BaseController
 {
 	const FILE_EMAILS = 'emails.txt';
 
