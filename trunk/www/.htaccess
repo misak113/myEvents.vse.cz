@@ -1,4 +1,1 @@
-# spousti prepis URL do interni podoby
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule .* index.php
+# spousti prepis URL do interni podobycxcxcSetEnv APPLICATION_ENV localhostRewriteEngine onRewriteCond %{REQUEST_FILENAME} !-fRewriteRule .* index.php
