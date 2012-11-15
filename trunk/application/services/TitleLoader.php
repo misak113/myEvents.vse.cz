@@ -14,15 +14,20 @@ class TitleLoader
 
 	/** @var array */
 	protected $titles = array(
-		'Index:index' => 'Hlavní stránka',
+		'Index:index' => 'Akce',
+		'Index:about' => 'O nás',
+		'Event:detail' => 'Podrobnosti akce',
 	);
 
 	/**
 	 * @param string $methodName
 	 * @return string
 	 */
-	public function getTitle($methodName) {
-		return (isset($this->titles[$methodName]) ?$this->titles[$methodName].' - ' :'') . self::DEFAULT_TITLE;
+	public function getTitle($methodName, $prepend = false) {
+		$title = (isset($this->titles[$methodName]) ?$this->titles[$methodName].' - ' :'') . self::DEFAULT_TITLE;
+		$prepend && $title.= $prepend.' - ';
+
+		return $title;
 	}
 
 }
