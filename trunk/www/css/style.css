@@ -196,5 +196,5 @@ table.actionform th label {font-weight: bold; margin: 0;}
 
 [class^="icon-"], [class*=" icon-"] {margin-right: 5px;}
 .icon-plus, .icon-trash {background-image: url("../img/glyphicons-halflings-white.png");}
-#footer {padding: 10px;}
+#footer {padding: 10px; text-align: center;}
 
