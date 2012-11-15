@@ -1,1 +1,1 @@
-#SetEnv APPLICATION_ENV localhostRewriteEngine onRewriteCond %{REQUEST_FILENAME} !-fRewriteRule .* index.php
+#SetEnv APPLICATION_ENV localhost<ifModule mod_rewrite.c>	RewriteEngine on	RewriteCond %{REQUEST_FILENAME} !-f	RewriteRule .* index.php</ifModule>
