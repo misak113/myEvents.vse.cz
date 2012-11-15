@@ -265,6 +265,7 @@ input.btn {
 
 .navbar .container {
 	width: 1170px;
+	clear: both;
 }
 
 .navbar .nav > li > a {

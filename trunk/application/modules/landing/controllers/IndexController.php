@@ -1,6 +1,7 @@
 <?php
 
 use Zette\UI\BaseController;
+use app\services\TitleLoader;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -13,8 +14,21 @@ class Landing_IndexController extends BaseController
 {
 	const FILE_EMAILS = 'emails.txt';
 
-	public function indexAction() {
+	/** @var TitleLoader */
+	protected $titleLoader;
 
+	/**
+	 * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
+	 * Mezi služby se řadí také modely a DB modely
+	 * Je třeba nadefinovat modely v config.neon
+	 * @param app\services\TitleLoader $titleLoader
+	 */
+	public function setContext(TitleLoader $titleLoader) {
+		$this->titleLoader = $titleLoader;
+	}
+
+	public function indexAction() {
+		$this->_helper->layout->setLayout('landing');
 	}
 
 	public function emailSentAction() {

@@ -1,6 +1,7 @@
 <?php
 
 use Zette\UI\BaseController;
+use app\services\TitleLoader;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -10,6 +11,21 @@ use Zette\UI\BaseController;
  * To change this template use File | Settings | File Templates.
  */
 class EventController extends BaseController {
+
+
+	/** @var TitleLoader */
+	protected $titleLoader;
+
+
+	/**
+	 * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
+	 * Mezi služby se řadí také modely a DB modely
+	 * Je třeba nadefinovat modely v config.neon
+	 * @param app\services\TitleLoader $titleLoader
+	 */
+	public function setContext(TitleLoader $titleLoader) {
+		$this->titleLoader = $titleLoader;
+	}
 
 
 	public function detailAction() {
