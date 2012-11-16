@@ -168,6 +168,13 @@ input.btn {
 		height: auto;
 	}
 
+	.wrap {
+		width: auto;
+	}
+	#footer .fb {
+		width: auto;
+	}
+
 	#coming-soon-box {
 		width: 600px;
 		height: auto;
@@ -192,6 +199,7 @@ input.btn {
 		width: 100%;
 		text-align: left;
 		padding-top: 1em;
+		text-align: center;
 	}
 
 	#coming-soon-box .right {
@@ -249,6 +257,14 @@ input.btn {
 		width: 98%;
 	}
 
+	#footer .fb iframe {
+		width: 400px !important;
+	}
+
+
+}
+
+@media (max-width: 450px) {
 	.fb {
 		display: none;
 	}
