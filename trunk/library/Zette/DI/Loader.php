@@ -3,6 +3,7 @@ namespace Zette\DI;
 
 use Nette\Config\Configurator;
 use Nette\DI\Container;
+use Nette\Diagnostics\Debugger;
 
 
 
@@ -36,6 +37,8 @@ class Loader
 // Enable Nette Debugger for error visualisation & logging
 //$configurator->setDebugMode($configurator::AUTO);
 		$configurator->enableDebugger(LOG_DIR);
+
+		Debugger::enable(false);
 
 // Enable RobotLoader - this will load all classes automatically
 		$configurator->setTempDirectory(TEMP_DIR);
