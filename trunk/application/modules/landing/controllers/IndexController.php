@@ -2,6 +2,7 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
+use app\models\EmailTable;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -12,10 +13,11 @@ use app\services\TitleLoader;
  */
 class Landing_IndexController extends BaseController
 {
-	const FILE_EMAILS = 'emails.txt';
 
 	/** @var TitleLoader */
 	protected $titleLoader;
+	/** @var EmailTable */
+	protected $emailTable;
 
 	/**
 	 * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
@@ -23,8 +25,9 @@ class Landing_IndexController extends BaseController
 	 * Je třeba nadefinovat modely v config.neon
 	 * @param app\services\TitleLoader $titleLoader
 	 */
-	public function setContext(TitleLoader $titleLoader) {
+	public function setContext(TitleLoader $titleLoader, EmailTable $emailTable) {
 		$this->titleLoader = $titleLoader;
+		$this->emailTable = $emailTable;
 	}
 
 	public function indexAction() {
@@ -32,20 +35,31 @@ class Landing_IndexController extends BaseController
 		$this->_helper->layout->setLayout('landing');
 	}
 
-	public function emailSentAction() {
+	public function sentAction() {
 
-		// @todo
-		$email = @$_POST['email'];
-
-		$status = @file_put_contents(FILE_EMAILS, $email.";".time().";".$_SERVER['REMOTE_ADDR']."\n", FILE_APPEND);
-
-		if ($status) {
-			header('Location: /');
-			setcookie('email_sent', 'sent', time()+5);
-		} else {
-			header('Location: /');
+		$email = $this->getRequest()->getParam('email');
+		if (!$email) {
+			$this->message($this->t('Email je třeba vyplnit!'), 'error');
+			$this->redirect($this->url(array(), 'landing'));
 		}
 
+		$emailRow = $this->emailTable->createRow();
+		$emailRow->setEmail($email);
+		$emailRow->setUserAgent(@$_SERVER['HTTP_USER_AGENT']);
+		$emailRow->setRemoteAddr($this->getRequest()->getServer('REMOTE_ADDR'));
+		$emailRow->setRegistered(date('Y-m-d H:i:s'));
+		$status = $emailRow->save();
+
+		if ($status) {
+			$this->message($this->t('E-mail byl odeslán a uložen!'));
+		}
+
+		$this->redirect($this->url(array(), 'landing'));
+	}
+
+	protected function message($text, $type = 'info') {
+		setcookie('email_sent_message', $text, time()+5, '/');
+		setcookie('email_sent_type', $type, time()+5, '/');
 	}
 
 }

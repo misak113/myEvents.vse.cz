@@ -119,6 +119,11 @@ input[type='text'], input[type='date'] {
 	display: none;
 	box-shadow: 0 1px rgba(255, 255, 255, 0.3) inset, 0 1px 1px rgba(0, 0, 0, 0.2);
 }
+.message.error {
+	border: 1px solid #b22222;
+	background: #ebcccc url('../img/error-icon.png') no-repeat 13px 13px;
+	color: #b22222;
+}
 
 /* Login form */
 #form-signin {
