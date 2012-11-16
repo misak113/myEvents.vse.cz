@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="JenkinsDemo" description="Build script for JenkinsDemo" default="ci">
+    <target name="ci" depends="prepare, phplint, phpcs, phpcpd, phploc,  pdepend, phpmd"/>
+    
+    <!-- Definice adresářů, níže na ně budu jen odkazovat -->
+    <fileset id="application" dir="${project.basedir}/application">
+        <include name="**/*.php"/>
+    </fileset>
+    <fileset id="views" dir="${project.basedir}/application/">
+        <include name="**/*.phtml"/>
+    </fileset>
+    <fileset id="public" dir="${project.basedir}/www">
+        <include name="**/*.php"/>
+    </fileset>
+	<fileset id="library" dir="${project.basedir}/library">
+        <include name="**/*.php"/>
+		<exclude name="Zend/"/>
+		<exclude name="Nette/"/>
+    </fileset>
+    
+    <target name="cleanbuild" description="Vyčistění workspace">
+        <delete dir="${project.basedir}/build"/>
+    </target>
+    
+    <target name="prepare" depends="cleanbuild" description="Příprava workspace">
+        <mkdir dir="${project.basedir}/build"/>
+    </target>
+    
+    <target name="phplint" depends="prepare">
+        <phplint haltonfailure="true" level="info">
+            <fileset refid="application"/>
+            <fileset refid="public"/>
+            <fileset refid="views"/>
+			<fileset refid="library"/>
+        </phplint>
+    </target>
+    
+    <target name="phpunit">
+        <exec command="phpunit --log-junit ${project.basedir}/build/junit.xml" checkreturn="true" logoutput="true" />
+    </target>
+    
+    <target name="phpcs" depends="prepare" description="Kontrola Coding standards">
+        <mkdir dir="${project.basedir}/build/checkstyle-phpcs"/>
+        <phpcodesniffer standard="${project.basedir}/phpcs.xml" tabWidth="4">
+            <fileset refid="application"/>
+            <fileset refid="public"/>
+			<fileset refid="library"/>
+            <formatter type="default" usefile="false"/>
+            <formatter type="checkstyle" outfile="${project.basedir}/build/checkstyle-phpcs/checkstyle-phpcs.xml"/>
+        </phpcodesniffer>
+    </target>
+    
+    <target name="phpcpd" depends="prepare" description="Kontrola CPD">
+        <mkdir dir="${project.basedir}/build/pmd-cpd"/>
+        <phpcpd>
+            <fileset refid="application"/>
+            <fileset refid="public"/>
+			<fileset refid="library"/>
+            <fileset refid="views"/>
+
+            <formatter type="pmd" outfile="${project.basedir}/build/pmd-cpd/pmd-cpd.xml"/>
+        </phpcpd>
+    </target>
+    
+    <target name="phploc" depends="prepare" description="Analýza PHPLOC">
+        <exec command="phploc  --exclude ./library/Zend/ --exclude ./library/Nette/ --log-csv ${project.basedir}/build/phploc.csv ${project.basedir}" logoutput="true" />
+    </target>
+    
+    <target name="pdepend" depends="prepare" description="Analýza nástrojem PDepend">
+        <phpdepend>
+            <fileset refid="application"/>
+			<fileset refid="library"/>
+            <fileset refid="public"/>
+            <logger type="jdepend-xml" outfile="${project.basedir}/build/jdepend.xml"/>
+            <logger type="jdepend-chart" outfile="${project.basedir}/build/dependencies.svg"/>
+            <logger type="overview-pyramid" outfile="${project.basedir}/build/overview-pyramid.svg"/>
+        </phpdepend>
+    </target>
+    
+    <target name="phpmd" depends="prepare" description="PMD analýza">
+        <mkdir dir="${project.basedir}/build/pmd/"/>
+        <phpmd rulesets="${project.basedir}/phpmd.xml">
+            <fileset refid="application"/>
+			<fileset refid="library"/>
+            <fileset refid="public"/>
+            <formatter type="xml" outfile="${project.basedir}/build/pmd/pmd.xml"/>
+        </phpmd>
+    </target>
+    
+</project>
