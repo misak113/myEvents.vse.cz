@@ -44,12 +44,14 @@ input[type='text'], input[type='date'] {
 }
 
 #coming-soon-box {
-	position: absolute;
 	width: 750px;
 	height: 400px;
 	margin: -200px 0 0 -375px;
 	top: 50%;
-	left: 50%;
+	position: relative;
+	margin-top: 286px;
+	margin-left: 0;
+	left: 0;
 }
 
 #coming-soon-box .left {
@@ -147,6 +149,17 @@ input[type='text'], input[type='date'] {
 
 input.btn {
 	padding: 8px 18px;
+}
+
+.wrap {
+	width: 750px;
+	margin: auto;
+}
+
+#footer .fb {
+	text-align: right;
+	width: 750px;
+	margin: auto;
 }
 
 /* responsive */
