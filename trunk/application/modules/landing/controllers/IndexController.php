@@ -52,6 +52,8 @@ class Landing_IndexController extends BaseController
 
 		if ($status) {
 			$this->message($this->t('E-mail byl odeslán a uložen!'));
+		} else {
+			$this->message($this->t('Při ukládání e-mailu do databáze došlo k chybě!'), 'error');
 		}
 
 		$this->redirect($this->url(array(), 'landing'));
