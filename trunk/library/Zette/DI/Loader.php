@@ -38,7 +38,9 @@ class Loader
 //$configurator->setDebugMode($configurator::AUTO);
 		$configurator->enableDebugger(LOG_DIR);
 
-		Debugger::enable(false);
+		$debugMode = APPLICATION_ENV != 'production';
+
+		Debugger::enable(!$debugMode);
 
 // Enable RobotLoader - this will load all classes automatically
 		$configurator->setTempDirectory(TEMP_DIR);
