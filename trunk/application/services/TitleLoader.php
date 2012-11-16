@@ -17,6 +17,7 @@ class TitleLoader
 		'Index:index' => 'Akce',
 		'Index:about' => 'O nás',
 		'Event:detail' => 'Podrobnosti akce',
+		'Landing:Index:index' => 'myEvents VŠE - studentské akce pro studenty',
 	);
 
 	/**

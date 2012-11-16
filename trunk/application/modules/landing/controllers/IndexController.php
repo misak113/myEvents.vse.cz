@@ -28,6 +28,7 @@ class Landing_IndexController extends BaseController
 	}
 
 	public function indexAction() {
+		$this->view->title = $this->titleLoader->getTitle('Landing:Index:index');
 		$this->_helper->layout->setLayout('landing');
 	}
 
