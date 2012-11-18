@@ -1,0 +1,48 @@
+<?php
+/**
+ * @var Zend_View $view
+ */
+?>
+<div class="wrap">
+	<div id="coming-soon-box">
+		<div class="left">
+			<img src="<?php echo $view->baseUrl(); ?>/img/logo.png" alt="myEvents VŠE"/>
+		</div>
+		<div class="right">
+			<h1>Stránky <strong>myEvents VŠE</strong> se již připravují!</h1>
+			<strong class="hi">Ahoj,</strong><br/>
+
+			<p>už se nemůžeš dočkat jako my, až spustíme nový <strong>studentský portál</strong>, kde najdeš <strong>studentské
+				akce VŠE?</strong>
+				Dej nám ještě nějaký čas, pracujeme na tom.</p>
+
+			<p>Pokud máš jakýkoli dotaz, neváhej nám napsat na <a href="mailto:myeventsvse@gmail.com"><strong>myeventsvse[at]gmail.com</strong></a>
+			</p>
+
+			<p>Mezitím než bude nový web hotový, můžeš navštívit naši facebook stránku <a
+					href="http://www.facebook.com/myEvents.vse.cz"><strong>myEvents VŠE</strong></a></p>
+
+			<p class="hightlight email">Chceš být informován o spuštění webu? Není problém. Stačí vložit svůj e-mail a
+				my Ti dáme včas vědět.</p>
+
+			<form method="post" action="{$view->url(array(
+				'module' => 'landing',
+				'controller' => 'index',
+				'action' => 'sent',
+			), 'default', true)}" class="form email">
+				<input type="text" class="input" name="email" placeholder="Váš e-mail"/>
+				<input type="submit" class="button" value="Informuj mě!"/>
+			</form>
+			<div class="messages" n:if="count($flashes)">
+				<div class="message info" n:foreach="$infoFlashes as $flash">{$flash}</div>
+				<div class="message error" n:foreach="$errorFlashes as $flash">{$flash}</div>
+			</div>
+			<script type="text/javascript">
+				$('.messages').fadeIn();
+					setTimeout(function () {
+						$('.messages').fadeOut();
+					}, 5000);
+			</script>
+		</div>
+	</div>
+</div>
