@@ -31,15 +31,15 @@ class Landing_IndexController extends BaseController
 	}
 
 	public function indexAction() {
-		$this->view->title = $this->titleLoader->getTitle('Landing:Index:index');
-		$this->_helper->layout->setLayout('landing');
+		$this->template->title = $this->titleLoader->getTitle('Landing:Index:index');
+		$this->setLayout('landing');
 	}
 
 	public function sentAction() {
 
 		$email = $this->getRequest()->getParam('email');
 		if (!$email) {
-			$this->message($this->t('Email je třeba vyplnit!'), 'error');
+			$this->flashMessage($this->t('Email je třeba vyplnit!'), self::FLASH_ERROR);
 			$this->redirect($this->url(array(), 'landing'));
 		}
 
@@ -51,17 +51,12 @@ class Landing_IndexController extends BaseController
 		$status = $emailRow->save();
 
 		if ($status) {
-			$this->message($this->t('E-mail byl odeslán a uložen!'));
+			$this->flashMessage($this->t('E-mail byl odeslán a uložen!'));
 		} else {
-			$this->message($this->t('Při ukládání e-mailu do databáze došlo k chybě!'), 'error');
+			$this->flashMessage($this->t('Při ukládání e-mailu do databáze došlo k chybě!'), self::FLASH_ERROR);
 		}
 
 		$this->redirect($this->url(array(), 'landing'));
-	}
-
-	protected function message($text, $type = 'info') {
-		setcookie('email_sent_message', $text, time()+5, '/');
-		setcookie('email_sent_type', $type, time()+5, '/');
 	}
 
 }

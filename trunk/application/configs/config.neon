@@ -16,17 +16,18 @@ common:
 
 
 	nette:
-		application:
-			errorPresenter: Error
+		#application:
+		#	errorPresenter: Error
 
 		session:
+			autoStart: false
 			expiration: 14 days
 
-		database:
-			default:
-				dsn: 'mysql:host=localhost;dbname=test'
-				user: root
-				password: misak
+		#database:
+		#	default:
+		#		dsn: 'mysql:host=localhost;dbname=myevents'
+		#		user: root
+		#		password: misak
 
 
 	services:
