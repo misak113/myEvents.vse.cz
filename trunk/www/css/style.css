@@ -45,8 +45,8 @@ input[type='text'], input[type='date'] {
 
 #coming-soon-box {
 	width: 750px;
-	height: 400px;
-	margin: -200px 0 0 -375px;
+	height: 350px;
+	margin: -175px 0 0 -375px;
 	top: 50%;
 	position: relative;
 	margin-top: 120px;
@@ -78,11 +78,11 @@ input[type='text'], input[type='date'] {
 }
 
 .form .input {
-	width: 330px;
+	width: 310px;
 	background: #fff;
 	border: 1px solid #709027;
-	padding: 11px;
-	margin-right: 5px;
+	padding: 9px;
+	margin: 0 5px 0 0;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -386,6 +386,7 @@ input.btn {
 
 .item td {
 	font-size: 13px;
+	color: #2A2A2A;
 }
 
 .item th {
@@ -393,6 +394,7 @@ input.btn {
 	text-align: left; 
 	font-weight: bold; 
 	line-height: 26px;
+	color: #2A2A2A;
 }
 
 .row-fluid  .item .span12 {
@@ -419,13 +421,8 @@ input.btn {
 	padding: 10px 15px;
 }
 
-.filter  form {
-	margin: 0px;
-}
-
-.filter h2 {
-	font-size: 20px;
-	margin: 0px;
+.row-fluid.item {
+    width: auto;
 }
 
 .filter label {
@@ -435,14 +432,6 @@ input.btn {
 	margin-bottom: 5px;
 }
 
-.filter input[type='text'] {
-	width: 100px;
-}
-
-.filter select {
-	width: 150px;
-	height: 33px;
-}
 
 .filter td {
 	padding-right: 15px;
@@ -504,7 +493,6 @@ table.actionform th label {
 
 .nav-list > li > a:hover {
 	color: #0088CC; 
-	font-weight: bold;
 }
 
 .nav-header {
