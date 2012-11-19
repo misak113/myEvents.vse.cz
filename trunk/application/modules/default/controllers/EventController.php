@@ -32,4 +32,13 @@ class EventController extends BaseController {
 		$title = 'Název akce';
 		$this->template->title = $title.' - '.$this->t($this->titleLoader->getTitle('Event:detail'));
 	}
+
+	/**
+	 * Uvodni stranka
+	 *
+	 */
+	public function listAction() {
+		$this->template->title = $this->t($this->titleLoader->getTitle('Event:list'));
+	}
+
 }
