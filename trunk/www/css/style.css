@@ -377,12 +377,28 @@ input.btn {
 	margin-right: 20px;
 }
 
-.item:hover {
+.item:hover, .item.curr {
 	background: rgba(255, 255, 255, 0.5);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
 	text-decoration: none;
 }
+
+.item td {
+	font-size: 13px;
+}
+
+.item th {
+	font-size: 14px; 
+	text-align: left; 
+	font-weight: bold; 
+	line-height: 26px;
+}
+
+.row-fluid  .item .span12 {
+	margin: 0;
+}
+
 
 .item:hover * {
 	text-decoration: none;
@@ -482,3 +498,15 @@ table.actionform th label {
 	text-align: center;
 }
 
+.nav-list > li > a {
+	color: #0088CC;
+}
+
+.nav-list > li > a:hover {
+	color: #0088CC; 
+	font-weight: bold;
+}
+
+.nav-header {
+	font-size: 14px;
+}
