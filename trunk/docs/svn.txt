@@ -1,0 +1,5 @@
+
+
+### set revision old_version as HEAD
+svn merge -rHEAD:old_revision .
+svn commit -m "set revision old_version as HEAD"
