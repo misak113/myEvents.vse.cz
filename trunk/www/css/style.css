@@ -6,10 +6,11 @@ body {
 
 a {
 	color: #8daf3e;
+	text-decoration: underline;
 }
 
 a:hover {
-	text-decoration: underline;
+	text-decoration: none;
 	color: #6d8d23;
 }
 
@@ -87,6 +88,8 @@ input[type='text'], input[type='date'] {
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
 	box-shadow: 0 1px rgba(0, 0, 0, 0.2) inset;
+	height: auto;
+	height: 22px;
 }
 
 .form .idleField {
@@ -126,6 +129,32 @@ input[type='text'], input[type='date'] {
 	border: 1px solid #b22222;
 	background: #ebcccc url('../img/error-icon.png') no-repeat 13px 13px;
 	color: #b22222;
+}
+
+.actionForm th {
+	text-align: left;
+	font-weight: normal;
+	min-width: 120px;
+	padding-right: 10px;
+}
+
+.actionForm td {
+	padding: 5px;
+}
+
+.actionForm td input{
+	margin: 0;
+}
+
+.actionForm td label{
+	display: inline; 
+	margin: 5px 0 0 0;
+}
+
+.actionForm td textarea{
+	height: 150px; 
+	resize: none; 
+	width: 400px;
 }
 
 /* Login form */
