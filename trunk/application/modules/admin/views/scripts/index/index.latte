@@ -1,5 +1,1 @@
-<?php
-/**
- * @var Zend_View $view
- */
-?>
+<?php/** * @var Zend_View $view */?><h1>CashFlow Club - administrace</h1>		<a href="<?php echo $view->url(array(), 'adminNew', true); ?>" class="btn btn-success"><span class="icon-plus"></span>Nová akce</a>			<table class="tm30 table table-striped">			<tr>				<th>Název</th>				<th>Datum</th>				<th>Editovat</th>				<th>Smazat</th>			</tr>			<tr n:foreach="$events as $event">				<td>{$event->nazev}</td>				<td><a href="<?php echo $view->url(                                       array('id' => $event->id),                                       'adminEdit',                                       true);?>"                                       class="btn"><span class="icon-pencil"></span>editovat</a></td>				<td><a href="#" class="btn btn-danger"><span class="icon-trash"></span>smazat</a></td>			</tr>			</table>
