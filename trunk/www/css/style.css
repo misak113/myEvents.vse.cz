@@ -8,6 +8,7 @@ a {
 	color: #8daf3e;
 	text-decoration: underline;
 }
+a.btn {text-decoration: none;}
 
 a:hover {
 	text-decoration: none;
@@ -404,9 +405,9 @@ input.btn {
 }
  .item p {margin: 0;}
 
-.item .action { position: absolute; bottom: 15px; right: 15px; display: none;}
-
-.item .action .btn {margin-left: 10px; padding: 2px 6px; font-size: 12px;}
+.item .action { position: absolute; top: 15px; right: 15px; display: none;}
+.item .btn {padding: 2px 6px; font-size: 12px;}
+.item .action .btn {margin-left: 10px; }
 .item .perex span{ color: #DDDDDD;
     font-weight: bold;
     padding: 0 5px;}
@@ -446,17 +447,6 @@ input.btn {
 }
 
 
-.item:hover * {
-	text-decoration: none;
-}
-
-.item:hover h3 {
-	color: #6d8d23;
-}
-
-.item:hover p {
-	color: #000000;
-}
 .item:hover .action {display: block;}
 
 
@@ -476,6 +466,8 @@ input.btn {
 .filter td {
 	padding-right: 15px;
 }
+.filter li a {text-decoration: none;}
+.filter li a:hover {text-decoration: underline;}
 
 .row-action {
 	border-bottom: 2px solid #999;
