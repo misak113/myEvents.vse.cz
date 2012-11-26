@@ -380,6 +380,8 @@ input.btn {
 	display: block;
 	border-bottom: 1px solid #DDDDDD;
 	outline: 0;
+	position: relative;
+	margin-bottom: 15px;
 }
 
 .item:last-child, .row:last-child {
@@ -387,16 +389,27 @@ input.btn {
 }
 
 .item h3 {
-	margin: 0;
+	margin: 5px 0 10px;
+	font-size: 20px;
+	line-height: 19px;
 }
 
-.item h3, .item p {
+.item h3, .item p, .item .action  {
 	color: #2a2a2a;
 	transition: all 0.3s;
 	-moz-transition: all 0.3s; /* Firefox 4 */
 	-webkit-transition: all 0.3s; /* Safari and Chrome */
 	-o-transition: all 0.3s; /* Opera */
+		
 }
+ .item p {margin: 0;}
+
+.item .action { position: absolute; bottom: 15px; right: 15px; display: block;}
+.item .action .btn {margin-left: 10px; padding: 2px 6px; font-size: 12px;}
+.item .perex span{ color: #DDDDDD;
+    font-weight: bold;
+    padding: 0 5px;}
+.item .perex a {text-decoration: underline;}
 
 .item h3 a:hover {
 	text-decoration: none;
@@ -405,6 +418,7 @@ input.btn {
 .item .img img {
 	margin-right: 20px;
 }
+.item.curr:hover {cursor: default;}
 
 .item:hover, .item.curr {
 	background: rgba(255, 255, 255, 0.5);
@@ -442,13 +456,9 @@ input.btn {
 .item:hover p {
 	color: #000000;
 }
+.item:hover .action {display: block;}
 
-.filter {
-	padding: 10px 0;
-	margin-bottom: 30px;
-	background: #dfdfdf;
-	padding: 10px 15px;
-}
+
 
 .row-fluid.item {
     width: auto;
@@ -527,3 +537,8 @@ table.actionform th label {
 .nav-header {
 	font-size: 14px;
 }
+
+
+.well.no-m {margin: 0;}
+.well.filter {padding: 10px;}
+.well.filter h4 {margin-top: 0;}
