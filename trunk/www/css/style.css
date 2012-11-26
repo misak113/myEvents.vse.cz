@@ -376,7 +376,7 @@ input.btn {
 	-moz-transition: all 0.3s; /* Firefox 4 */
 	-webkit-transition: all 0.3s; /* Safari and Chrome */
 	-o-transition: all 0.3s; /* Opera */
-	padding: 15px 20px;
+	padding: 16px 20px;
 	cursor: pointer;
 	display: block;
 	border-bottom: 1px solid #DDDDDD;
@@ -434,20 +434,22 @@ input.btn {
 	color: #2A2A2A;
 }
 
-.item th {
+.item  th{
 	font-size: 14px; 
-	text-align: left; 
+	
 	font-weight: bold; 
 	line-height: 26px;
 	color: #2A2A2A;
 }
+
+th {text-align: left; }
 
 .row-fluid  .item .span12 {
 	margin: 0;
 }
 
 
-.item:hover .action {display: block;}
+.item:hover .action, .item.curr .action {display: block;}
 
 
 
@@ -537,3 +539,7 @@ table.actionform th label {
 .well.filter h4 {margin-top: 0;}
 
 .span2.soc .btn{margin-top: 15px;}
+.detailAct { border-bottom: 1px solid #999; padding-bottom: 10px; }
+.detailAct p{margin: 0; font-size: 14px;}
+.detailAct p.perex {margin:0 0 10px}
+.detailAct td, .detailAct th {padding: 7px 0;   font-size: 14px;}
