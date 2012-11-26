@@ -404,7 +404,8 @@ input.btn {
 }
  .item p {margin: 0;}
 
-.item .action { position: absolute; bottom: 15px; right: 15px; display: block;}
+.item .action { position: absolute; bottom: 15px; right: 15px; display: none;}
+
 .item .action .btn {margin-left: 10px; padding: 2px 6px; font-size: 12px;}
 .item .perex span{ color: #DDDDDD;
     font-weight: bold;
