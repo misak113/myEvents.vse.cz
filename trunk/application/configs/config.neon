@@ -36,8 +36,8 @@ common:
 		titleLoader: app\services\TitleLoader
 
 		# Models
-		eventModel: app\models\EventTable
-		emailModel: app\models\EmailTable
+		eventModel: app\models\events\EventTable
+		emailModel: app\models\newsletter\EmailTable
 
 
 
