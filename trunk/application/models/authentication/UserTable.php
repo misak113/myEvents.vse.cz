@@ -18,7 +18,7 @@ class UserTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\User';
+	protected $_rowClass = 'app\models\authentication\User';
 
 
 }

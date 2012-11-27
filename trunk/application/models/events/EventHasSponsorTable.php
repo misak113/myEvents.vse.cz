@@ -26,12 +26,12 @@ class EventHasSponsorTable extends Table {
     protected $_referenceMap = array (  
         'Event' => array(
            'columns' => array ('event_id'), 
-           'refTableClass' => 'EventTable', 
+           'refTableClass' => 'app\models\events\EventTable', 
            'refColumns' => array ('event_id')
         ), 
         'Sponsor' => array(
            'columns' => array ('sponsor_id'), 
-           'refTableClass' => 'SponsorTable', 
+           'refTableClass' => 'app\models\events\SponsorTable', 
            'refColumns' => array ('sponsor_id')
         ), 
     );

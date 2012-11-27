@@ -18,7 +18,7 @@ class SponsorTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Sponsor';
+	protected $_rowClass = 'app\models\events\Sponsor';
 
 
 }

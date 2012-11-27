@@ -18,7 +18,7 @@ class OrganizationTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Organization';
+	protected $_rowClass = 'app\models\organizations\Organization';
 
 
 }

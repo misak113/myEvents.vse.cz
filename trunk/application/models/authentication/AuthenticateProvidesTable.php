@@ -18,7 +18,7 @@ class AuthenticateProvidesTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\AuthenticateProvides';
+	protected $_rowClass = 'app\models\authentication\AuthenticateProvides';
 
 
 }

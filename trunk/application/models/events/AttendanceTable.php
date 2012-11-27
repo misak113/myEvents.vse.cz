@@ -26,12 +26,12 @@ class AttendanceTable extends Table {
     protected $_referenceMap = array (  
         'Event' => array(
            'columns' => array ('event_id'), 
-           'refTableClass' => 'EventTable', 
+           'refTableClass' => 'app\models\events\EventTable', 
            'refColumns' => array ('event_id')
         ), 
         'User' => array(
            'columns' => array ('user_id'), 
-           'refTableClass' => 'UserTable', 
+           'refTableClass' => 'app\models\authentication\UserTable', 
            'refColumns' => array ('user_id')
         ), 
     );

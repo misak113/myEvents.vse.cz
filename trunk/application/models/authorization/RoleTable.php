@@ -18,7 +18,7 @@ class RoleTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Role';
+	protected $_rowClass = 'app\models\authorization\Role';
 
 
 }

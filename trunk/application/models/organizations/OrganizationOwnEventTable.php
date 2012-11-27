@@ -26,12 +26,12 @@ class OrganizationOwnEventTable extends Table {
     protected $_referenceMap = array (  
         'Organization' => array(
            'columns' => array ('organization_id'), 
-           'refTableClass' => 'OrganizationTable', 
+           'refTableClass' => 'app\models\organizations\OrganizationTable', 
            'refColumns' => array ('organization_id')
         ), 
         'Event' => array(
            'columns' => array ('event_id'), 
-           'refTableClass' => 'EventTable', 
+           'refTableClass' => 'app\models\events\EventTable', 
            'refColumns' => array ('event_id')
         ), 
     );

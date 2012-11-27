@@ -26,12 +26,12 @@ class OrganizationHasUserTable extends Table {
     protected $_referenceMap = array (  
         'Organization' => array(
            'columns' => array ('organization_id'), 
-           'refTableClass' => 'OrganizationTable', 
+           'refTableClass' => 'app\models\organizations\OrganizationTable', 
            'refColumns' => array ('organization_id')
         ), 
         'User' => array(
            'columns' => array ('user_id'), 
-           'refTableClass' => 'UserTable', 
+           'refTableClass' => 'app\models\authentication\UserTable', 
            'refColumns' => array ('user_id')
         ), 
     );

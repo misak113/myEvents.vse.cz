@@ -18,7 +18,7 @@ class CategoryTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Category';
+	protected $_rowClass = 'app\models\events\Category';
 
 
 }

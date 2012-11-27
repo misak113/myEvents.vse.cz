@@ -22,17 +22,17 @@ class PermissionTable extends Table {
     protected $_referenceMap = array (  
         'Role' => array(
            'columns' => array ('role_id'), 
-           'refTableClass' => 'RoleTable', 
+           'refTableClass' => 'app\models\authorization\RoleTable', 
            'refColumns' => array ('role_id')
         ), 
         'Privilege' => array(
            'columns' => array ('privilege_id'), 
-           'refTableClass' => 'PrivilegeTable', 
+           'refTableClass' => 'app\models\authorization\PrivilegeTable', 
            'refColumns' => array ('privilige_id')
         ), 
     	'Resource' => array(
     		'columns' => array ('resource_id'),
-    		'refTableClass' => 'ResourceTable',
+    		'refTableClass' => 'app\models\authorization\ResourceTable',
     		'refColumns' => array ('resource_id')
     	),
     );

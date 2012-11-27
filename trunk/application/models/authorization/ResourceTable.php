@@ -18,7 +18,7 @@ class ResourceTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Resource';
+	protected $_rowClass = 'app\models\authorization\Resource';
 
 
 }

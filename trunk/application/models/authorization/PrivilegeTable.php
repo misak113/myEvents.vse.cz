@@ -18,7 +18,7 @@ class PrivilegeTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Privilege';
+	protected $_rowClass = 'app\models\authorization\Privilege';
 
 
 }

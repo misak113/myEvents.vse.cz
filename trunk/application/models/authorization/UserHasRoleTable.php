@@ -26,12 +26,12 @@ class UserHasRoleTable extends Table {
     protected $_referenceMap = array (  
         'User' => array(
            'columns' => array ('user_id'), 
-           'refTableClass' => 'UserTable', 
+           'refTableClass' => 'app\models\authentication\UserTable', 
            'refColumns' => array ('user_id')
         ), 
         'Role' => array(
            'columns' => array ('role_id'), 
-           'refTableClass' => 'RoleTable', 
+           'refTableClass' => 'app\models\authorization\RoleTable', 
            'refColumns' => array ('role_id')
         ), 
     );
