@@ -1,21 +1,21 @@
 <?php
 
-namespace app\models;
+namespace app\models\organizations;
 
 use My\Db\Table;
 
 /**
- * Trida reprezentujici vazbu mezi akcemi a sponzory
+ * Trida reprezentujici vazbu mezi organizacemi a uzivateli
  *
  */
-class UserHasRole extends Table {
+class OrganizationHasUserTable extends Table {
 
 	/**
      * Nazev databazove tabulky
      *
      * @var string
      */
-    protected $_name = 'user_has_role';
+    protected $_name = 'organization_has_user';
     	
     
     /**
@@ -24,15 +24,15 @@ class UserHasRole extends Table {
      * @var array
      */
     protected $_referenceMap = array (  
+        'Organization' => array(
+           'columns' => array ('organization_id'), 
+           'refTableClass' => 'OrganizationTable', 
+           'refColumns' => array ('organization_id')
+        ), 
         'User' => array(
            'columns' => array ('user_id'), 
            'refTableClass' => 'UserTable', 
            'refColumns' => array ('user_id')
-        ), 
-        'Role' => array(
-           'columns' => array ('role_id'), 
-           'refTableClass' => 'RoleTable', 
-           'refColumns' => array ('role_id')
         ), 
     );
 

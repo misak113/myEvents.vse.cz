@@ -1,0 +1,1 @@
+<?phpnamespace app\models\events;use My\Db\Table\Row;/** * Trida reprezentujici akci * */class Event extends Row{}

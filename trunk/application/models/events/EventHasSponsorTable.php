@@ -1,21 +1,21 @@
 <?php
 
-namespace app\models;
+namespace app\models\events;
 
 use My\Db\Table;
 
 /**
- * Trida reprezentujici vazbu mezi organizacemi a udalostmi
+ * Trida reprezentujici vazbu mezi akcemi a sponzory
  *
  */
-class OrganizationOwnEvent extends Table {
+class EventHasSponsorTable extends Table {
 
 	/**
      * Nazev databazove tabulky
      *
      * @var string
      */
-    protected $_name = 'organization_own_event';
+    protected $_name = 'event_has_sponsor';
     	
     
     /**
@@ -24,15 +24,15 @@ class OrganizationOwnEvent extends Table {
      * @var array
      */
     protected $_referenceMap = array (  
-        'Organization' => array(
-           'columns' => array ('organization_id'), 
-           'refTableClass' => 'OrganizationTable', 
-           'refColumns' => array ('organization_id')
-        ), 
         'Event' => array(
            'columns' => array ('event_id'), 
            'refTableClass' => 'EventTable', 
            'refColumns' => array ('event_id')
+        ), 
+        'Sponsor' => array(
+           'columns' => array ('sponsor_id'), 
+           'refTableClass' => 'SponsorTable', 
+           'refColumns' => array ('sponsor_id')
         ), 
     );
 

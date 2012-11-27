@@ -1,5 +1,5 @@
 <?php
-namespace app\models;
+namespace app\models\newsletter;
 
 use My\Db\Table\Row;
 

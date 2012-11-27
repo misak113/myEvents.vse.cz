@@ -1,5 +1,5 @@
 <?php
-namespace app\models;
+namespace app\models\authentication;
 
 use My\Db\Table\Row;
 

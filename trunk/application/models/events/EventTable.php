@@ -1,0 +1,1 @@
+<?phpnamespace app\models\events;use My\Db\Table;/** * Trida reprezentujici seznam akci * */class EventTable extends Table {	}

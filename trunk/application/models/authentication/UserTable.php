@@ -1,9 +1,9 @@
 <?php
-namespace app\models;
+namespace app\models\authentication;
 
 use My\Db\Table;
 
-class ResourceTable extends Table
+class UserTable extends Table
 {
 
 	/**
@@ -11,14 +11,14 @@ class ResourceTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_name = 'resource';
+	protected $_name = 'user';
 
 	/**
 	 * Nazev tridy predstavujici jeden zaznam
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Resource';
+	protected $_rowClass = 'app\models\User';
 
 
 }

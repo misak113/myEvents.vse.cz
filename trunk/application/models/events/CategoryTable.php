@@ -1,9 +1,9 @@
 <?php
-namespace app\models;
+namespace app\models\events;
 
 use My\Db\Table;
 
-class UserTable extends Table
+class CategoryTable extends Table
 {
 
 	/**
@@ -11,14 +11,14 @@ class UserTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_name = 'user';
+	protected $_name = 'category';
 
 	/**
 	 * Nazev tridy predstavujici jeden zaznam
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\User';
+	protected $_rowClass = 'app\models\Category';
 
 
 }

@@ -1,9 +1,9 @@
 <?php
-namespace app\models;
+namespace app\models\events;
 
 use My\Db\Table;
 
-class RoleTable extends Table
+class SponsorTable extends Table
 {
 
 	/**
@@ -11,14 +11,14 @@ class RoleTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_name = 'role';
+	protected $_name = 'sponsor';
 
 	/**
 	 * Nazev tridy predstavujici jeden zaznam
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Role';
+	protected $_rowClass = 'app\models\Sponsor';
 
 
 }

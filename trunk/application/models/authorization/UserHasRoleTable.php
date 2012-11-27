@@ -1,21 +1,21 @@
 <?php
 
-namespace app\models;
+namespace app\models\authorization;
 
 use My\Db\Table;
 
 /**
- * Trida reprezentujici vazbu mezi akcemi a uzivateli
+ * Trida reprezentujici vazbu mezi akcemi a sponzory
  *
  */
-class Attendance extends Table {
+class UserHasRoleTable extends Table {
 
 	/**
      * Nazev databazove tabulky
      *
      * @var string
      */
-    protected $_name = 'attendance';
+    protected $_name = 'user_has_role';
     	
     
     /**
@@ -24,15 +24,15 @@ class Attendance extends Table {
      * @var array
      */
     protected $_referenceMap = array (  
-        'Event' => array(
-           'columns' => array ('event_id'), 
-           'refTableClass' => 'EventTable', 
-           'refColumns' => array ('event_id')
-        ), 
         'User' => array(
            'columns' => array ('user_id'), 
            'refTableClass' => 'UserTable', 
            'refColumns' => array ('user_id')
+        ), 
+        'Role' => array(
+           'columns' => array ('role_id'), 
+           'refTableClass' => 'RoleTable', 
+           'refColumns' => array ('role_id')
         ), 
     );
 

@@ -1,9 +1,9 @@
 <?php
-namespace app\models;
+namespace app\models\authorization;
 
 use My\Db\Table;
 
-class AuthenticateProvidesTable extends Table
+class RoleTable extends Table
 {
 
 	/**
@@ -11,14 +11,14 @@ class AuthenticateProvidesTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_name = 'authenticate_provides';
+	protected $_name = 'role';
 
 	/**
 	 * Nazev tridy predstavujici jeden zaznam
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\AuthenticateProvides';
+	protected $_rowClass = 'app\models\Role';
 
 
 }

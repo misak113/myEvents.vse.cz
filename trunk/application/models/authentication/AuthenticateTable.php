@@ -1,9 +1,9 @@
 <?php
-namespace app\models;
+namespace app\models\authentication;
 
 use My\Db\Table;
 
-class SponsorTable extends Table
+class AuthenticateTable extends Table
 {
 
 	/**
@@ -11,14 +11,14 @@ class SponsorTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_name = 'sponsor';
+	protected $_name = 'authenticate';
 
 	/**
 	 * Nazev tridy predstavujici jeden zaznam
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Sponsor';
+	protected $_rowClass = 'app\models\Authenticate';
 
 
 }

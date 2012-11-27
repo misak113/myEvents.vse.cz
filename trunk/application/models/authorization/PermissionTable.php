@@ -1,10 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\models\authorization;
 
 use My\Db\Table;
 
-class Permission extends Table {
+class PermissionTable extends Table {
 
 	/**
      * Nazev databazove tabulky
