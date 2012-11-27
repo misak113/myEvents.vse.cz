@@ -25,7 +25,7 @@ class EmailTable extends Table
 	 *
 	 * @var string
 	 */
-	protected $_rowClass = 'app\models\Email';
+	protected $_rowClass = 'app\models\newsletter\Email';
 
 
 }
