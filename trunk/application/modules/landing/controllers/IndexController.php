@@ -2,7 +2,7 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
-use app\models\EmailTable;
+use app\models\newsletter\EmailTable;
 
 /**
  * Created by JetBrains PhpStorm.
