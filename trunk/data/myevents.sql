@@ -316,7 +316,7 @@ CREATE  TABLE IF NOT EXISTS `myevents`.`email` (
   `email` VARCHAR(100) NOT NULL ,
   `remote_addr` VARCHAR(100) NOT NULL ,
   `user_agent` VARCHAR(500) NOT NULL ,
-  `registred` DATETIME NOT NULL ,
+  `registered` DATETIME NOT NULL ,
   PRIMARY KEY (`email_id`) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) )
 ENGINE = InnoDB;

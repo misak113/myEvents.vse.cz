@@ -50,7 +50,7 @@ class Loader
 				->register();
 
 // Create Dependency Injection container from config.neon file
-		$configurator->addConfig(APP_DIR . '/configs/config.neon');
+		$configurator->addConfig(APP_DIR . '/configs/config.neon', APPLICATION_ENV);
 		$this->context = $configurator->createContainer();
 	}
 

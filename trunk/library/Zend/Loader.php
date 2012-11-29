@@ -183,7 +183,7 @@ class Zend_Loader
                 continue;
             }
             $file = $path . '/' . $filename;
-            if (is_readable($file)) {
+            if (@is_readable($file)) { //@todo na serveru hlásí chybu permissions do nadřazené složky
                 return true;
             }
         }

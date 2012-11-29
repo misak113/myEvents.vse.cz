@@ -21,7 +21,7 @@ common:
 
 		session:
 			autoStart: false
-			expiration: 14 days
+		#	expiration: 14 days
 
 		#database:
 		#	default:
@@ -45,5 +45,35 @@ common:
 
 
 production < common:
+	parameters:
+		debugMode: false
+		productionMode: true
+		environment: production
 
 development < common:
+
+staging < common:
+	parameters:
+		debugMode: true
+		productionMode: false
+		environment: staging
+
+
+
+	# Tady si každý vytvoří vlastní configuraci pro nette (zatím prázdnou)
+localhost_xzabm00 < common:
+	parameters:
+		debugMode: true
+		productionMode: false
+		environment: development
+
+localhost_xtomf00 < common:
+
+localhost_xmacj00 < common:
+
+localhost_xkler00 < common:
+
+localhost_xlaum00 < common:
+
+localhost_xhanp00 < common:
+
