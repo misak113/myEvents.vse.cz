@@ -51,6 +51,8 @@ production < common:
 		environment: production
 
 development < common:
+testing < common:
+deploy < common:
 
 staging < common:
 	parameters:
