@@ -246,7 +246,7 @@ input.btn {
 	}
 
 	.form .input {
-		width: 400px
+		width: 380px
 	}
 
 	.fb {
@@ -287,12 +287,18 @@ input.btn {
 	}
 
 	.form .input {
-		width: 98%;
+		width: 94%;
+		margin-left: 0;
+		margin-right: 0;
+		display: block;
+		position: relative;
+		padding-left: 10px;
+		padding-right: 10px;
 		margin-bottom: 10px;
 	}
 
 	.form .button {
-		width: 98%;
+		width: 99%;
 	}
 
 	#footer .fb iframe {
@@ -302,11 +308,6 @@ input.btn {
 
 }
 
-@media (max-width: 450px) {
-	.fb {
-		display: none;
-	}
-}
 
 /* changes bootstrap*/
 .navbar-inner {
@@ -551,3 +552,15 @@ table.actionform th label {
 .detailAct p{margin: 0; font-size: 14px;}
 .detailAct p.perex {margin:0 0 10px}
 .detailAct td, .detailAct th {padding: 7px 0;   font-size: 14px;}
+
+
+
+
+@media (max-width: 450px) {
+	#footer {
+		padding: 0;
+	}
+	.fb {
+		display: none;
+	}
+}

@@ -39,12 +39,6 @@
 				<div class="message info" n:foreach="$infoFlashes as $flash">{$flash}</div>
 				<div class="message error" n:foreach="$errorFlashes as $flash">{$flash}</div>
 			</div>
-			<script type="text/javascript">
-				$('.messages').fadeIn();
-					setTimeout(function () {
-						$('.messages').fadeOut();
-					}, 5000);
-			</script>
 		</div>
 	</div>
 </div>
