@@ -1,0 +1,25 @@
+
+<div class="filter-control">
+
+	<form class="form-search">
+		<input type="text" class="span8 search-query" placeholder="Název akce" />
+		<button class="btn">Hledat</button>
+	</form>
+
+
+	<div class="well sidebar-nav filter">
+		<h4>Filtrovat podle</h4>
+		<ul class="nav nav-list">
+
+			<li class="nav-header">Datum</li>
+			<li n:foreach="$dates as $item"><a href="#">{$item['title']}</a></li>
+
+			<li class="nav-header">Typ akce</li>
+			<li n:foreach="$categories as $item"><a href="#">{$item['name']}</a></li>
+
+			<li class="nav-header">Organizace</li>
+			<li n:foreach="$organizations as $item"><a href="#">{$item['name']}</a></li>
+		</ul>
+	</div>
+
+</div>

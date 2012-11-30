@@ -1,0 +1,7 @@
+# Vytvoř si kopii tohoto souboru do config.local.neon
+# !!!!!!!! Původní config.local.neon.orig PONECHEJ pro ostatní
+
+# Tady si každý vytvoří vlastní configuraci pro nette (zatím prázdnou)
+
+parameters:
+	debugMode: true

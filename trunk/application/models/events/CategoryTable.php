@@ -20,6 +20,15 @@ class CategoryTable extends Table
 	 */
 	protected $_rowClass = 'app\models\events\Category';
 
+	/**
+	 * @return array
+	 */
+	public function getCategories() {
+		$where = array();
+		$res = $this->fetchAll($where, 'name');
+
+		return $res->toArray();
+	}
 
 }
 

@@ -5,6 +5,8 @@ use Nette\DI\Container;
 use Nette\Templating\FileTemplate;
 use Nette\Caching\Storages\PhpFileStorage;
 use Nette\Latte\Engine;
+use Zette\UI\ComponentDispatcher;
+use Zend_Controller_Action;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -25,13 +27,18 @@ class LatteView extends \Zend_View
 	protected $cacheStorage;
 	/** @var Engine */
 	protected $latteEngine;
+	/** @var ComponentDispatcher */
+	protected $componentDispatcher;
+	/** @var Zend_Controller_Action */
+	protected $presenter;
 
 	public function __construct(array $config = array()) {
 		parent::__construct($config);
 	}
 
-	public function setContext(Container $context) {
+	public function setContext(Container $context, ComponentDispatcher $componentDispatcher) {
 		$this->context = $context;
+		$this->componentDispatcher = $componentDispatcher;
 		$this->cacheStorage = $context->nette->templateCacheStorage;
 		$this->latteEngine = $context->nette->createLatte();
 	}
@@ -64,7 +71,7 @@ class LatteView extends \Zend_View
 	 * @return \Nette\Templating\ITemplate
 	 */
 
-	protected function createTemplate($class = NULL)
+	public function createTemplate($class = NULL)
 
 	{
 
@@ -80,7 +87,9 @@ class LatteView extends \Zend_View
 
 		// default parameters
 
-		$presenter = null; // @todo asi controller a přidat mu user, request, response, cache apod.
+		$presenter = $this->presenter = \Zette\UI\BaseController::getActual();
+
+		$this->componentDispatcher->setPresenter($presenter);
 
 		$template->control = $template->_control = $this;
 
@@ -137,6 +146,11 @@ class LatteView extends \Zend_View
 
 	public function templatePrepareFilters($template) {
 		$template->registerFilter($this->latteEngine);
+	}
+
+
+	public function getComponent($name) {
+		return $this->componentDispatcher->getComponent($name);
 	}
 
 }

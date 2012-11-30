@@ -4,6 +4,8 @@ namespace Zette\DI;
 use Nette\Config\Configurator;
 use Nette\DI\Container;
 use Nette\Diagnostics\Debugger;
+use Nette\Config\Compiler;
+use Zette\Config\Extensions\ZetteExtension;
 
 
 
@@ -51,6 +53,11 @@ class Loader
 
 // Create Dependency Injection container from config.neon file
 		$configurator->addConfig(APP_DIR . '/configs/config.neon', APPLICATION_ENV);
+
+		$configurator->onCompile[] = function (Configurator $configurator, Compiler $compiler) {
+			$compiler->addExtension('zette', new ZetteExtension);
+		};
+
 		$this->context = $configurator->createContainer();
 	}
 

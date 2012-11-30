@@ -2,6 +2,7 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
+use app\components\Filter\FilterDispatcher;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -13,9 +14,10 @@ use app\services\TitleLoader;
 class EventController extends BaseController {
 
 
-	/** @var TitleLoader */
+	/** @var TitleLoader @inject */
 	protected $titleLoader;
-
+	/** @var \app\components\Filter\FilterDispatcher @inject */
+	protected $filterDispatcher;
 
 	/**
 	 * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
@@ -23,8 +25,12 @@ class EventController extends BaseController {
 	 * Je třeba nadefinovat modely v config.neon
 	 * @param app\services\TitleLoader $titleLoader
 	 */
-	public function setContext(TitleLoader $titleLoader) {
+	public function setContext(
+		TitleLoader $titleLoader
+		,FilterDispatcher $filterDispatcher
+	) {
 		$this->titleLoader = $titleLoader;
+		$this->filterDispatcher = $filterDispatcher;
 	}
 
 
@@ -39,6 +45,11 @@ class EventController extends BaseController {
 	 */
 	public function listAction() {
 		$this->template->title = $this->t($this->titleLoader->getTitle('Event:list'));
+
+	}
+
+	public function createComponentFilter() {
+		return $this->filterDispatcher->createComponentFilter();
 	}
 
 }

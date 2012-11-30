@@ -7,8 +7,6 @@
 common:
 	parameters:
 		debugMode: true
-		productionMode: false
-		environment: development
 
 	php:
 		date.timezone: Europe/Prague
@@ -32,50 +30,35 @@ common:
 
 	services:
 		# Default services
-		fileTemplate: Nette\Templating\FileTemplate
-		titleLoader: app\services\TitleLoader
+		titleLoader:
+			class: app\services\TitleLoader
+			tags: [inject]
+		filterDispatcher:
+			class: app\components\Filter\FilterDispatcher
+			tags: [inject]
 
 		# Models
-		eventModel: app\models\events\EventTable
-		emailModel: app\models\newsletter\EmailTable
-
+		eventTable: app\models\events\EventTable
+		emailTable: app\models\newsletter\EmailTable
+		organizationTable: app\models\organizations\OrganizationTable
+		categoryTable: app\models\events\CategoryTable
 
 
 	factories:
+
+	includes:
+		- config.local.neon
 
 
 production < common:
 	parameters:
 		debugMode: false
-		productionMode: true
-		environment: production
-
-development < common:
-testing < common:
-deploy < common:
 
 staging < common:
 	parameters:
 		debugMode: true
-		productionMode: false
-		environment: staging
 
-
-
-	# Tady si každý vytvoří vlastní configuraci pro nette (zatím prázdnou)
-localhost_xzabm00 < common:
-	parameters:
-		debugMode: true
-		productionMode: false
-		environment: development
-
-localhost_xtomf00 < common:
-
-localhost_xmacj00 < common:
-
-localhost_xkler00 < common:
-
-localhost_xlaum00 < common:
-
-localhost_xhanp00 < common:
-
+development < common:
+testing < common:
+deploy < common:
+localhost < common:

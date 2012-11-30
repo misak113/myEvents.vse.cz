@@ -7,6 +7,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function _DBar($var, $title = null) {
+function _dBar($var, $title = null) {
 	return \Nette\Diagnostics\Debugger::barDump($var, $title);
 }

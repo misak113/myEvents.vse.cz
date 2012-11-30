@@ -20,6 +20,15 @@ class OrganizationTable extends Table
 	 */
 	protected $_rowClass = 'app\models\organizations\Organization';
 
+	/**
+	 * @return array
+	 */
+	public function getOrganizations() {
+		$where = array();
+		$res = $this->fetchAll($where, 'name'); // @todo seřadit podle oblíbenosti ORG. a podle preferencí uživatele
+
+		return $res->toArray();
+	}
 
 }
 
