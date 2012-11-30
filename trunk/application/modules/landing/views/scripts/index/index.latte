@@ -2,6 +2,11 @@
 /**
  * @var Zend_View $view
  */
+
+$view->headScript()
+	->appendFile($view->baseUrl() . '/js/Modules/landing/metaExtract.js')
+	->appendFile($view->baseUrl() . '/js/Modules/landing/messages.js')
+	;
 ?>
 <div class="wrap">
 	<div id="coming-soon-box">
