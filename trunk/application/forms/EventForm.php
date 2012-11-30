@@ -10,13 +10,17 @@ class EventForm extends Zend_Form {
      * inicializace
      */
     public function init(){
+        
         $this->setMethod('post');
         
         $this->addElement('text', 'fburl', array(
             'label' => 'Odkaz na Facebook: ',
             'class' => 'idleField',
-            'filters' => array('StringTrim')
-//            TODO: validace url
+            'filters' => array('StringTrim'),
+            'validators' => array(
+                array('regex', false, array(
+                    'pattern' => '/^$(http|https):\/\/www.facebook.com\/*/',
+                    'messages' => 'Vložte celý odkaz včetně http://')))
         ));
         
         $this->addElement('text', 'name', array(
@@ -26,17 +30,44 @@ class EventForm extends Zend_Form {
             'filters' => array('StringTrim')
         ));
         
-        $this->addElement('text', 'timestart', array(
-            'label' => 'Začátek: ',
+        $this->addElement('text', 'date', array(
+            'label' => 'Datum: ',
             'class' => 'idleField',
-            'required' => true
-//            TODO: validace datum
+            'required' => true,
+            'filters' => array('StringTrim'),
+            'validators' => array(
+                array('regex', false, array(
+                    'pattern' => '/^[0123]?\d\.[012]?\d\.201[2345]/',
+                    'messages' => 'Vložte datum ve formátu dd.mm.rrrr'
+                )
+            ))
+        ));
+        
+        $this->addElement('text', 'timestart', array(
+            'label' => 'Čas začátku: ',
+            'class' => 'idleField',
+            'required' => true,
+            'filters' => array('StringTrim'),
+            'validators' => array(
+                array('regex', false, array(
+                    'pattern' => '/^[012]?\d:[012345]\d/',
+                    'messages' => 'zadejte čas ve formátu hh:mm'
+                )
+            ))
         ));
         
         $this->addElement('text', 'timeend', array(
             'label' => 'Předpokládaný konec: ',
-            'class' => 'idleField'
-//            TODO: validace datum
+            'class' => 'idleField',
+            'required' => true,
+            'filters' => array('StringTrim'),
+            'validators' => array(
+                array('regex', false, array(
+                    'pattern' => '/^[012]?\d:[012345]\d/',
+                    'messages' => 'zadejte čas ve formátu hh:mm'
+                )
+            ))
+            
         ));
         
         $this->addElement('text', 'place', array(
@@ -49,7 +80,11 @@ class EventForm extends Zend_Form {
         $this->addElement('text', 'capacity', array(
             'label' => 'Kapacita: ',
             'class' => 'idleField',
-            'filters' => array('StringTrim')
+            'filters' => array('Digits'),
+            'validators' => array(
+                'Digits',
+                array('validator' => 'GreaterThan', 'options' => array(0))
+            )
         ));
         
         $this->addElement('select', 'category', array(
