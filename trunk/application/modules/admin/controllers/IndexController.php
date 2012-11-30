@@ -33,14 +33,44 @@ class Admin_IndexController extends BaseController {
     }
     
     public function editAction() {
-        $eventId = $this->_getParam('id');
-        
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:new');
-        if($eventId){
-            $this->view->event = $this->eventPrototype[$eventId];
-        } else {
-            $this->view->event = new Event();
+
+        $eventId = $this->_getParam('id');
+        if(!empty($eventId)){
+            $record = $this->eventPrototype[$eventId];
         }
+        
+        $record = null;
+        $form = new EventForm();
+        $form->setAction($this->_helper->url->url());
+        
+//        if($record !== null) {
+//            $form->setModifyMode();
+//        }
+        
+        if($this->_request->isPost()) {
+            if( $form->isValid($this->_request->getPost()) ){
+                $formValues = $form->getValues();
+                $this->template->formvalues = $formValues;
+                
+                //TODO Radim: vytvorit novovy radek v databazi / update existujiciho
+                //TODO flashmessage zmeny ulozeny
+
+                
+                $this->_helper->redirector->gotoRoute(
+                   array(
+                        'module' => 'admin',
+                        'controller' => 'index',
+                        'action' => 'index'
+                    ),
+                        'default',
+                        true
+                );
+            }
+        }
+        
+        
+        $this->template->form = $form;
     }
     
     public function indexAction() {
