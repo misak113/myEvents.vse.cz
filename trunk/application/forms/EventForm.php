@@ -100,11 +100,35 @@ class EventForm extends Zend_Form {
         ));
         
         
-        $this->addElement('submit', 'save', array(
-            'label' => 'Uložit',
-            'class' => 'btn btn-success btn-large',
-            'ignore' => true
+        $submit = new Zend_Form_Element_Submit('Uložit');
+        $submit->setIgnore(true);
+        $submit->setValue('Uložit');
+        $submit->setAttribs(array('class' => 'btn btn-success btn-large'));
+        $submit->removeDecorator('DtDdWrapper');
+        $this->addElement($submit);
+        
+        
+        
+        $this->setElementDecorators(array(
+            'ViewHelper',
+            //'Errors',
+            array('Errors', array('tag' => 'span', 'class' => 'label label-important')),
+            array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'span2')),
+            array('Label', array('tag' => 'div', 'class' => 'span2')),
+            array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'row'))
         ));
+        
+        $submit->setDecorators(array(
+            'ViewHelper',
+            array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'span2')),
+            array(array('emptyrow' => 'HtmlTag'), array('tag' => 'div', 'class' => 'span2', 'placement' => 'PREPEND')),
+            array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'row'))
+        ));
+        
+        $this->setDecorators(array(
+            'FormElements',
+                 array('HtmlTag', array('tag' => 'div')),
+            'Form'));
         
     }
     
