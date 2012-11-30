@@ -43,11 +43,14 @@ class Landing_IndexController extends BaseController
 			$this->redirect($this->url(array(), 'landing'));
 		}
 
+		$metaData = $this->getRequest()->getParam('meta_data');
+
 		$emailRow = $this->emailTable->createRow();
 		$emailRow->setEmail($email);
 		$emailRow->setUserAgent(@$_SERVER['HTTP_USER_AGENT']);
 		$emailRow->setRemoteAddr($this->getRequest()->getServer('REMOTE_ADDR'));
 		$emailRow->setRegistered(date('Y-m-d H:i:s'));
+		$emailRow->setMetaData($metaData);
 		$status = $emailRow->save();
 
 		if ($status) {

@@ -32,6 +32,8 @@
 			), 'default', true)}" class="form email">
 				<input type="text" class="input" name="email" placeholder="Váš e-mail"/>
 				<input type="submit" class="button" value="Informuj mě!"/>
+
+				<input type="hidden" name="meta_data" id="meta_data" value="">
 			</form>
 			<div class="messages" n:if="count($flashes)">
 				<div class="message info" n:foreach="$infoFlashes as $flash">{$flash}</div>
