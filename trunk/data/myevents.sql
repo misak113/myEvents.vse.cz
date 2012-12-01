@@ -170,10 +170,10 @@ CREATE TABLE IF NOT EXISTS `event_has_sponsor` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `organisation_own_event`
+-- Struktura tabulky `organization_own_event`
 --
 
-CREATE TABLE IF NOT EXISTS `organisation_own_event` (
+CREATE TABLE IF NOT EXISTS `organization_own_event` (
   `event_id` int(10) unsigned NOT NULL,
   `organization_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`event_id`,`organization_id`),
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `organisation_own_event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
--- Vypisuji data pro tabulku `organisation_own_event`
+-- Vypisuji data pro tabulku `organization_own_event`
 --
 
 
