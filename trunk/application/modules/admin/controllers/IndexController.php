@@ -2,7 +2,8 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
-use app\models\events\EventTable;
+
+
  
 /*
  * Created by JetBrains PhpStorm.
@@ -19,15 +20,21 @@ class Admin_IndexController extends BaseController {
     protected $eventPrototype;
     
     protected $eventTable;
+    protected $categoryTable;
     
     
     /**
      * @param TitleLoader $titleLoader 
      */
-    public function setContext(TitleLoader $titleLoader, EventTable $eventTable) {
+    public function setContext(TitleLoader $titleLoader, 
+    		app\models\events\EventTable $eventTable,
+    		app\models\events\CategoryTable $categoryTable) {
         $this->titleLoader = $titleLoader;
         $this->eventTable = $eventTable;
+        $this->categoryTable = $categoryTable;
     }
+   
+    
     
     public function init(){
         $this->eventPrototype = Event::create();
@@ -61,7 +68,7 @@ class Admin_IndexController extends BaseController {
                 // Vytvoření nového řádku v tabulce, pokud ještě neexistuje
                 // Jinak očekává v record existující záznam k editaci
 				if ($record === null) {
-					$record = $this->eventTable->createRow();;
+					$record = $this->eventTable->createRow();
 				}
 				
                 $record->updateFromArray($formValues);
