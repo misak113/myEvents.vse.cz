@@ -12,13 +12,13 @@
 		<ul class="nav nav-list">
 
 			<li class="nav-header">Datum</li>
-			<li n:foreach="$dates as $item"><a href="#">{$item['title']}</a></li>
+			<li n:foreach="$dates as $item"><a n:href="Event:list, weekNumber=>$item['week_number']">{$item['title']}</a></li>
 
 			<li class="nav-header">Typ akce</li>
-			<li n:foreach="$categories as $item"><a href="#">{$item['name']}</a></li>
+			<li n:foreach="$categories as $item"><a n:href="eventList, categoryId=>$item['category_id']">{$item['name']}</a></li>
 
 			<li class="nav-header">Organizace</li>
-			<li n:foreach="$organizations as $item"><a href="#">{$item['name']}</a></li>
+			<li n:foreach="$organizations as $item"><a n:href="Event:list, organizationId=>$item['organization_id']">{$item['name']}</a></li>
 		</ul>
 	</div>
 

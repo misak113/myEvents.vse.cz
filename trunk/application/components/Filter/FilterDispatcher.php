@@ -26,18 +26,22 @@ class FilterDispatcher
 		array(
 			'id' => 1,
 			'title' => '1. týden (24.9.-28.9.)',
+			'week_number' => 1,
 		),
 		array(
 			'id' => 1,
 			'title' => '2. týden (1.10.-5.10.)',
+			'week_number' => 2,
 		),
 		array(
 			'id' => 1,
 			'title' => '3. týden (8.10.-12.10.)',
+			'week_number' => 3,
 		),
 		array(
 			'id' => 1,
 			'title' => '4. týden (15.10.-19.10.)',
+			'week_number' => 4,
 		),
 	);
 

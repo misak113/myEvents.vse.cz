@@ -153,4 +153,19 @@ class LatteView extends \Zend_View
 		return $this->componentDispatcher->getComponent($name);
 	}
 
+	/**
+	 * @param string $name
+	 * @param array $args
+	 * @return mixed|string
+	 */
+	public function __call($name, $args) {
+		try {
+			return parent::__call($name, $args);
+		} catch (\Exception $e) {
+			if (method_exists($this->presenter, $name)) {
+				return call_user_func_array(array($this->presenter, $name), $args);
+			}
+			throw $e;
+		}
+	}
 }
