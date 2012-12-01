@@ -42,6 +42,8 @@ common:
 		emailTable: app\models\newsletter\EmailTable
 		organizationTable: app\models\organizations\OrganizationTable
 		categoryTable: app\models\events\CategoryTable
+		eventHasSponsorTable: app\models\events\EventHasSponsorTable
+		organizationOwnEventTable: app\models\organizations\OrganizationOwnEventTable
 
 
 	factories:

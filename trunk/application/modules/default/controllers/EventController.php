@@ -3,6 +3,7 @@
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
 use app\components\Filter\FilterDispatcher;
+use app\models\events\EventTable;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -18,6 +19,9 @@ class EventController extends BaseController {
 	protected $titleLoader;
 	/** @var \app\components\Filter\FilterDispatcher @inject */
 	protected $filterDispatcher;
+        
+        /** @var \app\models\events\EventTable @inject */
+	protected $eventTable;
 
 	/**
 	 * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
@@ -44,12 +48,27 @@ class EventController extends BaseController {
 	 *
 	 */
 	public function listAction() {
+                $this->template->dayOfWeek = array(
+                    0 => 'Neděle',
+                    1 => 'Pondělí',
+                    2 => 'Úterý',
+                    3 => 'Středa',
+                    4 => 'Štvrtek',
+                    5 => 'Pátek',
+                    6 => 'Sobota'
+                );
+                
 		$this->template->title = $this->t($this->titleLoader->getTitle('Event:list'));
+                $this->template->eventDates = $this->eventTable->getEventsThisWeek();
 
 	}
 
 	public function createComponentFilter() {
 		return $this->filterDispatcher->createComponentFilter();
 	}
-
+        
+        /******************** Dependency Injection **********************/
+	public function injectEventTable(EventTable $eventTable) {
+		$this->eventTable = $eventTable;
+        }
 }

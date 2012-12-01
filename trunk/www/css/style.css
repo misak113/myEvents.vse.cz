@@ -414,7 +414,8 @@ input.btn {
 }
  .item p {margin: 0;}
 
-.item .action { position: absolute; top: 15px; right: 15px; display: none;}
+.item .action { position: absolute; top: 15px; right: 15px; display: none}
+
 .item .btn {padding: 2px 6px; font-size: 12px;}
 .item .action .btn {margin-left: 10px; }
 .item .perex span{ color: #DDDDDD;
@@ -430,6 +431,8 @@ input.btn {
 	margin-right: 20px;
 }
 .item.curr:hover {cursor: default;}
+
+.item.curr .action.curr { display: block }
 
 .item:hover, .item.curr {
 	background: rgba(255, 255, 255, 0.5);
@@ -458,12 +461,16 @@ th {text-align: left; }
 }
 
 
-.item:hover .action, .item.curr .action {display: block;}
-
+.item:hover .action.normal {display: block;}
+.item.curr:hover .action.normal {display: none;}
 
 
 .row-fluid.item {
     width: auto;
+}
+
+.item .closed {
+    display: none;
 }
 
 .filter label {
