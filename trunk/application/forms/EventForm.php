@@ -70,7 +70,7 @@ class EventForm extends Zend_Form {
             
         ));
         
-        $this->addElement('text', 'place', array(
+        $this->addElement('text', 'location', array(
             'label' => 'Místo konání: ',
             'class' => 'idleField',
             'required' => true,

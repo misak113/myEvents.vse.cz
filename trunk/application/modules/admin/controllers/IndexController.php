@@ -2,8 +2,9 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
-
-/**
+use app\models\events\EventTable;
+ 
+/*
  * Created by JetBrains PhpStorm.
  * User: Michael
  * Date: 17.11.12
@@ -16,12 +17,16 @@ class Admin_IndexController extends BaseController {
     protected $titleLoader;
     
     protected $eventPrototype;
-
+    
+    protected $eventTable;
+    
+    
     /**
      * @param TitleLoader $titleLoader 
      */
-    public function setContext(TitleLoader $titleLoader) {
+    public function setContext(TitleLoader $titleLoader, EventTable $eventTable) {
         $this->titleLoader = $titleLoader;
+        $this->eventTable = $eventTable;
     }
     
     public function init(){
@@ -53,7 +58,15 @@ class Admin_IndexController extends BaseController {
                 $formValues = $form->getValues();
                 $this->template->formvalues = $formValues;
                 
-                //TODO Radim: vytvorit novovy radek v databazi / update existujiciho
+                // Vytvoření nového řádku v tabulce, pokud ještě neexistuje
+                // Jinak očekává v record existující záznam k editaci
+				if ($record === null) {
+					$record = $this->eventTable->createRow();;
+				}
+				
+                $record->updateFromArray($formValues);
+                
+               
                 //TODO flashmessage zmeny ulozeny
 
                 
