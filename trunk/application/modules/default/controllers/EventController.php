@@ -39,8 +39,21 @@ class EventController extends BaseController {
 
 
 	public function detailAction() {
-		$title = 'Název akce';
+                $id = $this->_getParam('id');
+                barDump($id);
+                $eventRow = $this->eventTable->getById((int)$id);
+                barDump($eventRow);
+                barDump($this->_getParam('bla'));
+                if (!$eventRow)
+                    throw new Zend_Controller_Action_Exception('Akce neexistuje', 404);
+                
+		$title = $eventRow->name;
 		$this->template->title = $title.' - '.$this->t($this->titleLoader->getTitle('Event:detail'));
+                
+                
+                $this->template->event = $eventRow;
+                $this->template->sponsors = $eventRow->getSponsors();
+                $this->template->organizations = $eventRow->getOrganizations();
 	}
 
 	/**
