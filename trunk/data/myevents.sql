@@ -140,15 +140,15 @@ CREATE TABLE IF NOT EXISTS `event` (
   `url` varchar(45) COLLATE utf8_czech_ci DEFAULT NULL,
   `fburl` varchar(45) COLLATE utf8_czech_ci DEFAULT NULL,
   `category_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`event_id`,`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`event_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=2 ;
 
 --
 -- Vypisuji data pro tabulku `event`
 --
 
-
--- --------------------------------------------------------
+INSERT INTO `event` (`event_id`, `name`, `location`, `timestart`, `timeend`, `shortinfo`, `longinfo`, `active`, `public`, `url`, `fburl`, `category_id`) VALUES
+(1, 'Testovací akce 1', 'U mě doma', '2012-12-01 12:00:00', '2012-12-01 13:00:00', NULL, '', 1, 1, NULL, '', 0);
 
 --
 -- Struktura tabulky `event_has_sponsor`
