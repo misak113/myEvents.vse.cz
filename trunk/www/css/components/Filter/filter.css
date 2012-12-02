@@ -1,0 +1,23 @@
+
+.filter-control .filter .filter-item .filter-item-label {
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 12px;
+	color: #08C;
+}
+.filter-control .filter .filter-item .filter-item-label:hover {
+	text-decoration: underline;
+}
+.filter-control .filter .filter-item label {
+	margin: 0;
+}
+
+.filter-control .filter .dates:hover .filter-item input {
+	display: block;
+}
+.filter-control .filter .categories:hover .filter-item.category input {
+	display: block;
+}
+.filter-control .filter .organizations:hover .filter-item.organization input {
+	display: block;
+}

@@ -47,9 +47,20 @@ class FilterControl extends BaseControl
 		return $this;
 	}
 
+	public function getFilter() {
+		$filter = $this->getRequest()->getParam('filter');
+		return $filter;
+	}
 
 	public function render() {
 		$this->template->setFile(__DIR__.'/filter.latte');
+
+		$filter = $this->getFilter();
+
+		$this->template->dateFilterActivated = isset($filter['date']);
+		$this->template->categoryFilterActivated = isset($filter['category']);
+		$this->template->organizationFilterActivated = isset($filter['organization']);
+		$this->template->filter = $filter;
 
 		$this->template->dates = $this->dates;
 		$this->template->categories = $this->categories;

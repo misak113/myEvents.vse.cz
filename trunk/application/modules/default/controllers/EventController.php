@@ -66,18 +66,26 @@ class EventController extends BaseController {
                     1 => 'Pondělí',
                     2 => 'Úterý',
                     3 => 'Středa',
-                    4 => 'Štvrtek',
+                    4 => 'Čtvrtek',
                     5 => 'Pátek',
                     6 => 'Sobota'
                 );
                 
 		$this->template->title = $this->t($this->titleLoader->getTitle('Event:list'));
-                $this->template->eventDates = $this->eventTable->getEventsThisWeek();
 
+		$filterControl = $this->getComponent('filter');
+		$filter = $filterControl->getFilter();
+		if (!$filter) {
+			$eventDates = $this->eventTable->getEventsThisWeek();
+		} else {
+			$eventDates = $this->filterDispatcher->getFilteredEvents($filter);
+		}
+
+		$this->template->eventDates = $eventDates;
 	}
 
 	public function createComponentFilter() {
-		return $this->filterDispatcher->createComponentFilter();
+		return $this->filterDispatcher->getFilter();
 	}
         
         /******************** Dependency Injection **********************/

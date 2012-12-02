@@ -9,18 +9,30 @@ use Zette\Templating\LatteView;
  * Date: 30.11.12
  * Time: 21:48
  * To change this template use File | Settings | File Templates.
+ *
+ * @method \Zend_Controller_Request_Abstract getRequest
  */
 class BaseControl extends Control
 {
 	/** @var \Zette\Templating\LatteView */
-	protected $templateFactory;
+	protected $view;
 
-	public function setTemplateFactory(LatteView $templateFactory) {
-		$this->templateFactory = $templateFactory;
+	public function setTemplateFactory(LatteView $view) {
+		$this->view = $view;
 	}
 
 	public function createTemplate($class = null) {
-		return $this->templateFactory->createTemplate($class);
+		$template = $this->view->createTemplate($class);
+		$template->view = $this->view;
+		return  $template;
+	}
+
+
+
+	/********************* Magic methods ******************/
+
+	public function __call($name, $args) {
+		return $this->view->__call($name, $args);
 	}
 
 }

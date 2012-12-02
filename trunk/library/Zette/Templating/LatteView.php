@@ -43,6 +43,11 @@ class LatteView extends \Zend_View
 		$this->latteEngine = $context->nette->createLatte();
 	}
 
+	public function setPresenter($presenter) {
+		$this->presenter = $presenter;
+		$this->componentDispatcher->setPresenter($presenter);
+	}
+
 	public function render($name) {
 		//return parent::render($name);
 
@@ -87,9 +92,8 @@ class LatteView extends \Zend_View
 
 		// default parameters
 
-		$presenter = $this->presenter = \Zette\UI\BaseController::getActual();
+		$presenter = $this->presenter;
 
-		$this->componentDispatcher->setPresenter($presenter);
 
 		$template->control = $template->_control = $this;
 

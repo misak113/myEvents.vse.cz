@@ -1,3 +1,5 @@
+{var $view->headScript()->appendFile($view->baseUrl() . '/js/components/Filter/filter.js')}
+{var $view->headLink()->appendStylesheet($view->baseUrl() . '/css/components/Filter/filter.css')}
 
 <div class="filter-control">
 
@@ -8,28 +10,46 @@
 
 
 	<div class="well sidebar-nav filter">
-	<div class="how-to-filter">Jak filtrovat<span>U všech kritérií, podle kterých chcete filtrovat, zaškrtněte políčko <input type="checkbox" />, nebo rovnou klikněte na kritérium.</span></div>
-		<h4>Filtrování</h4>
-		<ul class="nav nav-list">
+		<div class="how-to-filter">Jak filtrovat<span>U všech kritérií, podle kterých chcete filtrovat, zaškrtněte políčko <input type="checkbox" />, nebo rovnou klikněte na kritérium.</span></div>
 
-			<li class="nav-header">- Datum <span class="collapse"></span>
-				<ul>
-					<li n:foreach="$dates as $item"><a n:href="Event:list, weekNumber=>$item['week_number']">{$item['title']}</a><input type="checkbox" /></li>
-				</ul>
-			</li>
-			
-			<li class="nav-header">- Typ akce <span class="collapse"></span>
-				<ul>
-					<li n:foreach="$categories as $item"><a n:href="eventList, categoryId=>$item['category_id']">{$item['name']}</a><input type="checkbox" /></li>
-				</ul>
-			</li>
+		<form action="{link this}" method="get">
+			<h4>Filtrování</h4>
+			<ul class="nav nav-list">
 
-			<li class="nav-header">- Organizace <span class="collapse"></span>
-				<ul>
-					<li n:foreach="$organizations as $item"><a n:href="Event:list, organizationId=>$item['organization_id']">{$item['name']}</a><input type="checkbox" /></li>
-				</ul>
-			</li>
-		</ul>
+				<li class="nav-header">- Datum <span class="collapse"></span>
+					<ul class="dates">
+						<li class="filter-item date" n:foreach="$dates as $item">
+							<label><span class="filter-item-label">{$item['title']}</span>
+								<input class="{$dateFilterActivated?showed:hide} filter-input" name="filter[date][{$item['id']}]" value="1" type="checkbox"
+										{ifset $filter['date'][$item['id']]}checked="checked"{/ifset}
+										/></label>
+						</li>
+					</ul>
+				</li>
+
+				<li class="nav-header">- Typ akce <span class="collapse"></span>
+					<ul class="categories">
+						<li class="filter-item category" n:foreach="$categories as $item">
+							<label><span class="filter-item-label">{$item['name']}</span>
+								<input class="{$categoryFilterActivated?showed:hide} filter-input" name="filter[category][{$item['category_id']}]" value="1" type="checkbox"
+								{ifset $filter['category'][$item['category_id']]}checked="checked"{/ifset}
+								/></label>
+						</li>
+					</ul>
+				</li>
+
+				<li class="nav-header">- Organizace <span class="collapse"></span>
+					<ul class="organizations">
+						<li class="filter-item organization" n:foreach="$organizations as $item">
+							<label><span class="filter-item-label">{$item['name']}</span>
+								<input class="{$organizationFilterActivated?showed:hide} filter-input" name="filter[organization][{$item['organization_id']}]" value="1" type="checkbox"
+								{ifset $filter['organization'][$item['organization_id']]}checked="checked"{/ifset}
+								/></label>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</form>
 	</div>
 
 </div>

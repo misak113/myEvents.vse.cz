@@ -368,7 +368,7 @@ input.btn {
 
 
 
-.how-to-filter {float: right; position: relative; }
+.how-to-filter {float: right; position: relative; cursor: help; }
 .how-to-filter span {display: none; color: #686868; position: absolute; top: 2px; left: 70px; z-index: 100; padding: 10px; background: #dedede; border: 1px solid #c0c0c0; width: 135px; text-decoration: none;}
 .how-to-filter:hover > span {display: block; }
 

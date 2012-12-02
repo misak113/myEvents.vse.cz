@@ -3,6 +3,8 @@ namespace app\components\Filter;
 
 use app\models\events\CategoryTable;
 use app\models\organizations\OrganizationTable;
+use app\models\events\EventTable;
+use Nette\DateTime;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -21,36 +23,16 @@ class FilterDispatcher
 	protected $categoryTable;
 	/** @var \app\models\organizations\OrganizationTable @inject */
 	protected $organizationTable;
-
-	protected $testDates = array(
-		array(
-			'id' => 1,
-			'title' => '1. týden (24.9.-28.9.)',
-			'week_number' => 1,
-		),
-		array(
-			'id' => 1,
-			'title' => '2. týden (1.10.-5.10.)',
-			'week_number' => 2,
-		),
-		array(
-			'id' => 1,
-			'title' => '3. týden (8.10.-12.10.)',
-			'week_number' => 3,
-		),
-		array(
-			'id' => 1,
-			'title' => '4. týden (15.10.-19.10.)',
-			'week_number' => 4,
-		),
-	);
+	/** @var \app\models\events\EventTable */
+	protected $eventTable;
 
 
+	/************************* Public methods *********************************/
 	/**
 	 * Vrátí filter pro vykreslení (pokud neexistuje vytvoří, popřípadě cachuje)
 	 * @return FilterControl
 	 */
-	public function createComponentFilter() {
+	public function getFilter() {
 		if ($this->filter === null) {
 			$this->filter = $this->createFilter();
 		}
@@ -58,20 +40,117 @@ class FilterDispatcher
 		return $this->filter;
 	}
 
+	public function getFilteredEvents($filter) {
+		$select = $this->eventTable->select()->from(array('e'=>'event'));
+
+		// Filtrace týdnů
+		if (isset($filter['date'])) {
+			$allDates = $this->generateDates();
+			foreach ($filter['date'] as $date_id => $date) {
+				$dates[] = "(timestart >= '".$allDates[$date_id]['start']->format('Y-m-d')."' AND timestart <= '".$allDates[$date_id]['end']->format('Y-m-d')."')";
+			}
+			$select->where(implode(' OR ', $dates)); // @todo nevim jak to stvorit s escapováním
+		}
+
+		// Filtrace Kategorií
+		if (isset($filter['category'])) {
+			foreach ($filter['category'] as $category_id => $category) {
+				$categories[] = (int)$category_id;
+			}
+			$select->where('category_id IN ('.implode(',', $categories).')'); // @todo nevim jak to stvorit s escapováním
+		}
+
+		// Filtrace Organizací
+		if (isset($filter['organization'])) {
+			$select->join(array('ooe'=>'organization_own_event'), 'ooe.event_id = e.event_id', false);
+			foreach ($filter['organization'] as $organization_id => $organization) {
+				$organizations[] = (int)$organization_id;
+			}
+			$select->where('organization_id IN ('.implode(',', $organizations).')'); // @todo nevim jak to stvorit s escapováním
+		}
+
+		$order = 'timestart';
+
+		$events = $this->eventTable->fetchAll($select, $order);
+		$eventsArray = $this->eventTable->createEventDated($events);
+
+		return $eventsArray;
+	}
+
+
+
+
+
+
+
+	/****************** Protected methods *************************/
 	/**
-	 * Vytvoří filter
+	 * Vytvoří filter komponentu
 	 * @return FilterControl
 	 */
 	protected function createFilter() {
 		$categories = $this->categoryTable->getCategories();
 		$organizations = $this->organizationTable->getOrganizations();
+		$dates = $this->generateDates();
 
 		$filter = new FilterControl();
-		$filter->setDates($this->testDates);
+		$filter->setDates($dates);
 		$filter->setCategories($categories);
 		$filter->setOrganizations($organizations);
 
 		return $filter;
+	}
+
+	/**
+	 * Vygeneruje data pro filter a to následující týdny výuky
+	 * @return array
+	 */
+	protected function generateDates() {
+		$now = new DateTime();
+		$weekNow = $now->format('W');
+		$firstWeekNumber = 1;
+		if ($weekNow >= 39 && $weekNow <= 51) {
+			$firstWeekNumber = 39;
+		} elseif ($weekNow >= 7 && $weekNow <= 19) {
+			$firstWeekNumber = 7;
+		}
+
+		$weekNumber = $firstWeekNumber;
+		$weeks = array();
+		for ($schoolWeek = 1;$schoolWeek <= 13;$schoolWeek++,$weekNumber++) {
+			if ($weekNumber >= $now->format('W')) {
+				$start = $this->createDateTimeFromWeek($weekNumber);
+				$end = $this->createDateTimeFromWeek($weekNumber+1)->sub(\DateInterval::createFromDateString('1 days'));
+				$week = array(
+					'id' => $schoolWeek,
+					'title' => $schoolWeek.'. Týden ('.$start->format('j.n.').'-'.$end->format('j.n.').')',
+					'week_number' => $weekNumber,
+					'start' => $start,
+					'end' => $end,
+				);
+				$weeks[$schoolWeek] = $week;
+			}
+		}
+
+		return $weeks;
+	}
+
+	/**
+	 * Podle čísla týdne vrátí první den v daném týdnu resp. jeho DateTime
+	 * @param int $week
+	 * @return bool|\DateTime
+	 */
+	protected function createDateTimeFromWeek($week) {
+		$date = \DateTime::createFromFormat('Y-m-D', date('Y').'-01-Mon');
+		$limit = 100;
+		while($limit > 0) {
+			if ($date->format('W') >= $week) {
+				return $date;
+			}
+			$date = $date->add(\DateInterval::createFromDateString('1 weeks'));
+			$limit--;
+		}
+		return false;
 	}
 
 
@@ -84,6 +163,9 @@ class FilterDispatcher
 	}
 	public function injectOrganizationTable(OrganizationTable $organizationTable) {
 		$this->organizationTable = $organizationTable;
+	}
+	public function injectEventTable(EventTable $eventTable) {
+		$this->eventTable = $eventTable;
 	}
 
 }
