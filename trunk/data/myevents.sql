@@ -135,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   `timeend` datetime DEFAULT NULL,
   `shortinfo` text COLLATE utf8_czech_ci,
   `longinfo` longtext COLLATE utf8_czech_ci,
+  `capacity` int(10) unsigned DEFAULT NULL,  
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `public` tinyint(1) NOT NULL DEFAULT '1',
   `url` varchar(45) COLLATE utf8_czech_ci DEFAULT NULL,
@@ -147,8 +148,8 @@ CREATE TABLE IF NOT EXISTS `event` (
 -- Vypisuji data pro tabulku `event`
 --
 
-INSERT INTO `event` (`event_id`, `name`, `location`, `timestart`, `timeend`, `shortinfo`, `longinfo`, `active`, `public`, `url`, `fburl`, `category_id`) VALUES
-(1, 'Testovací akce 1', 'U mě doma', '2012-12-01 12:00:00', '2012-12-01 13:00:00', NULL, '', 1, 1, NULL, '', 0);
+INSERT INTO `event` (`event_id`, `name`, `location`, `timestart`, `timeend`, `shortinfo`, `longinfo`, `capacity`, `active`, `public`, `url`, `fburl`, `category_id`) VALUES
+(1, 'Testovací akce 1', 'U mě doma', '2012-12-01 12:00:00', '2012-12-01 13:00:00', NULL, '', 150, 1, 1, NULL, '', 0);
 
 --
 -- Struktura tabulky `event_has_sponsor`
