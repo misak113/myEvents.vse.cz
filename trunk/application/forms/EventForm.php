@@ -4,6 +4,13 @@
  * Fromular pridani nove akce
  */
 class EventForm extends Zend_Form {
+    
+    
+    protected $categories;
+    
+    public function setCategories($categories){
+        $this->categories = $categories;
+    }
 
     /**
      * inicializace
@@ -18,7 +25,7 @@ class EventForm extends Zend_Form {
             'filters' => array('StringTrim'),
             'validators' => array(
                 array('regex', false, array(
-                        'pattern' => '/^$(http|https):\/\/www.facebook.com\/*/',
+                        'pattern' => '/^(http|https):\/\/www.facebook.com\/*/',
                         'messages' => 'Vložte celý odkaz včetně http://')))
         ));
 
@@ -85,11 +92,16 @@ class EventForm extends Zend_Form {
             )
         ));
 
+        
+        $options = array();
+        foreach($this->categories->fetchAll() as $category){
+            $options [$category->category_id] = $category->name;
+        }
         $this->addElement('select', 'category', array(
             'label' => 'Kategorie: ',
             'required' => true,
             'filters' => array('StringTrim'),
-            'multiOptions' => array('', 'nacist', 'z', 'databaze')
+            'multiOptions' => $options
         ));
         
         $this->addElement('textarea', 'shortinfo', array(

@@ -47,7 +47,7 @@ class Admin_IndexController extends BaseController {
             $record = $this->eventTable->getById($eventId);
         }
         
-        $form = new EventForm();
+        $form = new EventForm(array('categories' => $this->categoryTable));
         $form->setAction($this->_helper->url->url());
         
         if($record !== null) {
