@@ -83,7 +83,19 @@ class Admin_IndexController extends BaseController {
             }
         } else {
             if($record !== null){
-                $form->populate($record->toArray());
+            	
+            	$data = $record->toArray();
+            	$datestart = new Zend_Date($data["timestart"]);
+            	$data["date"] = $datestart->toString('dd.MM.YYYY');
+            	$data["timestart"] = $datestart->toString('HH:mm');
+            	
+				if ($data["timeend"]) {            	
+            		$dateend = new Zend_Date($data["timeend"]);
+            		$data["timeend"] = $dateend->toString('HH:mm');
+				}
+				
+            	
+            	$form->populate($data);
             }
         }
         
