@@ -8,6 +8,12 @@ common:
 	parameters:
 		debugMode: true
 
+		database:
+			host: localhost
+			username: root
+			password:
+			dbname: myevents
+
 	php:
 		date.timezone: Europe/Prague
 		# zlib.output_compression: yes
@@ -48,19 +54,52 @@ common:
 
 	factories:
 
-	includes:
-		- config.local.neon
+#	includes:
+#		- config.local.neon
 
 
-production < common:
+production < common: # myevents.vse.cz
 	parameters:
 		debugMode: false
 
-staging < common:
-	parameters:
-		debugMode: true
+		database:
+			host: localhost
+			username: myevents
+			password: wewec24s54fO95Hwewes54fO22fFErf94s54fO22fFrf95Hwec24s54fO22fFE
+			dbname: myevents
 
-development < common:
-testing < common:
-deploy < common:
-localhost < common:
+staging < common: # stage.myevents.vse.cz
+	parameters:
+		debugMode: false
+
+		database:
+			host: localhost
+			username: myevents
+			password: wewec24s54fO95Hwewes54fO22fFErf94s54fO22fFrf95Hwec24s54fO22fFE
+			dbname: myevents
+
+development < common: # eventsvse.4it445.vse.cz
+	parameters:
+		database:
+			host: localhost
+			username: zs1213_c
+			password: shai7u
+			dbname: zs1213_c
+
+testing < common: # test.myevents.vse.cz
+	parameters:
+		database:
+			host: localhost
+			username: myevents_testing
+			password: shai7u
+			dbname: myevents_testing
+
+deploy < common: # deploy.myevents.vse.cz
+	parameters:
+		database:
+			host: localhost
+			username: myevents
+			password: wewec24s54fO95Hwewes54fO22fFErf94s54fO22fFrf95Hwec24s54fO22fFE
+			dbname: myevents
+
+localhost < common: # localhost.myevents.vse.cz

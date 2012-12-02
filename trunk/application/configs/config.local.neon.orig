@@ -5,3 +5,9 @@
 
 parameters:
 	debugMode: true
+
+	database:
+		host: localhost
+		username: root
+		password:
+		dbname: myevents

@@ -54,6 +54,8 @@ class Loader
 // Create Dependency Injection container from config.neon file
 		$configurator->addConfig(APP_DIR . '/configs/config.neon', APPLICATION_ENV);
 
+		$configurator->addConfig(APP_DIR . '/configs/config.local.neon', false);
+
 		$configurator->onCompile[] = function (Configurator $configurator, Compiler $compiler) {
 			$compiler->addExtension('zette', new ZetteExtension);
 		};
