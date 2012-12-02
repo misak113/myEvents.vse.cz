@@ -345,22 +345,25 @@ input.btn {
 	line-height: 17px;
     margin: 10px 0;
     padding-right: 20px;
+	position: relative;
 }
 .filter .nav-list {padding: 0;}
 
-.filter .nav > .nav-header {margin: 10px 0px 0;  padding: 0 5px;}
+.filter .nav > .nav-header {margin: 20px 0px 0;  padding: 0 5px; position: relative;}
+.filter .nav > .nav-header .collapse {background: url("/teams/zs1213_c/www/img/collapse.png") no-repeat; position: absolute; top: 0; right: 0; display: block; height: 20px; width: 20px; cursor: pointer;}
+.filter .nav > .nav-header .collapse.expanded {background: url("/teams/zs1213_c/www/img/expand.png") no-repeat;}
 
 
 .filter .nav-list li ul li a {
 	color: #0088CC;
-		text-transform: none;
+	text-transform: none;
 }
 
 .filter .nav-list li ul li a:hover {
 	color: #0088CC; 
 }
-.filter .nav-list li ul {display: none;}
-.filter .nav-list li:hover ul {display: block;}
+/*.filter .nav-list li ul {display: none;}
+.filter .nav-list li:hover ul {display: block;}*/
 .filter .nav-list li ul li input {position: absolute; top: 2px; right: 0px; margin: 0; outline: 0;}
 
 
