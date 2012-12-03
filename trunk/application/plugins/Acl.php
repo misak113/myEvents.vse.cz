@@ -6,7 +6,7 @@
  * je presmerovan na prihlasovaci obrazovku
  * do messengeru je pridana chybova hlaska
  */
-class Plugins_Acl extends Zend_Controller_Plugin_Abstract
+class Application_Plugins_Acl extends Zend_Controller_Plugin_Abstract
 {
     /**
      *
