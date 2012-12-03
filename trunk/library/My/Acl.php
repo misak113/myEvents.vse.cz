@@ -5,7 +5,7 @@
  *
  * ACL role i resource jsou nastaveny z application.ini s prefixem acl
  */
-class Application_My_Acl extends Zend_Acl
+class My_Acl extends Zend_Acl
 {
 
     /**
