@@ -130,7 +130,7 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract {
                  *
                  */
 
-                //$redirector->gotoRouteAndExit(array(), $this->failRoute);
+                $redirector->gotoRouteAndExit(array(), $this->failRoute);
             }
         }
     }
