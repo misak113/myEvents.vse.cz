@@ -8,8 +8,6 @@ USE `myevents` ;
 -- -----------------------------------------------------
 -- Table `myevents`.`category`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`category` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`category` (
   `category_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NULL ,
@@ -20,8 +18,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`event`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`event` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`event` (
   `event_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
@@ -49,13 +45,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`user` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`user` (
   `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `email` VARCHAR(100) NOT NULL ,
   `first_name` VARCHAR(100) NULL ,
   `last_name` VARCHAR(100) NULL ,
+  `last_login_date` DATETIME NULL ,
+  `last_login_ip` VARCHAR(15) NULL ,
   PRIMARY KEY (`user_id`) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) )
 ENGINE = InnoDB;
@@ -64,8 +60,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`attendance`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`attendance` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`attendance` (
   `user_id` INT UNSIGNED NOT NULL ,
   `event_id` INT UNSIGNED NOT NULL ,
@@ -88,8 +82,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`organization`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`organization` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`organization` (
   `organization_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
@@ -103,8 +95,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`organization_own_event`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`organization_own_event` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`organization_own_event` (
   `event_id` INT UNSIGNED NOT NULL ,
   `organization_id` INT UNSIGNED NOT NULL ,
@@ -127,8 +117,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`organization_has_user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`organization_has_user` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`organization_has_user` (
   `user_id` INT UNSIGNED NOT NULL ,
   `organization_id` INT UNSIGNED NOT NULL ,
@@ -153,8 +141,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`sponsor`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`sponsor` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`sponsor` (
   `sponsor_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
@@ -166,8 +152,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`event_has_sponsor`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`event_has_sponsor` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`event_has_sponsor` (
   `event_id` INT UNSIGNED NOT NULL ,
   `sponsor_id` INT UNSIGNED NOT NULL ,
@@ -190,8 +174,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`authenticate_provides`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`authenticate_provides` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`authenticate_provides` (
   `authenticate_provides_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `active` TINYINT(1) NOT NULL ,
@@ -205,8 +187,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`authenticate`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`authenticate` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`authenticate` (
   `authenticate_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `active` TINYINT(1) NOT NULL ,
@@ -235,8 +215,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`role`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`role` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`role` (
   `role_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
@@ -250,8 +228,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`resource`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`resource` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`resource` (
   `resource_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
@@ -265,8 +241,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`privilege`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`privilege` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`privilege` (
   `privilege_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
@@ -279,8 +253,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`permission`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`permission` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`permission` (
   `role_id` INT UNSIGNED NOT NULL ,
   `resource_id` INT UNSIGNED NOT NULL ,
@@ -310,8 +282,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`email`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`email` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`email` (
   `email_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `email` VARCHAR(100) NOT NULL ,
@@ -327,8 +297,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `myevents`.`user_has_role`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `myevents`.`user_has_role` ;
-
 CREATE  TABLE IF NOT EXISTS `myevents`.`user_has_role` (
   `user_id` INT UNSIGNED NOT NULL ,
   `role_id` INT UNSIGNED NOT NULL ,

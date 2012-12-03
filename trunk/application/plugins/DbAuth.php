@@ -85,20 +85,15 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract {
             $result = $auth->authenticate($adapter);
 
             if ($auth->hasIdentity()) { // Uživatel byl úspěšně ověřen a je přihlášen
-
-
-                /* $identity = $auth->getIdentity();
-
-                  // identity obsahuje v nasem pripade ID uzivatele z databaze
-                  // muzeme napr. ulozit IP adresu, cas posledniho prihlaseni atd.
-
-                  $db->update($this->tableName, array(
-                  'lognum' => new Zend_Db_Expr('lognum + 1'),
-                  'ip' => $request->getServer('REMOTE_ADDR'),
-                  'last_login' => new Zend_Db_Expr('NOW()'),
-                  'browser' => $request->getServer('HTTP_USER_AGENT')),
-                  $this->identityColumn . " = '$identity'"); */
-
+                // Uložit last login data
+                $db->update(
+                    "user",
+                    array(
+                        'last_login_ip' => $request->getServer('REMOTE_ADDR'),
+                        'last_login_date' => new Zend_Db_Expr('NOW()'),
+                    ),
+                    "user_id = '" . $adapter->getResultRowObject()->user_id . "'"
+                );
 
                 // Přesměrování
                 $redirector->gotoRouteAndExit(array(), $this->successRoute);
