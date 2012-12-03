@@ -5,12 +5,14 @@ SET foreign_key_checks = 0;
 SET time_zone = 'SYSTEM';
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+DELETE FROM `category`;
 INSERT INTO `category` (`category_id`, `name`) VALUES
 (1,	'Vzdělání'),
 (2,	'Sport'),
 (3,	'Disco'),
 (4,	'Zábava');
 
+DELETE FROM `organization`;
 INSERT INTO `organization` (`organization_id`, `name`, `website`, `info`, `email`) VALUES
 (1,	'Business IT',	NULL,	NULL,	NULL),
 (2,	'Klub koučinku',	NULL,	NULL,	NULL),
@@ -21,6 +23,7 @@ INSERT INTO `organization` (`organization_id`, `name`, `website`, `info`, `email
 
 -- Adminer 3.6.1 MySQL dump
 
+DELETE FROM `event`;
 INSERT INTO `event` (`event_id`, `name`, `location`, `timestart`, `timeend`, `shortinfo`, `longinfo`, `active`, `public`, `url`, `fburl`, `category_id`, `capacity`) VALUES
 (1,	'Sraz mladých filatelistů',	'NB203',	'2012-12-22 14:26:45',	NULL,	'Your bones don\'t break, mine do. That\'s clear. Your cells react to bacteria and viruses differently than mine.\r\n',	'Your bones don\'t break, mine do. That\'s clear. Your cells react to bacteria and viruses differently than mine. You don\'t get sick, I do. That\'s also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We\'re on the same curve, just on opposite ends.\r\n',	1,	1,	'sport.vse.cz',	'facebook.com',	1,	113),
 (2,	'Sraz sportovců',	'VŠE',	'2012-12-22 12:00:00',	'2012-12-22 13:00:00',	'mine do. That\'s clear. Your cells react to bacteria and viruses differently than mine.\r\n',	'You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don\'t know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it ',	1,	1,	'stranky.com',	'facebook.com/akce',	2,	100),
@@ -31,18 +34,7 @@ INSERT INTO `event` (`event_id`, `name`, `location`, `timestart`, `timeend`, `sh
 (9,	'Rozmarné léto',	'Vensovského aula',	'2012-12-04 15:00:00',	'2012-12-04 16:00:00',	'Look, just because I don\'t be givin\' no man a foot massage don\'t make it right for Marsellus to throw Antwone into a glass motherfuckin\' house, fuckin\' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, \'cause I\'ll kill the motherfucker, know what I\'m sayin\'?\r\n',	'Look, just because I don\'t be givin\' no man a foot massage don\'t make it right for Marsellus to throw Antwone into a glass motherfuckin\' house, fuckin\' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, \'cause I\'ll kill the motherfucker, know what I\'m sayin\'?\r\nLook, just because I don\'t be givin\' no man a foot massage don\'t make it right for Marsellus to throw Antwone into a glass motherfuckin\' house, fuckin\' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, \'cause I\'ll kill the motherfucker, know what I\'m sayin\'?\r\n',	1,	1,	'https://trello.com/board/portal-studentskych-',	NULL,	2,	15);
 
 
-INSERT INTO  `user` (
-`user_id` ,
-`email` ,
-`first_name` ,
-`last_name` ,
-`password`
-)
-VALUES (
-NULL ,  'admin@adminov.cz',  'Admin',  'Administrátorovič',  'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3' -- Heslo: 123
-);
-
-
+DELETE FROM `organization_own_event`;
 INSERT INTO `organization_own_event` (`event_id`, `organization_id`) VALUES
 (7,	1),
 (1,	2),
@@ -51,3 +43,20 @@ INSERT INTO `organization_own_event` (`event_id`, `organization_id`) VALUES
 (9,	3),
 (2,	4),
 (4,	5);
+
+
+-- Users
+
+DELETE FROM `user`;
+INSERT INTO  `user` (
+`user_id` ,
+`email` ,
+`first_name` ,
+`last_name` ,
+`password`
+)
+VALUES
+(NULL ,  'admin@adminov.cz',  'Admin',  'Administrátorovič',  'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'), -- Heslo: 123 SHA256
+(NULL ,  'user123',  'Admin',  'God',  SHA1('god')) -- Heslo: god SHA1
+;
+
