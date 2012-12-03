@@ -29,6 +29,8 @@ p.hightlight {
 	text-align: center;
 }
 
+.fr {float: right;}
+
 h1 {
 	color: #48260e;
 	font: bold 27px/32px Arial;
@@ -582,7 +584,8 @@ table.actionform th label {
 .detailAct p.perex {margin:0 0 10px}
 .detailAct td, .detailAct th {padding: 7px 0;   font-size: 14px;}
 
-
+#shortinfo {width: 400px; height: 100px;}
+#longinfo {width: 400px; height: 100px;}
 
 
 @media (max-width: 450px) {
