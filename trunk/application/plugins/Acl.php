@@ -18,7 +18,7 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 
         $config = new Zend_Config($options);
 
-        $acl = new My_Acl($config);
+        $acl = new My\Acl($config);
 
         $role = 'guest';
 

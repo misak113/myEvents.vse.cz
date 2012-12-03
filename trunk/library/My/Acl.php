@@ -1,11 +1,12 @@
 <?php
+namespace My;
 
 /**
  * ACL strom
  *
  * ACL role i resource jsou nastaveny z application.ini s prefixem acl
  */
-class My_Acl extends Zend_Acl
+class Acl extends Zend_Acl
 {
 
     /**
