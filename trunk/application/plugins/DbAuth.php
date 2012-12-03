@@ -79,6 +79,7 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract {
             // jmeno a heslo predame adapteru
             $adapter->setIdentity($request->getPost($this->loginField));
             $adapter->setCredential(hash("sha1", $request->getPost($this->passwordField)));
+            $adapter->getDbSelect()->where("active = 1 AND authenticate_provides_id = 1");
 
             // obecny proces autentifikace s libovolnym adapterem
             $result = $auth->authenticate($adapter);
