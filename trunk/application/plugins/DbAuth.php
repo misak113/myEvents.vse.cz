@@ -6,7 +6,7 @@
  *
  * @see Zend_Auth_Adapter_DbTable
  */
-class Application_Plugins_DbAuth extends Zend_Controller_Plugin_Abstract {
+class Plugins_DbAuth extends Zend_Controller_Plugin_Abstract {
 
     /**
      *
