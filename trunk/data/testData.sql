@@ -30,7 +30,17 @@ INSERT INTO `event` (`event_id`, `name`, `location`, `timestart`, `timeend`, `sh
 (8,	'Ústav pro Disco',	'LeClub',	'2012-12-15 21:30:00',	'2012-12-15 23:30:00',	'Now that we know who you are, I know who I am. I\'m not a mistake! It all makes sense! In a comic, you know h',	'<!-- start slipsum code -->\r\n\r\nNow that we know who you are, I know who I am. I\'m not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain\'s going to be? He\'s the exact opposite of the hero. And most times they\'re friends, like you and me! I should\'ve known way back when... You know why, David? Because of the kids. They called me Mr Glass.\r\n\r\n<!-- please do not remove this line -->\r\n\r\n<div style=\"display:none;\">\r\n<a href=\"http://slipsum.com\">lorem ipsum</a></div>\r\n\r\n<!-- end slipsum code -->\r\n',	1,	1,	'http://localhost.myevents.vse.cz/udalosti?',	NULL,	1,	200),
 (9,	'Rozmarné léto',	'Vensovského aula',	'2012-12-04 15:00:00',	'2012-12-04 16:00:00',	'Look, just because I don\'t be givin\' no man a foot massage don\'t make it right for Marsellus to throw Antwone into a glass motherfuckin\' house, fuckin\' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, \'cause I\'ll kill the motherfucker, know what I\'m sayin\'?\r\n',	'Look, just because I don\'t be givin\' no man a foot massage don\'t make it right for Marsellus to throw Antwone into a glass motherfuckin\' house, fuckin\' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, \'cause I\'ll kill the motherfucker, know what I\'m sayin\'?\r\nLook, just because I don\'t be givin\' no man a foot massage don\'t make it right for Marsellus to throw Antwone into a glass motherfuckin\' house, fuckin\' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, \'cause I\'ll kill the motherfucker, know what I\'m sayin\'?\r\n',	1,	1,	'https://trello.com/board/portal-studentskych-',	NULL,	2,	15);
 
--- 2012-12-03 00:56:15
+
+INSERT INTO  `user` (
+`user_id` ,
+`email` ,
+`first_name` ,
+`last_name` ,
+`password`
+)
+VALUES (
+NULL ,  'admin@adminov.cz',  'Admin',  'Administrátorovič',  'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3' -- Heslo: 123
+);
 
 
 INSERT INTO `organization_own_event` (`event_id`, `organization_id`) VALUES
@@ -41,5 +51,3 @@ INSERT INTO `organization_own_event` (`event_id`, `organization_id`) VALUES
 (9,	3),
 (2,	4),
 (4,	5);
-
--- 2012-12-03 00:59:19

@@ -36,6 +36,16 @@ class Admin_IndexController extends BaseController {
 
     public function loginAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:login');
+        
+        // Formulář
+        $form = new LoginForm();
+        $this->view->loginForm = $form;
+    }
+    
+    public function logoutAction() {
+        Zend_Auth::getInstance()->clearIdentity();
+
+        $this->_helper->redirector->gotoRouteAndExit(array(), "adminLogin");
     }
     
     public function editAction() {
