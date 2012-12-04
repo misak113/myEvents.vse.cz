@@ -65,11 +65,20 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract {
         $loginRequest = $request->getPost("login");
         if (isset($loginRequest)) {
             $db = My\Db\Table::getDefaultAdapter();
+            
+            
+            
+            // Zpracování hesla
+            $authenticateTable = new app\models\authentication\AuthenticateTable();
+            $user = $authenticateTable->fetchRow($this->identityColumn . " = '" . $request->getPost($this->loginField) . "'");
+            
+            $password = new My_Password($request->getPost($this->passwordField));
+            $password->setSalt(My_Password::extractSalt($user->getVerification()));
 
             // Nastavení adaptéru
             $adapter = new Zend_Auth_Adapter_DbTable($db, $this->tableName, $this->identityColumn, $this->credentialColumn);
             $adapter->setIdentity($request->getPost($this->loginField));
-            $adapter->setCredential(hash("sha1", $request->getPost($this->passwordField)));
+            $adapter->setCredential($password->getDHash());
             $adapter->getDbSelect()->where("active = 1 AND authenticate_provides_id = 1");
             
             $auth->authenticate($adapter);
