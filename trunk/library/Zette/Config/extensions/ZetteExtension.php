@@ -56,7 +56,7 @@ class ZetteExtension extends CompilerExtension
 			try {
 				$class = $def->class ?$def->class :$def->factory->entity;
 				$classReflection = \Nette\Reflection\ClassType::from($class);
-				if ($classReflection->isSubclassOf('\My\Db\Table')) {
+				if ($classReflection->isSubclassOf('\Zend_Db_Table_Abstract')) {
 					$def->addSetup('$this->getService(?)->trySetTableDependencies($service);', array($this->prefix('injector')));
 				}
 			} catch (\ReflectionException $e) {
