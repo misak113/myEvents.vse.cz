@@ -52,13 +52,28 @@ INSERT INTO  `user` (
 `user_id` ,
 `email` ,
 `first_name` ,
-`last_name` ,
-`password`
+`last_name`
 )
 VALUES
-(NULL ,  'admin@adminov.cz',  'Admin',  'Administrátorovič'),
-(NULL ,  'user123',  'Admin',  'God')
+(1 ,  'admin@adminov.cz',  'Admin',  'Administrátorovič'),
+(2 ,  'user123',  'Admin',  'God')
 ;
 
-INSERT INTO `authenticate` VALUES (1, 1, '2012-12-3 18:09:45', 'admin@adminov.cz', 'c8ce042f13dac812d2858d4adf613nd0703o10a2500fea47a1540db06fb22e44427e629', 1, 1); -- Heslo: 12345
-INSERT INTO `authenticate` VALUES (1, 1, '2012-12-3 18:09:45', 'user123', '6e8a91a1f18ce2aebe629465e75a3pb5j1waff22aa1d5e834237167711be989cee1e72f', 2, 1); -- Heslo: thegod
+
+DELETE FROM `authenticate_provides`;
+INSERT INTO `authenticate_provides` (`authenticate_provides_id`, `active`, `name`, `description`) VALUES
+(1,	1,	'email',	'Přihlášení pomocí emailu a hesla'),
+(2,	1,	'username',	'Přihlášení pomocí username a hesla');
+
+DELETE FROM `authenticate`;
+INSERT INTO `authenticate`
+(`authenticate_id`, `active`, `created`, `identity`, `verification`, `user_id`, `authenticate_provides_id`)
+VALUES
+(1, 1, '2012-12-3 18:09:45', 'admin@adminov.cz', 'c8ce042f13dac812d2858d4adf613nd0703o10a2500fea47a1540db06fb22e44427e629', 1, 1) -- Heslo: 12345
+,(2, 1, '2012-12-3 18:09:45', 'user123', '6e8a91a1f18ce2aebe629465e75a3pb5j1waff22aa1d5e834237167711be989cee1e72f', 2, 2) -- Heslo: thegod
+;
+
+DELETE FROM `organization_has_user`;
+INSERT INTO `organization_has_user` (`user_id`, `organization_id`, `member`, `position`) VALUES
+(1,	2,	0,	'Administrátor'),
+(2,	3,	0,	'Moderátor');
