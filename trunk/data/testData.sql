@@ -60,5 +60,5 @@ VALUES
 (NULL ,  'user123',  'Admin',  'God')
 ;
 
-INSERT INTO `authenticate` VALUES (1, 1, '2012-12-3 18:09:45', 'admin@adminov.cz', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, 1); -- Heslo: 123 SHA256
-INSERT INTO `authenticate` VALUES (1, 1, '2012-12-3 18:09:45', 'user123', SHA1('god'), 2, 1); -- Heslo: god SHA1
+INSERT INTO `authenticate` VALUES (1, 1, '2012-12-3 18:09:45', 'admin@adminov.cz', 'c8ce042f13dac812d2858d4adf613nd0703o10a2500fea47a1540db06fb22e44427e629', 1, 1); -- Heslo: 123 SHA256
+INSERT INTO `authenticate` VALUES (1, 1, '2012-12-3 18:09:45', 'user123', '6e8a91a1f18ce2aebe629465e75a3pb5j1waff22aa1d5e834237167711be989cee1e72f', 2, 1); -- Heslo: god SHA1
