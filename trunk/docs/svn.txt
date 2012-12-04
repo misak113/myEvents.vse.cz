@@ -3,3 +3,15 @@
 ### set revision old_version as HEAD
 svn merge -rHEAD:old_revision .
 svn commit -m "set revision old_version as HEAD"
+
+### Update old version of file
+svn log path\to\file
+svn up -r 102 path\to\file
+
+### Revert
+svn revert path\to\file
+
+svn revert --recursive
+
+### Diff with revision
+svn diff -r 94 path\to\file
