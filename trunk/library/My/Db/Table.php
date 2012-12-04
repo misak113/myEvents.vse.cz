@@ -6,15 +6,15 @@ namespace My\Db;
  *
  */
 class Table extends \Zend_Db_Table_Abstract {
-    
+
     /**
      * Navrati zaznam dle zadaneho primarniho klice
      *
      * @param string $id
-     * @return Product
+     * @return \My\Db\Table\Row
      */
     public function getById($id) {
         return $this->find($id)->current(); 
     }
-    
+
 }

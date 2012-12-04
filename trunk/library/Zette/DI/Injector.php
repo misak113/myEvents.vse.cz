@@ -33,4 +33,12 @@ class Injector
 
 	}
 
+	public function trySetTableDependencies($instance) {
+		// setTableDependencies
+		if (method_exists($instance, 'setTableDependencies')) {
+			$this->context->callMethod(array($instance, 'setTableDependencies'));
+		}
+
+	}
+
 }

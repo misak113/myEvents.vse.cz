@@ -59,8 +59,11 @@ VALUES
 (2 ,  'user123',  'Admin',  'God')
 ;
 
-INSERT INTO `role` VALUES (1, 'Správce stud. org.', 'orgAdmin', 'Člen studentské organizace s oprávněním');
-INSERT INTO `role` VALUES (2, 'Administrátor', 'sysAdmin', 'Administrátor systému');
+DELETE FROM `role`;
+INSERT INTO `role`
+(`role_id`, `name`, `uri_code`, `description`)
+VALUES (1, 'Správce stud. org.', 'orgAdmin', 'Člen studentské organizace s oprávněním')
+,(2, 'Administrátor', 'sysAdmin', 'Administrátor systému');
 
 
 DELETE FROM `authenticate_provides`;

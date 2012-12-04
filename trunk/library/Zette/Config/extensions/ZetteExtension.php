@@ -24,6 +24,8 @@ class ZetteExtension extends CompilerExtension
 			->setClass('Zette\DI\Injector');
 		$container->addDefinition('zette.componentDispatcher')
 				->setClass('Zette\UI\ComponentDispatcher');
+		$container->addDefinition('zette.connectionPanel')
+				->setClass('Zette\Database\Diagnostics\ConnectionPanel');
 
 	}
 
@@ -38,9 +40,23 @@ class ZetteExtension extends CompilerExtension
 	protected function setupServices() {
 		$defs = $this->getContainerBuilder()->getDefinitions();
 
+		/** @var \Nette\DI\ServiceDefinition $def  */
 		foreach ($defs as $name => &$def) {
+
+			// AutoInjecting
 			if ($def->autowired && in_array('inject', $def->tags) && $name != $this->prefix('injector')) {
 				$def->addSetup('$this->getService(?)->tryInject($service);', array($this->prefix('injector')));
+			}
+
+			// Model dependencies
+			try {
+				$class = $def->class ?$def->class :$def->factory->entity;
+				$classReflection = \Nette\Reflection\ClassType::from($class);
+				if ($classReflection->isSubclassOf('\My\Db\Table')) {
+					$def->addSetup('$this->getService(?)->trySetTableDependencies($service);', array($this->prefix('injector')));
+				}
+			} catch (\ReflectionException $e) {
+				_dBar($e);
 			}
 		}
 	}
