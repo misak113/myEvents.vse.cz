@@ -64,44 +64,50 @@ class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract {
 
         $loginRequest = $request->getPost("login");
         if (isset($loginRequest)) {
-            $db = My\Db\Table::getDefaultAdapter();
-            
-            
-            
-            // Zpracování hesla
-            $authenticateTable = new app\models\authentication\AuthenticateTable();
-            $user = $authenticateTable->fetchRow($this->identityColumn . " = '" . $request->getPost($this->loginField) . "'");
-            
-            $password = new My_Password($request->getPost($this->passwordField));
-            $password->setSalt(My_Password::extractSalt($user->getVerification()));
-
-            // Nastavení adaptéru
-            $adapter = new Zend_Auth_Adapter_DbTable($db, $this->tableName, $this->identityColumn, $this->credentialColumn);
-            $adapter->setIdentity($request->getPost($this->loginField));
-            $adapter->setCredential($password->getDHash());
-            $adapter->getDbSelect()->where("active = 1 AND authenticate_provides_id = 1");
-            
-            $auth->authenticate($adapter);
-
-
-            // Finish
-            if ($auth->hasIdentity()) { // Uživatel byl úspěšně ověřen a je přihlášen
-                // Uložit last login data
-                $db->update(
-                        "user", array(
-                    'last_login_ip' => $request->getServer('REMOTE_ADDR'),
-                    'last_login_date' => new Zend_Db_Expr('NOW()'),
-                        ), "user_id = '" . $adapter->getResultRowObject()->user_id . "'"
-                );
-
-                // Přesměrování
-                $redirector->gotoRouteAndExit(array(), $this->successRoute);
-            } else { // Neúspěšné přihlášení
+            // Validace (základní verze dokud se mi nepodaří rozchodit validaci přímo z formuláře)
+            $email = $request->getPost($this->loginField);
+            if (empty($email) || strLen($request->getPost($this->passwordField)) < My_Password::$MIN_LENGTH) {
                 $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
                 $flash->clearMessages();
-                $flash->addMessage("Byly zadány špatné přihlašovací údaje");
+                $flash->addMessage("Některý z přihlašovacích údajů bych zadán chybně");
+            } else { // Validace OK
+                $db = My\Db\Table::getDefaultAdapter();
 
-                $redirector->gotoRouteAndExit(array(), $this->failRoute);
+                // Zpracování hesla
+                $authenticateTable = new app\models\authentication\AuthenticateTable();
+                $user = $authenticateTable->fetchRow($this->identityColumn . " = '" . $request->getPost($this->loginField) . "'");
+
+                $password = new My_Password($request->getPost($this->passwordField));
+                $password->setSalt(My_Password::extractSalt($user->getVerification()));
+
+                // Nastavení adaptéru
+                $adapter = new Zend_Auth_Adapter_DbTable($db, $this->tableName, $this->identityColumn, $this->credentialColumn);
+                $adapter->setIdentity($request->getPost($this->loginField));
+                $adapter->setCredential($password->getDHash());
+                $adapter->getDbSelect()->where("active = 1 AND authenticate_provides_id = 1");
+
+                $auth->authenticate($adapter);
+
+
+                // Finish
+                if ($auth->hasIdentity()) { // Uživatel byl úspěšně ověřen a je přihlášen
+                    // Uložit last login data
+                    $db->update(
+                            "user", array(
+                        'last_login_ip' => $request->getServer('REMOTE_ADDR'),
+                        'last_login_date' => new Zend_Db_Expr('NOW()'),
+                            ), "user_id = '" . $adapter->getResultRowObject()->user_id . "'"
+                    );
+
+                    // Přesměrování
+                    $redirector->gotoRouteAndExit(array(), $this->successRoute);
+                } else { // Neúspěšné přihlášení
+                    $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+                    $flash->clearMessages();
+                    $flash->addMessage("Byly zadány špatné přihlašovací údaje");
+
+                    $redirector->gotoRouteAndExit(array(), $this->failRoute);
+                }
             }
         }
     }
