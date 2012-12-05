@@ -75,6 +75,15 @@ class Admin_IndexController extends BaseController {
 					$record = $this->eventTable->createRow();
 				}
 				
+				if(get_magic_quotes_gpc()) {
+						
+					$formValues["shortinfo"] = stripslashes($formValues["shortinfo"]);
+					$formValues["longinfo"] = stripslashes($formValues["longinfo"]);
+					$formValues["location"] = stripslashes($formValues["location"]);
+					$formValues["name"] = stripslashes($formValues["name"]);
+						
+				}
+				
                 $record->updateFromArray($formValues);
                 
                
