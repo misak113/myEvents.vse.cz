@@ -104,7 +104,13 @@ class Admin_IndexController extends BaseController {
             		$data["timeend"] = $dateend->toString('HH:mm');
 				}
 				
-            	
+				$data["category"] = $data["category_id"];
+				
+				if(get_magic_quotes_gpc()) {
+					
+					$data = stripslashes($data);
+					
+				}
             	$form->populate($data);
             }
         }
