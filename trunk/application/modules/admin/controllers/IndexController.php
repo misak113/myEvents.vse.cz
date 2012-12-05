@@ -110,6 +110,8 @@ class Admin_IndexController extends BaseController {
 					
 					$data["shortinfo"] = stripslashes($data["shortinfo"]);
 					$data["longinfo"] = stripslashes($data["longinfo"]);
+					$data["location"] = stripslashes($data["location"]);
+					$data["name"] = stripslashes($data["name"]);
 					
 				}
             	$form->populate($data);
