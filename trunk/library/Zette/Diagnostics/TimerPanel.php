@@ -24,6 +24,8 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	private static $times = array();
 	private static $duration = array();
 
+	protected static $style = '<style type="text/css">/* Zette debuger */ #nette-debug {z-index: 50000;}</style>'; // @todo obecně dát do Zette::Bar
+
 
 	public static function getTraceTimes() {
 		return self::$times;
@@ -137,7 +139,7 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 			$return .= '<thead><tr><td colspan=2>Durations</td></tr></thead>';
 			$return .= '<tbody>'.$render(self::$duration).'</tbody>';
 		}
-		$return .= '</table></div>';
+		$return .= '</table></div>'.self::$style;
 		return $return;
 	}
 }
