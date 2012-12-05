@@ -108,7 +108,8 @@ class Admin_IndexController extends BaseController {
 				
 				if(get_magic_quotes_gpc()) {
 					
-					$data = stripslashes($data);
+					$data["shortinfo"] = stripslashes($data["shortinfo"]);
+					$data["longinfo"] = stripslashes($data["longinfo"]);
 					
 				}
             	$form->populate($data);
