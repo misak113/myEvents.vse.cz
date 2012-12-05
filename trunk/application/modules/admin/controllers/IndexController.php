@@ -143,11 +143,18 @@ class Admin_IndexController extends BaseController {
         $user = $userTable->getById($userinfo->user_id);
         $organizations = $user->getOrganizations();
        
-        // Pošleme do view akce první organizace, které je členem
-        // Systém tedy zatím umožňuje uživateli správu jen jedné organizace
-        // TODO: Umožnit správu více organizací
-        $this->template->events = $organizations[0]->getEvents();
-        $this->template->nazevOrganizace = $organizations[0]->name;
+        // Pokud je uživatel členem nějaké organizace
+        if (count($organizations) > 0) {
+    	    // Pošleme do view akce první organizace, které je členem
+	        // Systém tedy zatím umožňuje uživateli správu jen jedné organizace
+        	// TODO: Umožnit správu více organizací
+        	$this->template->events = $organizations[0]->getEvents();
+        	$this->template->nazevOrganizace = $organizations[0]->name;
+       	// Uživatel není členem organizace, dummy výpis
+        } else {
+        	$this->template->nazevOrganizace = "Nejste členem žádné organizace";
+        	$this->template->events  = "";
+        }
         
     }
 }

@@ -83,3 +83,8 @@ DELETE FROM `organization_has_user`;
 INSERT INTO `organization_has_user` (`user_id`, `organization_id`, `member`, `position`) VALUES
 (1,	2,	0,	'Administrátor'),
 (2,	3,	0,	'Moderátor');
+
+DELETE FROM `tag`;
+INSERT INTO `tag` (`tag_id`, `name`) VALUES
+(1, '1'),
+(2, '2');
