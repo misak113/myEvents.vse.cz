@@ -4,11 +4,10 @@
  * Fromular pridani nove akce
  */
 class EventForm extends Zend_Form {
-    
-    
+
     protected $categories;
-    
-    public function setCategories($categories){
+
+    public function setCategories($categories) {
         $this->categories = $categories;
     }
 
@@ -19,15 +18,18 @@ class EventForm extends Zend_Form {
 
         $this->setMethod('post');
 
-        $this->addElement('text', 'fburl', array(
-            'label' => 'Odkaz na Facebook: ',
-            'class' => 'idleField',
-            'filters' => array('StringTrim'),
-            'validators' => array(
-                array('regex', false, array(
-                        'pattern' => '/^(http|https):\/\/www.facebook.com\/*/',
-                        'messages' => 'Vložte celý odkaz včetně http://')))
-        ));
+        $fburl = new My_Form_Element_Url('fburl');
+        $fburl->setLabel('Odkaz na facebook: ')
+                ->setAttrib('class', 'idleField')
+                ->addFilter('StringTrim')
+                ->addValidators(array(
+                    array('regex', false, array(
+                            'pattern' => '/^(http|https):\/\/www.facebook.com\/*/',
+                            'messages' => 'Vložte celý odkaz včetně http://')
+                        )
+                    )
+        );
+        $this->addElement($fburl);
 
         $this->addElement('text', 'name', array(
             'label' => 'Název události: ',
@@ -36,44 +38,44 @@ class EventForm extends Zend_Form {
             'filters' => array('StringTrim')
         ));
 
-        $this->addElement('text', 'date', array(
-            'label' => 'Datum: ',
-            'class' => 'idleField',
-            'required' => true,
-            'filters' => array('StringTrim'),
-            'validators' => array(
-                array('regex', false, array(
-                        'pattern' => '/^[0123]?\d\.[012]?\d\.201[2345]/',
-                        'messages' => 'Vložte datum ve formátu dd.mm.rrrr'
-                    )
-            ))
-        ));
+        $date = new My_Form_Element_Date('date');
+        $date->setLabel('Datum: ')
+                ->setAttrib('class', 'idleField')
+                ->setRequired(true)
+                ->addFilter('StringTrim')
+                ->addValidators(array(
+                    array('regex', false, array(
+                            'pattern' => '/^201[2345]-[012]?\d-[0123]?\d$/',
+                            'messages' => 'Vložte datum ve formátu rrrr-mm-dd'
+                        )
+                        )));
+        $this->addElement($date);
 
-        $this->addElement('text', 'timestart', array(
-            'label' => 'Čas začátku: ',
-            'class' => 'idleField',
-            'required' => true,
-            'filters' => array('StringTrim'),
-            'validators' => array(
-                array('regex', false, array(
-                        'pattern' => '/^[012]?\d:[012345]\d/',
-                        'messages' => 'zadejte čas ve formátu hh:mm'
-                    )
-            ))
-        ));
+        $timestart = new My_Form_Element_Time('timestart');
+        $timestart->setLabel('Čas začátku: ')
+                ->setAttrib('class', 'idleField')
+                ->setRequired(true)
+                ->addFilter('StringTrim')
+                ->addValidators(array(
+                    array('regex', false, array(
+                            'pattern' => '/^[012]?\d:[012345]\d$/',
+                            'messages' => 'zadejte čas ve formátu hh:mm'
+                    ))
+                ));
+        $this->addElement($timestart);
 
-        $this->addElement('text', 'timeend', array(
-            'label' => 'Předpokládaný konec: ',
-            'class' => 'idleField',
-            'required' => true,
-            'filters' => array('StringTrim'),
-            'validators' => array(
-                array('regex', false, array(
-                        'pattern' => '/^[012]?\d:[012345]\d/',
-                        'messages' => 'zadejte čas ve formátu hh:mm'
-                    )
-            ))
-        ));
+        $timeend = new My_Form_Element_Time('timeend');
+        $timeend->setLabel('Předpokládaný čas konce: ')
+                ->setAttrib('class', 'idleField')
+                ->setRequired(true)
+                ->addFilter('StringTrim')
+                ->addValidators(array(
+                    array('regex', false, array(
+                            'pattern' => '/^[012]?\d:[012345]\d$/',
+                            'messages' => 'zadejte čas ve formátu hh:mm'
+                    ))
+                ));
+        $this->addElement($timeend);
 
         $this->addElement('text', 'location', array(
             'label' => 'Místo konání: ',
@@ -86,15 +88,16 @@ class EventForm extends Zend_Form {
             'label' => 'Kapacita: ',
             'class' => 'idleField',
             'filters' => array('Digits'),
+            'required' => 'true',
             'validators' => array(
                 'Digits',
                 array('validator' => 'GreaterThan', 'options' => array(0))
             )
         ));
 
-        
+
         $options = array();
-        foreach($this->categories->fetchAll() as $category){
+        foreach ($this->categories->fetchAll() as $category) {
             $options [$category->category_id] = $category->name;
         }
         $this->addElement('select', 'category', array(
@@ -103,18 +106,18 @@ class EventForm extends Zend_Form {
             'filters' => array('StringTrim'),
             'multiOptions' => $options
         ));
-        
+
         $this->addElement('textarea', 'shortinfo', array(
             'label' => 'Krátký popis (200 znaků): ',
             'filters' => array('StringTrim'),
             'attribs' => array(
                 'maxlength' => '200',
                 'rows' => '10'
-                ),
+            ),
             'validators' => array(
                 array('StringLength', false, array(
-                    'options' => array(0, 200),
-                    'messages' => 'krátký popis musí být kratší než 200 znaků'
+                        'options' => array(0, 200),
+                        'messages' => 'krátký popis musí být kratší než 200 znaků'
                 ))
             )
         ));
