@@ -87,9 +87,12 @@ class Application_Plugin_DbAuth extends PluginController {
                 $adapter->setIdentity($request->getPost($this->loginField));
                 $adapter->setCredential($password->getDHash());
                 $adapter->getDbSelect()->where("active = 1 AND authenticate_provides_id = 1");
-
+                
                 $auth->authenticate($adapter);
-
+				
+                $userInfo = $adapter->getResultRowObject();
+                
+                // $userInfo = $adapter->getResultRowObject();
 
                 // Finish
                 if ($auth->hasIdentity()) { // Uživatel byl úspěšně ověřen a je přihlášen
@@ -101,6 +104,16 @@ class Application_Plugin_DbAuth extends PluginController {
                             ), "user_id = '" . $adapter->getResultRowObject()->user_id . "'"
                     );
 
+                    
+                    // get all info about this user from the login table
+                    // ommit only the password, we don't need that
+                     
+                    
+                    // the default storage is a session with namespace Zend_Auth
+                   $authStorage = $auth->getStorage();
+                   $authStorage->write($userInfo);
+                    
+                    
                     // Přesměrování
                     $redirector->gotoRouteAndExit(array(), $this->successRoute);
                 } else { // Neúspěšné přihlášení
