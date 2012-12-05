@@ -116,7 +116,7 @@ class EventForm extends Zend_Form {
         foreach ($this->tags->fetchAll() as $tag) {
         	$options2 [$tag->tag_id] = $tag->name;
         }
-        $this->addElement('multicheckbox', 'tags1', array(
+        $this->addElement('multiCheckbox', 'tags1', array(
         		'label' => 'Tagy: ',
         		'required' => false,
         		'multiOptions' => $options2
