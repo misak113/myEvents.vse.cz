@@ -111,7 +111,9 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	public function getTab()
 	{
 		$count = count(self::$times) + count(self::$duration);
-		return '<span><strong>Timers</strong> (' . $count . ')</span>';
+		return '<span>'
+				. '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABnRSTlMAAAAAAABupgeRAAAACXBIWXMAAA3XAAAN1wFCKJt4AAACQklEQVR4nHWSz04aURTGz1wmMwNpBghxMmBJBpU2otS2IyZWElkZWDU1MTHETWNM6gN02TfwCUzTrhBdmbqxcaM2mhJRK5aAAgVZtEECGYYoMDB/upiGUtv+Nmdxvi/n3O8eDHpg2X6en+S4IavVpqqqKAqFQvb4+LBcLnU1mF5wHA8GX/D8MwzDdCmGYTRtQQhpmhaPH+zsfJBl+ZcBx/GFhVccNySKwu7udiqVaLclACBJyuMZCwRCZrMln89EIquKIhsAIBSaHRl5XCx+29h4XyhkFUXRxyqKXCp9TySOnE7O5XJTlDGXSyOGsft8flEUYrFPy8uv7fb7ABAMzg4PP9JtzWYjGn0rirWJCT/D2JHPNwUAe3vbFxfn6fTXcHiJpi0Oh7Ovj+0+tNVq7u9/xDCM5ycRx7lVVU2lzjVN29qKCkI1HF4yGAzwJ8nkF1VVBwYeILPZUq/XJKkFALIsr6+/IwjS4XDeMbTbkigKVqsN6cF1G43GzdraarstyXLnjkdPHBeEqs3GEASpRwkAlUp5ZeWNnnoXkiRp2lKplFE+n0EIjY4+6W13Op3esQDg8YwhhIrFLDo5+axp2vR0kKKM8B+MRlMgEAKAePzQcHt7YzLdGxx86HS6Li+Tf69OUcb5+UWW7Y/HD87OjgwAUChk9b/0enlJagpCVVFkACAIwut9Ojf3kmUdV1e5zc2Iqqq/j29m5rnP59ejqNdrmqaZzdZ/H18XhmHHx6dcLrcuFYRqPp85PY1dX//oan4CuYMRYNYBaFEAAAAASUVORK5CYII=" />'
+				.'<strong>Timers</strong> (' . $count . ')</span>';
 	}
 
 
