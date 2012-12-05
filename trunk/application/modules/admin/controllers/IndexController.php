@@ -21,17 +21,21 @@ class Admin_IndexController extends BaseController {
     protected $eventTable;
     /** @var CategoryTable */
     protected $categoryTable;
-    
+    /** @var CategoryTable */
+    protected $tagTable;
     
     /**
      * @param TitleLoader $titleLoader 
      */
     public function setContext(TitleLoader $titleLoader, 
     		app\models\events\EventTable $eventTable,
-    		app\models\events\CategoryTable $categoryTable) {
+    		app\models\events\CategoryTable $categoryTable,
+    		app\models\events\TagTable $tagTable) {
+    	
         $this->titleLoader = $titleLoader;
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
+        $this->tagTable = $tagTable;
     }
 
     public function loginAction() {
@@ -57,7 +61,10 @@ class Admin_IndexController extends BaseController {
             $record = $this->eventTable->getById($eventId);
         }
         
-        $form = new EventForm(array('categories' => $this->categoryTable));
+        $form = new EventForm(array(
+        		'categories' => $this->categoryTable,
+        		'tags' => $this->tagTable
+        		));
         $form->setAction($this->_helper->url->url());
         
         if($record !== null) {

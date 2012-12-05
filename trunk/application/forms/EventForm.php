@@ -6,9 +6,14 @@
 class EventForm extends Zend_Form {
 
     protected $categories;
+    protected $tags;
 
     public function setCategories($categories) {
         $this->categories = $categories;
+    }
+    
+    public function setTags($tags) {
+    	$this->tags = $tags;
     }
 
     /**
@@ -105,6 +110,16 @@ class EventForm extends Zend_Form {
             'required' => true,
             'filters' => array('StringTrim'),
             'multiOptions' => $options
+        ));
+        
+        $options2 = array();
+        foreach ($this->tags->fetchAll() as $tag) {
+        	$options2 [$tag->tag_id] = $tag->name;
+        }
+        $this->addElement('multicheckbox', 'tags1', array(
+        		'label' => 'Tagy: ',
+        		'required' => false,
+        		'multiOptions' => $options2
         ));
 
         $this->addElement('textarea', 'shortinfo', array(
