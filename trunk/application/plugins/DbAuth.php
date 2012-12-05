@@ -1,12 +1,14 @@
 <?php
 
+use Zette\Services\PluginController;
+
 /**
  * Plugin zajistuje autentifikaci uzivatele a presmerovani
  * Nastaveni je prebrano z application.ini s prefixem auth
  *
  * @see Zend_Auth_Adapter_DbTable
  */
-class Application_Plugin_DbAuth extends Zend_Controller_Plugin_Abstract {
+class Application_Plugin_DbAuth extends PluginController {
 
     private $options;
 

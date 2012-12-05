@@ -1,12 +1,14 @@
 <?php
 
+use Zette\Services\PluginController;
+
 /**
  * Plugin resi autorizaci uzivatele
  * Pokud uzivatel nema pristup do vybraneho controlleru/akce
  * je presmerovan na prihlasovaci obrazovku
  * do messengeru je pridana chybova hlaska
  */
-class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
+class Application_Plugin_Acl extends PluginController {
 
     /**
      *
