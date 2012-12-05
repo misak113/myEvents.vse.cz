@@ -65,7 +65,7 @@ class Admin_IndexController extends BaseController {
         }
         
         if($this->_request->isPost()) {
-            if( $form->isValid($this->_request->getPost()) ){
+            if( $form->isValid($this->_request->getPost()) ) {
                 $formValues = $form->getValues();
                 $this->template->formvalues = $formValues;
                 
@@ -75,14 +75,6 @@ class Admin_IndexController extends BaseController {
 					$record = $this->eventTable->createRow();
 				}
 				
-				if(get_magic_quotes_gpc()) {
-						
-					$formValues["shortinfo"] = stripslashes($formValues["shortinfo"]);
-					$formValues["longinfo"] = stripslashes($formValues["longinfo"]);
-					$formValues["location"] = stripslashes($formValues["location"]);
-					$formValues["name"] = stripslashes($formValues["name"]);
-						
-				}
 				
                 $record->updateFromArray($formValues);
                 
@@ -115,14 +107,6 @@ class Admin_IndexController extends BaseController {
 				
 				$data["category"] = $data["category_id"];
 				
-				if(get_magic_quotes_gpc()) {
-					
-					$data["shortinfo"] = stripslashes($data["shortinfo"]);
-					$data["longinfo"] = stripslashes($data["longinfo"]);
-					$data["location"] = stripslashes($data["location"]);
-					$data["name"] = stripslashes($data["name"]);
-					
-				}
             	$form->populate($data);
             }
         }
