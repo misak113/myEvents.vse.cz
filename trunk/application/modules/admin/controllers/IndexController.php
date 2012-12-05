@@ -24,18 +24,22 @@ class Admin_IndexController extends BaseController {
     /** @var CategoryTable */
     protected $tagTable;
     
+  
+    
     /**
      * @param TitleLoader $titleLoader 
      */
     public function setContext(TitleLoader $titleLoader, 
     		app\models\events\EventTable $eventTable,
     		app\models\events\CategoryTable $categoryTable,
-    		app\models\events\TagTable $tagTable) {
+    		app\models\events\TagTable $tagTable
+    		) {
     	
         $this->titleLoader = $titleLoader;
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
         $this->tagTable = $tagTable;
+     
     }
 
     public function loginAction() {
@@ -82,6 +86,10 @@ class Admin_IndexController extends BaseController {
 					$record = $this->eventTable->createRow();
 				}
 				
+				$userTable = new app\models\authentication\UserTable();
+				$organizations = $userTable->getById(Zend_Auth::getInstance()->getIdentity()->user_id)->getOrganizations();
+				
+				$formValues["organization_id"] = $organizations[0]->organization_id;
 				
                 $record->updateFromArray($formValues);
                 
@@ -124,7 +132,22 @@ class Admin_IndexController extends BaseController {
     
     public function indexAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:index');
-        $this->template->events = $this->eventTable->fetchAll(); //TODO nacitat jen akce dane organizace
-        $this->template->nazevOrganizace = "CahFlow Club";
+        // $this->template->events = $this->eventTable->fetchAll();
+       
+        // Vyžádáme si identitu přihlášeného uživatele
+        $auth = Zend_Auth::getInstance();
+        $userinfo = $auth->getIdentity();
+       
+        // Seženeme si jeho objekt a přes něj zjistíme, jakých organizací je členem
+        $userTable = new app\models\authentication\UserTable();
+        $user = $userTable->getById($userinfo->user_id);
+        $organizations = $user->getOrganizations();
+       
+        // Pošleme do view akce první organizace, které je členem
+        // Systém tedy zatím umožňuje uživateli správu jen jedné organizace
+        // TODO: Umožnit správu více organizací
+        $this->template->events = $organizations[0]->getEvents();
+        $this->template->nazevOrganizace = $organizations[0]->name;
+        
     }
 }

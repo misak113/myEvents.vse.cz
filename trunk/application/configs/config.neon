@@ -51,6 +51,7 @@ common:
 		tagTable: app\models\events\TagTable
 		eventHasSponsorTable: app\models\events\EventHasSponsorTable
 		organizationOwnEventTable: app\models\organizations\OrganizationOwnEventTable
+		userTable: app\models\authentication\UserTable
 
 
 	factories:
