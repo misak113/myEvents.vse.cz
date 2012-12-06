@@ -1,6 +1,6 @@
 <?php
 /**
- * Fromular pridani nove akce
+ * Přihlašovací formulář
  */
 class LoginForm extends Zend_Form {
 
@@ -22,9 +22,8 @@ class LoginForm extends Zend_Form {
         // Heslo
         $password = $this->createElement('password', 'password');
         $password->setLabel('Heslo');
-        $password->addFilter('StringTrim');
         $password->setRequired(true);
-        $password->addValidator('StringLength', false, array(5));
+        $password->addValidator('StringLength', false, array(My_Password::$MIN_LENGTH));
         $this->addElement($password);
         
         // Submit

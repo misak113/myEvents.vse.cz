@@ -16,6 +16,7 @@ class TitleLoader
 	protected $titles = array(
 		'Index:index' => 'Akce',
 		'Index:about' => 'O nás',
+		'Index:register' => 'Registrace',
 		'Event:detail' => 'Podrobnosti akce',
 		'Landing:Index:index' => 'myEvents VŠE - studentské akce pro studenty',
 	);
