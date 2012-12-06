@@ -6,6 +6,3 @@ SetEnv APPLICATION_ENV localhost
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule .* index.php
 </ifModule>
-
-
-#php_flag magic_quotes_gpc Off
