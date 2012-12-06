@@ -3,6 +3,7 @@
 use Zette\Services\PluginController;
 use app\models\authentication\AuthenticateTable;
 use Nette\Security\IUserStorage;
+use app\models\authentication\UserTable;
 
 /**
  * Plugin zajistuje autentifikaci uzivatele a presmerovani
@@ -24,6 +25,8 @@ class Application_Plugin_DbAuth extends PluginController
 	protected $auth;
 	/** @var \Zend_Auth_Adapter_DbTable */
 	protected $authTable;
+	/** @var \app\models\authentication\UserTable */
+	protected $userTable;
 
 	public function setContext(IUserStorage $userStorage)
 	{
@@ -35,6 +38,10 @@ class Application_Plugin_DbAuth extends PluginController
 	public function injectAuthenticateTable(AuthenticateTable $authenticateTable)
 	{
 		$this->authenticateTable = $authenticateTable;
+	}
+	public function injectUserTable(UserTable $userTable)
+	{
+		$this->userTable = $userTable;
 	}
 
 	/**
@@ -134,9 +141,14 @@ class Application_Plugin_DbAuth extends PluginController
 			array(self::AUTHENTICATE_PROVIDE_EMAIL, self::AUTHENTICATE_PROVIDE_USER)
 		);
 
-		$this->auth->authenticate($this->authTable);
+		$result = $this->auth->authenticate($this->authTable);
+		if (!$result->isValid()) {
+			$this->failLogin();
+		}
 
 		$userInfo = $this->authTable->getResultRowObject();
+		// Kvůli bezpečnosti smažem heslo
+		$userInfo->{$this->credentialColumn} = null;
 
 		// Finish
 		if ($this->user->isLoggedIn()) { // Neúspěšné přihlášení
@@ -153,6 +165,7 @@ class Application_Plugin_DbAuth extends PluginController
 			), "user_id = '" . $userInfo->user_id . "'"
 		);
 
+		$userInfo->user = $this->userTable->getById($userInfo->user_id)->toArray();
 
 		// the default storage is a session with namespace Zend_Auth
 		/** @var \Zette\Security\UserStorage $authStorage  */
@@ -160,7 +173,6 @@ class Application_Plugin_DbAuth extends PluginController
 		$identity = new \Nette\Security\Identity($userInfo->user_id, null, $userInfo); //@todo set Acl roles
 		$authStorage->setIdentity($identity);
 		$authStorage->setAuthenticated(true);
-		$authStorage->write($userInfo); // back compatibility
 
 
 		// Přesměrování
