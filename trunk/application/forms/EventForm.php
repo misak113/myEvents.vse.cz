@@ -114,13 +114,16 @@ class EventForm extends Zend_Form {
         
         $options2 = array();
         foreach ($this->tags->fetchAll() as $tag) {
-        	$options2 [$tag->tag_id] = $tag->name;
+        	$options2 [$tag->tag_id] = " " . $tag->name;
         }
         $this->addElement('multiCheckbox', 'tags1', array(
         		'label' => 'Tagy: ',
+        		'class' => 'checkBox',
         		'required' => false,
-        		'multiOptions' => $options2
-        ));
+        		'multiOptions' => $options2,
+        	    'separator' => PHP_EOL
+        		)
+        );
 
         $this->addElement('textarea', 'shortinfo', array(
             'label' => 'Krátký popis (200 znaků): ',
