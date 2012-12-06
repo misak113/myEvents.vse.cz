@@ -23,7 +23,7 @@ class Application_Plugin_Acl extends PluginController {
 
         $role = 'guest';
 
-        if (Zend_Auth::getInstance()->hasIdentity()) {
+        if ($this->user->isLoggedIn()) { // @todo
             $role = 'admin';
         }
 

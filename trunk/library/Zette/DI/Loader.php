@@ -61,6 +61,7 @@ class Loader
 		};
 
 		$this->context = $configurator->createContainer();
+
 	}
 
 	public function getContext() {

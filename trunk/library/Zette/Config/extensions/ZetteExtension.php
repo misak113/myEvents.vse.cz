@@ -26,6 +26,8 @@ class ZetteExtension extends CompilerExtension
 				->setClass('Zette\UI\ComponentDispatcher');
 		$container->addDefinition('zette.connectionPanel')
 				->setClass('Zette\Database\Diagnostics\ConnectionPanel');
+		$container->getDefinition('nette.userStorage')
+				->setClass('Zette\Security\UserStorage');
 		$container->addDefinition('zette.timerPanel')
 				->setClass('Zette\Diagnostics\TimerPanel')
 				->addSetup('\Nette\Diagnostics\Debugger::$bar->addPanel($service);?', array('')) // @todo proč nejde normálně bez ?

@@ -44,7 +44,7 @@ class Admin_IndexController extends BaseController {
 
     public function loginAction() {
         // Kontrola, zda už uživatel není přihlášen
-        if (Zend_Auth::getInstance()->hasIdentity()) {
+        if ($this->user->isLoggedIn()) {
             Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoRouteAndExit(array(), "eventList");
         }
         
@@ -138,14 +138,11 @@ class Admin_IndexController extends BaseController {
     public function indexAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:index');
         // $this->template->events = $this->eventTable->fetchAll();
-       
-        // Vyžádáme si identitu přihlášeného uživatele
-        $auth = Zend_Auth::getInstance();
-        $userinfo = $auth->getIdentity();
-       
+
         // Seženeme si jeho objekt a přes něj zjistíme, jakých organizací je členem
         $userTable = new app\models\authentication\UserTable();
-        $user = $userTable->getById($userinfo->user_id);
+		$userId = $this->user->getId();
+        $user = $userTable->getById($userId);
         $organizations = $user->getOrganizations();
        
         // Pokud je uživatel členem nějaké organizace

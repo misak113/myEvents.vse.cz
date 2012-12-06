@@ -1,6 +1,8 @@
 <?php
 
 use Zette\Services\PluginController;
+use app\models\authentication\AuthenticateTable;
+use Nette\Security\IUserStorage;
 
 /**
  * Plugin zajistuje autentifikaci uzivatele a presmerovani
@@ -8,125 +10,183 @@ use Zette\Services\PluginController;
  *
  * @see Zend_Auth_Adapter_DbTable
  */
-class Application_Plugin_DbAuth extends PluginController {
+class Application_Plugin_DbAuth extends PluginController
+{
 
-    private $options;
-    private $redirector;
+	const AUTHENTICATE_PROVIDE_EMAIL = 1;
+	const AUTHENTICATE_PROVIDE_USER = 2;
 
-    /**
-     * Metoda vrátí konkrétní hodnotu z konfigurace
-     * Pokud klíč není nalezen, vyhodíme výjimku
-     *
-     * @param string $key
-     * @return mixed
-     */
-    private function _getParam($key) {
-        if (is_null($this->options)) {
-            $this->options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getApplication()->getOptions();
-        }
+	/** @var array */
+	private $options;
+	/** @var \app\models\authentication\AuthenticateTable @inject */
+	protected $authenticateTable;
+	/** @var \Zend_Auth */
+	protected $auth;
+	/** @var \Zend_Auth_Adapter_DbTable */
+	protected $authTable;
 
-        if (!array_key_exists($key, $this->options['auth'])) {
-            throw new Zend_Controller_Exception("Param {auth." . $key . "} not found in application.ini");
-        } else {
-            return $this->options['auth'][$key];
-        }
-    }
+	public function setContext(IUserStorage $userStorage)
+	{
+		$this->auth = Zend_Auth::getInstance();
+		$this->auth->setStorage($userStorage);
+		$this->authTable = new Zend_Auth_Adapter_DbTable($this->connection, $this->tableName, $this->identityColumn, $this->credentialColumn);
+	}
 
-    /**
-     * Wrapper nad metodou _getParam
-     * Umozni nam pristupovat ke konfiguraci primo pres $this
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function __get($key) {
-        return $this->_getParam($key);
-    }
+	public function injectAuthenticateTable(AuthenticateTable $authenticateTable)
+	{
+		$this->authenticateTable = $authenticateTable;
+	}
 
-    /**
-     * PreDespatch
-     *
-     * @param Zend_Controller_Request_Abstract $request
-     */
-    public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        $this->redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
-        $auth = Zend_Auth::getInstance();
+	/**
+	 * Metoda vrátí konkrétní hodnotu z konfigurace
+	 * Pokud klíč není nalezen, vyhodíme výjimku
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
+	private function _getParam($key)
+	{
+		if (is_null($this->options)) {
+			$this->options = Zend_Controller_Front::getInstance()
+					->getParam('bootstrap')
+					->getApplication()
+					->getOptions();
+		}
 
-        // Logout
-        $logoutRequest = $request->getParam("logout");
-        if (isset($logoutRequest)) {
-            $auth->clearIdentity();
-            $this->redirector->gotoRouteAndExit(array(), $this->failRoute);
-        }
+		if (!array_key_exists($key, $this->options['auth'])) {
+			throw new Zend_Controller_Exception("Param {auth." . $key . "} not found in application.ini");
+		} else {
+			return $this->options['auth'][$key];
+		}
+	}
 
-        // Login
-        $loginRequest = $request->getPost("login");
-        if (isset($loginRequest)) {
-            // Data formuláře
-            $loginForm = new LoginForm();
-            $loginForm->isValid($_POST);
-            $loginData = $loginForm->getValues();
-            
-            if (!$loginForm->isValid($_POST)) {
-                $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-                $flash->clearMessages();
-                $flash->addMessage("Některý z přihlašovacích údajů bych zadán chybně");
-            } else { // Validace OK
-                $db = My\Db\Table::getDefaultAdapter();
+	/**
+	 * Wrapper nad metodou _getParam
+	 * Umozni nam pristupovat ke konfiguraci primo pres $this
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function __get($key)
+	{
+		return $this->_getParam($key);
+	}
 
-                // Zpracování hesla
-                $authenticateTable = new app\models\authentication\AuthenticateTable();
-                $userAuth = $authenticateTable->fetchRow($authenticateTable->select()->where($this->identityColumn . " = ?", $loginData[$this->loginField]));
-                
-                // Kontrola existence autentifikace
-                if ($userAuth == null) {
-                    $this->failLogin();
-                    return;
-                }
+	/**
+	 * PreDespatch
+	 *
+	 * @param Zend_Controller_Request_Abstract $request
+	 */
+	public function preDispatch(Zend_Controller_Request_Abstract $request)
+	{
 
-                $password = new My_Password($loginData[$this->passwordField]);
-                $password->setSalt(My_Password::extractSalt($userAuth->getVerification()));
+		// Logout
+		$logoutRequest = $request->getParam("logout");
+		if ($logoutRequest) {
+			$this->handleLogout();
+			return;
+		}
 
-                // Nastavení adaptéru
-                $adapter = new Zend_Auth_Adapter_DbTable($db, $this->tableName, $this->identityColumn, $this->credentialColumn);
-                $adapter->setIdentity($loginData[$this->loginField]);
-                $adapter->setCredential($password->getDHash());
-                $adapter->getDbSelect()->where("active = 1 AND (authenticate_provides_id = 1 OR authenticate_provides_id = 2)");
-                
-                $auth->authenticate($adapter);
-				
-                $userInfo = $adapter->getResultRowObject();
+		// Login
+		$loginRequest = $request->getPost("login");
+		if ($loginRequest) {
+			$this->handleLogin();
+			return;
+		}
+	}
 
-                // Finish
-                if ($auth->hasIdentity()) { // Uživatel byl úspěšně ověřen a je přihlášen
-                    // Uložit last login data
-                    $db->update(
-                            "user", array(
-                        'last_login_ip' => $request->getServer('REMOTE_ADDR'),
-                        'last_login_date' => new Zend_Db_Expr('NOW()'),
-                            ), "user_id = '" . $adapter->getResultRowObject()->user_id . "'"
-                    );
-                     
-                    
-                    // the default storage is a session with namespace Zend_Auth
-                   $authStorage = $auth->getStorage();
-                   $authStorage->write($userInfo);
-                    
-                    
-                    // Přesměrování
-                    $this->redirector->gotoRouteAndExit(array(), $this->successRoute);
-                } else { // Neúspěšné přihlášení
-                    $this->failLogin();
-                }
-            }
-        }
-    }
+	public function handleLogout()
+	{
+		$this->auth->clearIdentity();
+		$this->redirect($this->failRoute);
+	}
 
-    private function failLogin() {
-        $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-        $flash->clearMessages();
-        $flash->addMessage("Byly zadány špatné přihlašovací údaje");
+	public function handleLogin()
+	{
+		// Data formuláře
+		$loginForm = new LoginForm();
+		$loginForm->isValid($_POST);
+		$loginData = $loginForm->getValues();
 
-        $this->redirector->gotoRouteAndExit(array(), $this->failRoute);
-    }
+		if (!$loginForm->isValid($_POST)) {
+			$this->flashMessage("Některý z přihlašovacích údajů bych zadán chybně", self::FLASH_ERROR);
+			return;
+		}
+		// Validace OK
+
+		// Zpracování hesla
+		$userAuth = $this->getUserAuth($loginData[$this->loginField]);
+
+		// Kontrola existence autentifikace
+		if ($userAuth == null) {
+			$this->failLogin();
+			return;
+		}
+
+		$password = new My_Password($loginData[$this->passwordField]);
+		$password->setSalt(My_Password::extractSalt($userAuth->getVerification()));
+
+		// Nastavení adaptéru
+		$this->authTable->setIdentity($loginData[$this->loginField]);
+		$this->authTable->setCredential($password->getDHash());
+		$this->authTable->getDbSelect()
+				->where("active = 1 AND authenticate_provides_id IN (?)",
+			array(self::AUTHENTICATE_PROVIDE_EMAIL, self::AUTHENTICATE_PROVIDE_USER)
+		);
+
+		$this->auth->authenticate($this->authTable);
+
+		$userInfo = $this->authTable->getResultRowObject();
+
+		// Finish
+		if ($this->user->isLoggedIn()) { // Neúspěšné přihlášení
+			$this->failLogin();
+			return;
+		}
+
+		// Uživatel byl úspěšně ověřen a je přihlášen
+		// Uložit last login data
+		$this->connection->update(
+			"user", array(
+				'last_login_ip' => $this->getRequest()->getServer('REMOTE_ADDR'),
+				'last_login_date' => new Zend_Db_Expr('NOW()'),
+			), "user_id = '" . $userInfo->user_id . "'"
+		);
+
+
+		// the default storage is a session with namespace Zend_Auth
+		/** @var \Zette\Security\UserStorage $authStorage  */
+		$authStorage = $this->auth->getStorage();
+		$identity = new \Nette\Security\Identity($userInfo->user_id, null, $userInfo); //@todo set Acl roles
+		$authStorage->setIdentity($identity);
+		$authStorage->setAuthenticated(true);
+		$authStorage->write($userInfo); // back compatibility
+
+
+		// Přesměrování
+		$this->redirect($this->successRoute);
+
+	}
+
+	/**
+	 *
+	 * @param string $userIdentity
+	 * @return \Zend_Db_Table_Rowset
+	 */
+	protected function getUserAuth($userIdentity)
+	{
+		return $this->authenticateTable->fetchRow($this->authenticateTable
+				->select()
+				->where($this->identityColumn . " = ?", $userIdentity));
+	}
+
+	/**
+	 * Při nezdaření přihlášení napíše flash a přesměruje
+	 * není třeba returnovat ?
+	 */
+	protected function failLogin()
+	{
+		$this->flashMessage("Byly zadány špatné přihlašovací údaje", self::FLASH_ERROR);
+		$this->redirect($this->failRoute);
+	}
 }
