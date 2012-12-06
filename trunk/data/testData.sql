@@ -86,5 +86,9 @@ INSERT INTO `organization_has_user` (`user_id`, `organization_id`, `member`, `po
 
 DELETE FROM `tag`;
 INSERT INTO `tag` (`tag_id`, `name`) VALUES
-(1, '1'),
-(2, '2');
+(1, 'Osobnost'),
+(2, 'Diskuze'),
+(3, 'Přednáška'),
+(4, 'Prezentační dovednosti'),
+(5, 'Z praxe'),
+(6, 'Podnikání');

@@ -115,7 +115,7 @@ class Admin_IndexController extends BaseController {
         } else {
             if($record !== null){
             	
-            	$data = $record->toArray();
+            	$data = $record->toArray(array('tags' => true));
             	$datestart = new Zend_Date($data["timestart"]);
                 $data["date"] = $datestart->toString('YYYY-MM-dd');
             	$data["timestart"] = $datestart->toString('HH:mm');
