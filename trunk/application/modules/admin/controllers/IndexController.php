@@ -43,6 +43,11 @@ class Admin_IndexController extends BaseController {
     }
 
     public function loginAction() {
+        // Kontrola, zda už uživatel není přihlášen
+        if (Zend_Auth::getInstance()->hasIdentity()) {
+            Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoRouteAndExit(array(), "eventList");
+        }
+        
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:login');
         
         // Formulář
@@ -53,7 +58,7 @@ class Admin_IndexController extends BaseController {
     public function logoutAction() {
         Zend_Auth::getInstance()->clearIdentity();
 
-        $this->_helper->redirector->gotoRouteAndExit(array(), "adminLogin");
+        $this->_helper->redirector->gotoRouteAndExit(array(), "userLogin");
     }
     
     public function editAction() {

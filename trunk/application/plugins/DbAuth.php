@@ -54,9 +54,9 @@ class Application_Plugin_DbAuth extends PluginController {
 
         // Logout
         $logoutRequest = $request->getParam("logout");
-        if (isset($logoutRequest)) { // detekovano odhlaseni
+        if (isset($logoutRequest)) {
             $auth->clearIdentity();
-            $this->redirector->gotoSimpleAndExit($this->failedAction, $this->failedController);
+            $this->redirector->gotoRouteAndExit(array(), $this->failRoute);
         }
 
         // Login

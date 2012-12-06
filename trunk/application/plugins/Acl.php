@@ -52,7 +52,7 @@ class Application_Plugin_Acl extends PluginController {
 
 
             $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
-            $redirector->gotoRouteAndExit(array(), "adminLogin");
+            $redirector->gotoRouteAndExit(array(), "userLogin");
         }
     }
 
