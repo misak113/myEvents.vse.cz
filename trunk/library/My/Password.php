@@ -16,11 +16,12 @@ class My_Password {
         $parameters = func_get_args();
 
         if (func_num_args() == 0) { // Generate random
-            $this->salt = strToLower($this->generateRandom(7));
+            $this->salt = strtolower($this->generateRandom(7));
             $this->nonHashForm = $this->generateRandom(self::$MIN_LENGTH + 2);
         } else { // Create from non-hash password
-            $nonHashForm = (int) $parameters[0];
-            if (strLen($nonHashForm) < self::$MIN_LENGTH) {
+            $nonHashForm = $parameters[0];
+
+            if (strlen($nonHashForm) < self::$MIN_LENGTH) {
                 throw new Zend_Exception("Password is too short");
             }
 

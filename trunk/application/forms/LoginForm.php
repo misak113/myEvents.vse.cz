@@ -24,6 +24,7 @@ class LoginForm extends Zend_Form {
         $password->setLabel('Heslo');
         $password->addFilter('StringTrim');
         $password->setRequired(true);
+        $password->addValidator('StringLength', false, array(5));
         $this->addElement($password);
         
         // Submit

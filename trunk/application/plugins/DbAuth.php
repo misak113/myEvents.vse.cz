@@ -11,6 +11,7 @@ use Zette\Services\PluginController;
 class Application_Plugin_DbAuth extends PluginController {
 
     private $options;
+    private $redirector;
 
     /**
      * Metoda vrátí konkrétní hodnotu z konfigurace
@@ -48,27 +49,25 @@ class Application_Plugin_DbAuth extends PluginController {
      * @param Zend_Controller_Request_Abstract $request
      */
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        // ziskame instanci redirector helperu, ktery ma starosti presmerovani
-        $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
-
+        $this->redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
         $auth = Zend_Auth::getInstance();
-        // Stav o autentifikaci uzivatele (prihlaseni) se musi nekde udrzovat, vychozi zpusob je session
-        // u session lze nastavit namespace, vychozi je Zend_Auth
-        //$auth->setStorage(new Zend_Auth_Storage_Session('My_Auth'));
 
+        // Logout
         $logoutRequest = $request->getParam("logout");
         if (isset($logoutRequest)) { // detekovano odhlaseni
             $auth->clearIdentity();
-
-            // kvuli bezpecnosti provedeme presmerovani
-            $redirector->gotoSimpleAndExit($this->failedAction, $this->failedController);
+            $this->redirector->gotoSimpleAndExit($this->failedAction, $this->failedController);
         }
 
+        // Login
         $loginRequest = $request->getPost("login");
         if (isset($loginRequest)) {
-            // Validace (základní verze dokud se mi nepodaří rozchodit validaci přímo z formuláře)
-            $email = $request->getPost($this->loginField);
-            if (empty($email) || strLen($request->getPost($this->passwordField)) < My_Password::$MIN_LENGTH) {
+            // Data formuláře
+            $loginForm = new LoginForm();
+            $loginForm->isValid($_POST);
+            $loginData = $loginForm->getValues();
+            
+            if (!$loginForm->isValid($_POST)) {
                 $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
                 $flash->clearMessages();
                 $flash->addMessage("Některý z přihlašovacích údajů bych zadán chybně");
@@ -77,22 +76,26 @@ class Application_Plugin_DbAuth extends PluginController {
 
                 // Zpracování hesla
                 $authenticateTable = new app\models\authentication\AuthenticateTable();
-                $user = $authenticateTable->fetchRow($this->identityColumn . " = '" . $request->getPost($this->loginField) . "'");
+                $userAuth = $authenticateTable->fetchRow($authenticateTable->select()->where($this->identityColumn . " = ?", $loginData[$this->loginField]));
+                
+                // Kontrola existence autentifikace
+                if ($userAuth == null) {
+                    $this->failLogin();
+                    return;
+                }
 
-                $password = new My_Password($request->getPost($this->passwordField));
-                $password->setSalt(My_Password::extractSalt($user->getVerification()));
+                $password = new My_Password($loginData[$this->passwordField]);
+                $password->setSalt(My_Password::extractSalt($userAuth->getVerification()));
 
                 // Nastavení adaptéru
                 $adapter = new Zend_Auth_Adapter_DbTable($db, $this->tableName, $this->identityColumn, $this->credentialColumn);
-                $adapter->setIdentity($request->getPost($this->loginField));
+                $adapter->setIdentity($loginData[$this->loginField]);
                 $adapter->setCredential($password->getDHash());
-                $adapter->getDbSelect()->where("active = 1 AND authenticate_provides_id = 1");
+                $adapter->getDbSelect()->where("active = 1 AND (authenticate_provides_id = 1 OR authenticate_provides_id = 2)");
                 
                 $auth->authenticate($adapter);
 				
                 $userInfo = $adapter->getResultRowObject();
-                
-                // $userInfo = $adapter->getResultRowObject();
 
                 // Finish
                 if ($auth->hasIdentity()) { // Uživatel byl úspěšně ověřen a je přihlášen
@@ -103,10 +106,6 @@ class Application_Plugin_DbAuth extends PluginController {
                         'last_login_date' => new Zend_Db_Expr('NOW()'),
                             ), "user_id = '" . $adapter->getResultRowObject()->user_id . "'"
                     );
-
-                    
-                    // get all info about this user from the login table
-                    // ommit only the password, we don't need that
                      
                     
                     // the default storage is a session with namespace Zend_Auth
@@ -115,16 +114,19 @@ class Application_Plugin_DbAuth extends PluginController {
                     
                     
                     // Přesměrování
-                    $redirector->gotoRouteAndExit(array(), $this->successRoute);
+                    $this->redirector->gotoRouteAndExit(array(), $this->successRoute);
                 } else { // Neúspěšné přihlášení
-                    $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
-                    $flash->clearMessages();
-                    $flash->addMessage("Byly zadány špatné přihlašovací údaje");
-
-                    $redirector->gotoRouteAndExit(array(), $this->failRoute);
+                    $this->failLogin();
                 }
             }
         }
     }
 
+    private function failLogin() {
+        $flash = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');
+        $flash->clearMessages();
+        $flash->addMessage("Byly zadány špatné přihlašovací údaje");
+
+        $this->redirector->gotoRouteAndExit(array(), $this->failRoute);
+    }
 }
