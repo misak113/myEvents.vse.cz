@@ -10,3 +10,8 @@
 function _dBar($var, $title = null) {
 	return \Nette\Diagnostics\Debugger::barDump($var, $title);
 }
+
+function _de($var) {
+	dump($var);
+	die();
+}
