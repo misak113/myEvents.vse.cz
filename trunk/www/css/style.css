@@ -585,7 +585,7 @@ table.actionform th label {
 .detailAct td, .detailAct th {padding: 7px 0;   font-size: 14px;}
 
 #shortinfo {width: 400px; height: 100px;}
-#longinfo {width: 400px; height: 100px;}
+#longinfo {width: 400px; height: 200px;}
 
 
 @media (max-width: 450px) {
