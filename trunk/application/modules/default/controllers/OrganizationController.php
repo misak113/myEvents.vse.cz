@@ -41,7 +41,7 @@ class OrganizationController extends BaseController {
                 
                 
                 $this->template->organization = $organizationRow;
-                $this->template->events = $organizationRow->getEvents();
+               // $this->template->events = $organizationRow->getEvents();
 	}
 
 	/**
