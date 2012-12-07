@@ -491,7 +491,7 @@ th {text-align: left; }
 }
 
 
-.item:hover .action, .item.curr.action {display: block;}
+.item:hover .action, .item.curr .action {display: block;}
 
 
 
