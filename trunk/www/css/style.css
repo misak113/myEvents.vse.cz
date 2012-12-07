@@ -491,8 +491,8 @@ th {text-align: left; }
 }
 
 
-.item:hover .action.normal {display: block;}
-.item.curr:hover .action.normal {display: none;}
+.item:hover .action, .item.curr.action {display: block;}
+
 
 
 .row-fluid.item {
