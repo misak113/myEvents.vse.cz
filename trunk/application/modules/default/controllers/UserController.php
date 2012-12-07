@@ -85,7 +85,7 @@ class UserController extends BaseController {
                 $text .= "Váš účet je ještě třeba aktivovat. Aktivaci provedete kliknutím na odkaz, který je přiložený níže. Pokud Vám na odkaz nejde kliknout, překopírujte ho do adresního řádku svého webového prohlížeče.\n\n";
                 $text .= "Přihlašovací e-mail: " . $auth->identity . "\n";
                 $text .= "Heslo: " . $formValues["password1"] . "\n";
-                $text .= "Aktivační odkaz: http://" . $_SERVER['SERVER_NAME'] . "/activate/" . $auth->authenticate_id . "/" . substr($auth->verification, 0, 10) . "\n\n";
+                $text .= "Aktivační odkaz: http://" . $_SERVER['SERVER_NAME'] . "/aktivace/" . $auth->authenticate_id . "/" . substr($auth->verification, 0, 10) . "\n\n";
                 $text .= "Doufáme, že se Vám bude na portálu MyEvents líbit a že pro vás bude užitečným :).";
 
                 $mail = new Zend_Mail("utf-8");
@@ -115,7 +115,7 @@ class UserController extends BaseController {
         //Provedení aktivace
         $select = $this->authenticateTable->select();
         $select->where("authenticate_id = ?", $id);
-        $select->where("SUBSTR(verification, 0, 10) = ?", $password);
+        $select->where("SUBSTR(verification, 1, 10) = ?", $password);
         $auth = $this->authenticateTable->fetchRow($select);
 
         if ($auth != null) { // OK
