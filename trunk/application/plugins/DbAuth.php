@@ -137,7 +137,7 @@ class Application_Plugin_DbAuth extends PluginController
 		$this->authTable->setIdentity($loginData[$this->loginField]);
 		$this->authTable->setCredential($password->getDHash());
 		$this->authTable->getDbSelect()
-				->where("active = 1 AND authenticate_provides_id IN (?)",
+				->where("authenticate_provides_id IN (?)",
 			array(self::AUTHENTICATE_PROVIDE_EMAIL, self::AUTHENTICATE_PROVIDE_USER)
 		);
 
@@ -149,6 +149,12 @@ class Application_Plugin_DbAuth extends PluginController
 		$userInfo = $this->authTable->getResultRowObject();
 		// Kvůli bezpečnosti smažem heslo
 		$userInfo->{$this->credentialColumn} = null;
+                
+                // Uživatel nemá aktivní účet
+                if (!$userInfo->active) {
+                    $this->flashMessage("Váš účet není aktivní.", self::FLASH_ERROR);
+                    $this->_helper->redirector->gotoRouteAndExit(array(), "eventList");
+                }
 
 		// Finish
 		if ($this->user->isLoggedIn()) { // Neúspěšné přihlášení
