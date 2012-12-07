@@ -7,7 +7,7 @@
  */
 class My_Password {
 
-    public static $MIN_LENGTH = 5; // Minimální délka hesla (nesmí být menší jak 3)
+    const MIN_LENGTH = 5; // Minimální délka hesla (nesmí být menší jak 3)
     private $nonHashForm;
     private $finalHash;
     private $salt;
@@ -17,11 +17,11 @@ class My_Password {
 
         if (func_num_args() == 0) { // Generate random
             $this->salt = strtolower($this->generateRandom(7));
-            $this->nonHashForm = $this->generateRandom(self::$MIN_LENGTH + 2);
+            $this->nonHashForm = $this->generateRandom(self::MIN_LENGTH + 2);
         } else { // Create from non-hash password
             $nonHashForm = $parameters[0];
 
-            if (strlen($nonHashForm) < self::$MIN_LENGTH) {
+            if (strlen($nonHashForm) < self::MIN_LENGTH) {
                 throw new Zend_Exception("Password is too short");
             }
 
@@ -84,9 +84,9 @@ class My_Password {
     }
 
     private function createFinalHash() {
-        $string = subStr($this->nonHashForm, 0, self::$MIN_LENGTH - 3);
+        $string = subStr($this->nonHashForm, 0, self::MIN_LENGTH - 3);
         $string .= $this->salt;
-        $string .= subStr($this->nonHashForm, self::$MIN_LENGTH - 2);
+        $string .= subStr($this->nonHashForm, self::MIN_LENGTH - 2);
 
         $basicHash = hash("sha256", $string);
         $this->finalHash = hash("sha256", subStr($basicHash, 0, 9) . $this->salt . subStr($basicHash, 10));
