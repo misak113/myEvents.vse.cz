@@ -471,6 +471,8 @@ input.btn {
 	text-decoration: none;
 }
 
+.item .detail-btn.closed { padding: 5px 6px }
+
 .item td {
 	font-size: 13px;
 	color: #2A2A2A;
