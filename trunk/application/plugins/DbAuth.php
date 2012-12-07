@@ -153,7 +153,7 @@ class Application_Plugin_DbAuth extends PluginController
                 // Uživatel nemá aktivní účet
                 if (!$userInfo->active) {
                     $this->flashMessage("Váš účet není aktivní.", self::FLASH_ERROR);
-                    $this->_helper->redirector->gotoRouteAndExit(array(), "eventList");
+                    $this->redirect("eventList");
                 }
 
 		// Finish
