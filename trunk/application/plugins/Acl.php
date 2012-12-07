@@ -24,7 +24,15 @@ class Application_Plugin_Acl extends PluginController {
         $role = 'guest';
 
         if ($this->user->isLoggedIn()) { // @todo
-            $role = 'admin';
+            $highestLevel = 0;
+
+            $user = My_Model::get("app\models\authentication\UserTable")->fetchRow("user_id = " . Zend_Auth::getInstance()->getStorage()->getIdentity()->user->user_id);
+            foreach ($user->getRoles() as $userRole) {
+                if ($userRole->level > $highestLevel) {
+                    $role = $userRole->uri_code;
+                    $highestLevel = $userRole->level;
+                }
+            }
         }
 
         $controller = $request->getControllerName();
@@ -52,7 +60,7 @@ class Application_Plugin_Acl extends PluginController {
 
 
             $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
-            $redirector->gotoRouteAndExit(array(), "userLogin");
+            $redirector->gotoRouteAndExit(array(), $this->user->isLoggedIn() ? "eventList" : "userLogin");
         }
     }
 

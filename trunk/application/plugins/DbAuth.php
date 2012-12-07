@@ -105,7 +105,7 @@ class Application_Plugin_DbAuth extends PluginController
 	public function handleLogout()
 	{
 		$this->auth->clearIdentity();
-		$this->redirect($this->failRoute);
+		$this->redirect("userLogin");
 	}
 
 	public function handleLogin()
@@ -171,7 +171,7 @@ class Application_Plugin_DbAuth extends PluginController
 			), "user_id = '" . $userInfo->user_id . "'"
 		);
 
-		$userInfo->user = $this->userTable->getById($userInfo->user_id)->toArray();
+		$userInfo->user = $this->userTable->getById($userInfo->user_id);
 
 		// the default storage is a session with namespace Zend_Auth
 		/** @var \Zette\Security\UserStorage $authStorage  */
@@ -181,8 +181,16 @@ class Application_Plugin_DbAuth extends PluginController
 		$authStorage->setAuthenticated(true);
 
 
-		// Přesměrování
-		$this->redirect($this->successRoute);
+		// Přesměrování podle role
+                $roles = $userInfo->user->getRoles();
+                foreach ($roles as $role) {
+                    if (in_array($role->uri_code, array("orgAdmin", "sysAdmin"))) {
+                        $this->redirect("adminIndex"); // Přesměrovat na administrac
+                        return;
+                    }
+                }
+                
+		$this->redirect("eventList"); // Přesměrovat na přehled událostí
 
 	}
 
@@ -205,6 +213,6 @@ class Application_Plugin_DbAuth extends PluginController
 	protected function failLogin()
 	{
 		$this->flashMessage("Byly zadány špatné přihlašovací údaje", self::FLASH_ERROR);
-		$this->redirect($this->failRoute);
+		$this->redirect("userLogin");
 	}
 }

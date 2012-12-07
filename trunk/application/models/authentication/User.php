@@ -17,6 +17,10 @@ class User extends Row
 		return $this->findManyToManyRowset('app\models\organizations\OrganizationTable', 'app\models\organizations\OrganizationHasUserTable');
 	
 	}
+        
+        public function getRoles() {
+            return $this->findManyToManyRowset('app\models\authorization\RoleTable', 'app\models\authorization\UserHasRoleTable');
+        }
 }
 
 ?>

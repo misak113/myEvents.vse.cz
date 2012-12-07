@@ -220,6 +220,7 @@ CREATE  TABLE IF NOT EXISTS `myevents`.`role` (
   `name` VARCHAR(45) NOT NULL ,
   `uri_code` VARCHAR(45) NOT NULL ,
   `description` TEXT NULL ,
+  `level` INT NULL ,
   PRIMARY KEY (`role_id`) ,
   UNIQUE INDEX `uri_code_UNIQUE` (`uri_code` ASC) )
 ENGINE = InnoDB;
@@ -311,6 +312,38 @@ CREATE  TABLE IF NOT EXISTS `myevents`.`user_has_role` (
   CONSTRAINT `fk_user_has_role_role1`
     FOREIGN KEY (`role_id` )
     REFERENCES `myevents`.`role` (`role_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `myevents`.`tag`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `myevents`.`tag` (
+  `tag_id` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NULL ,
+  PRIMARY KEY (`tag_id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `myevents`.`event_has_tag`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `myevents`.`event_has_tag` (
+  `tag_id` INT NOT NULL ,
+  `event_id` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`tag_id`, `event_id`) ,
+  INDEX `fk_tag_has_event_event1_idx` (`event_id` ASC) ,
+  INDEX `fk_tag_has_event_tag1_idx` (`tag_id` ASC) ,
+  CONSTRAINT `fk_tag_has_event_tag1`
+    FOREIGN KEY (`tag_id` )
+    REFERENCES `myevents`.`tag` (`tag_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tag_has_event_event1`
+    FOREIGN KEY (`event_id` )
+    REFERENCES `myevents`.`event` (`event_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

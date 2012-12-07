@@ -61,9 +61,15 @@ VALUES
 
 DELETE FROM `role`;
 INSERT INTO `role`
-(`role_id`, `name`, `uri_code`, `description`)
-VALUES (1, 'Správce stud. org.', 'orgAdmin', 'Člen studentské organizace s oprávněním')
-,(2, 'Administrátor', 'sysAdmin', 'Administrátor systému');
+(`role_id`, `name`, `uri_code`, `description`, `level`)
+VALUES (1, 'Správce stud. org.', 'orgAdmin', 'Člen studentské organizace s oprávněním', 50)
+,(2, 'Administrátor', 'sysAdmin', 'Administrátor systému', 100);
+
+DELETE FROM `user_has_role`;
+INSERT INTO `user_has_role`
+(`user_id`, `role_id`)
+VALUES (1, 2)
+,(2, 2);
 
 
 DELETE FROM `authenticate_provides`;
