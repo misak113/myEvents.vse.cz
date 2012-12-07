@@ -41,25 +41,6 @@ class Admin_IndexController extends BaseController {
         $this->tagTable = $tagTable;
      
     }
-
-    public function loginAction() {
-        // Kontrola, zda už uživatel není přihlášen
-        if ($this->user->isLoggedIn()) {
-            Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoRouteAndExit(array(), "eventList");
-        }
-        
-        $this->template->title = $this->titleLoader->getTitle('Admin:Index:login');
-        
-        // Formulář
-        $form = new LoginForm();
-        $this->view->loginForm = $form;
-    }
-    
-    public function logoutAction() {
-        Zend_Auth::getInstance()->clearIdentity();
-
-        $this->_helper->redirector->gotoRouteAndExit(array(), "userLogin");
-    }
     
     public function editAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:new');
