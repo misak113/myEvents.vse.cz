@@ -36,6 +36,10 @@ class ZetteExtension extends CompilerExtension
 				->setClass('Zette\Diagnostics\TimerPanel')
 				->addSetup('\Nette\Diagnostics\Debugger::$bar->addPanel($service);?', array('')) // @todo proč nejde normálně bez ?
 				->addTag('run');
+		$container->getDefinition('user')
+				->addSetup('Nette\Diagnostics\Debugger::$bar->addPanel(?)', array(
+					new \Nette\DI\Statement('Zette\Security\Diagnostics\UserPanel')
+				));
 
 	}
 

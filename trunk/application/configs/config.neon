@@ -14,25 +14,6 @@ common:
 			password:
 			dbname: myevents
 
-	php:
-		date.timezone: Europe/Prague
-		# zlib.output_compression: yes
-
-
-	nette:
-		#application:
-		#	errorPresenter: Error
-
-		session:
-			autoStart: false
-		#	expiration: 14 days
-
-		#database:
-		#	default:
-		#		dsn: 'mysql:host=localhost;dbname=myevents'
-		#		user: root
-		#		password: misak
-
 
 	services:
 		# Default services
@@ -56,9 +37,6 @@ common:
 
 
 	factories:
-
-#	includes:
-#		- config.local.neon
 
 
 production < common: # myevents.vse.cz
