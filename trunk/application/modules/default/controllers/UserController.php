@@ -29,9 +29,6 @@ class UserController extends BaseController {
     }
 
     public function loginAction() {
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        
         // Kontrola, zda už uživatel není přihlášen
         if ($this->user->isLoggedIn()) {
             Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoRouteAndExit(array(), "eventList");
@@ -45,6 +42,9 @@ class UserController extends BaseController {
     }
     
     public function logoutAction() {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        
         Zend_Auth::getInstance()->clearIdentity();
 
         $this->_helper->redirector->gotoRouteAndExit(array(), "userLogin");
