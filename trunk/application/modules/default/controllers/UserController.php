@@ -68,6 +68,8 @@ class UserController extends BaseController {
                 $user->email = $formValues["email"];
                 $user->first_name = $formValues["name"];
                 $user->last_name = $formValues["surname"];
+				$user->last_login_date = new Zend_Db_Expr("NOW()");
+				$user->last_login_ip = $this->getRequest()->getServer('REMOTE_ADDR');
                 $user->save();
 
                 // Uložit záznam do tabulky authenticate
@@ -76,7 +78,8 @@ class UserController extends BaseController {
                 $auth->identity = $user->email;
                 $auth->verification = $password->getDHash();
                 $auth->user_id = $user->user_id;
-                $auth->authenticate_provides_id = 1;
+                $auth->authenticate_provides_id = Application_Plugin_DbAuth::AUTHENTICATE_PROVIDE_EMAIL;
+				$auth->active = 0;
                 $auth->save();
 
                 // Aktivační e-mail

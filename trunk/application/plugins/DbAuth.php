@@ -154,7 +154,7 @@ class Application_Plugin_DbAuth extends PluginController
                 // Uživatel nemá aktivní účet
                 if (!$userInfo->active) {
                     $this->flashMessage("Váš účet není aktivní.", self::FLASH_ERROR);
-                    $this->redirect("eventList");
+					//$this->redirect("userLogin"); // @todo jak jsem říkal, nedával bych povinnost mít aktivní mail, jen ho omezit, aby si ho brzy ověřil, ale mohl dále pokračova na stránce
                 }
 
 		// Finish
@@ -177,7 +177,7 @@ class Application_Plugin_DbAuth extends PluginController
 		// the default storage is a session with namespace Zend_Auth
 		/** @var \Zette\Security\UserStorage $authStorage  */
 		$authStorage = $this->auth->getStorage();
-		$identity = new \Nette\Security\Identity($userInfo->user_id, $userInfo->user->getRoles()->toArray(), $userInfo); //@todo set Acl roles
+		$identity = new \Nette\Security\Identity($userInfo->user_id, $userInfo->user->getRoles()->toArray(), $userInfo);
 		$authStorage->setIdentity($identity);
 		$authStorage->setAuthenticated(true);
 
