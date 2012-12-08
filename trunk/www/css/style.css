@@ -42,7 +42,7 @@ h1 {
 	vertical-align: middle;
 }
 
-input[type='text'], input[type='date'] {
+input[type='text'], input[type='date'], input[type='url'] {
 	padding: 5px;
 	height: 33px;
 }
@@ -584,11 +584,13 @@ table.actionform th label {
 .detailAct { border-bottom: 1px solid #999; padding-bottom: 10px; }
 .detailAct p{margin: 0; font-size: 14px;}
 .detailAct p.perex {margin:0 0 10px}
-.detailAct td, .detailAct th {padding: 7px 0;   font-size: 14px;}
+.detailAct td, .detailAct th {padding: 7px 5px;   font-size: 14px;}
 
 #shortinfo {width: 400px; height: 100px;}
 #longinfo {width: 400px; height: 200px;}
 
+#info { width: 400px; height: 200px; }
+a.edit-org { margin-right: 20px; }
 
 @media (max-width: 450px) {
 	#footer {

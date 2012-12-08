@@ -20,6 +20,7 @@ class TitleLoader
 		'Event:detail' => 'Podrobnosti akce',
                 'Organization:detail' => 'Podrobnosti organizace',
 		'Landing:Index:index' => 'myEvents VŠE - studentské akce pro studenty',
+                'Admin:Index:information' => 'Úprava informací o organizaci'
 	);
 
 	/**
