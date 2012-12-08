@@ -1,0 +1,2 @@
+ALTER TABLE `event` 
+ADD `capacity` INT( 10 ) UNSIGNED NULL DEFAULT NULL AFTER `longinfo` 
