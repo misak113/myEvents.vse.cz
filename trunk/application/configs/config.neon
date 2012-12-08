@@ -17,6 +17,8 @@ common:
 
 	services:
 		# Default services
+		user:
+			class: app\services\User
 		titleLoader:
 			class: app\services\TitleLoader
 			tags: [inject]
@@ -34,6 +36,7 @@ common:
 		organizationOwnEventTable: app\models\organizations\OrganizationOwnEventTable
 		userTable: app\models\authentication\UserTable
 		authenticateTable: app\models\authentication\AuthenticateTable
+		roleTable: app\models\authorization\RoleTable
 
 
 	factories:

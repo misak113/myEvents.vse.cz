@@ -1,6 +1,7 @@
 <?php
 
 use Zette\Services\PluginController;
+use app\models\authentication\UserTable;
 
 /**
  * Plugin resi autorizaci uzivatele
@@ -9,6 +10,13 @@ use Zette\Services\PluginController;
  * do messengeru je pridana chybova hlaska
  */
 class Application_Plugin_Acl extends PluginController {
+
+	/** @var UserTable @inject */
+	protected $userTable;
+
+	public function injectUserTable(UserTable $userTable) {
+		$this->userTable = $userTable;
+	}
 
     /**
      *
@@ -26,11 +34,11 @@ class Application_Plugin_Acl extends PluginController {
         if ($this->user->isLoggedIn()) { // @todo
             $highestLevel = 0;
 
-            $user = My_Model::get("app\models\authentication\UserTable")->fetchRow("user_id = " . Zend_Auth::getInstance()->getStorage()->getIdentity()->user->user_id);
-            foreach ($user->getRoles() as $userRole) {
-                if ($userRole->level > $highestLevel) {
-                    $role = $userRole->uri_code;
-                    $highestLevel = $userRole->level;
+            foreach ($this->user->getRoles() as $userRole) {
+				if (!$userRole) continue;
+                if ($userRole['level'] > $highestLevel) {
+                    $role = $userRole['uri_code'];
+                    $highestLevel = $userRole['level'];
                 }
             }
         }

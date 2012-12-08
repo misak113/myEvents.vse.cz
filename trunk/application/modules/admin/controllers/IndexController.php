@@ -2,6 +2,7 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
+use app\models\authentication\UserTable;
 
 
  
@@ -23,7 +24,8 @@ class Admin_IndexController extends BaseController {
     protected $categoryTable;
     /** @var CategoryTable */
     protected $tagTable;
-    
+    /** @var \app\models\authentication\UserTable */
+	protected $userTable;
   
     
     /**
@@ -32,13 +34,15 @@ class Admin_IndexController extends BaseController {
     public function setContext(TitleLoader $titleLoader, 
     		app\models\events\EventTable $eventTable,
     		app\models\events\CategoryTable $categoryTable,
-    		app\models\events\TagTable $tagTable
+    		app\models\events\TagTable $tagTable,
+			UserTable $userTable
     		) {
     	
         $this->titleLoader = $titleLoader;
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
         $this->tagTable = $tagTable;
+		$this->userTable = $userTable;
      
     }
     
@@ -72,7 +76,7 @@ class Admin_IndexController extends BaseController {
 					$record = $this->eventTable->createRow();
 				}
 				
-				$userTable = new app\models\authentication\UserTable();
+				$userTable = $this->userTable;
 				$organizations = $userTable->getById(Zend_Auth::getInstance()->getIdentity()->user_id)->getOrganizations();
 				
 				$formValues["organization_id"] = $organizations[0]->organization_id;

@@ -21,6 +21,26 @@ class RoleTable extends Table
 	protected $_rowClass = 'app\models\authorization\Role';
 
 
+	/**
+	 * Vrátí roli podle uri_code a pokud neexistuje tak ji vytvoří
+	 * @param string $role uri_code dané role
+	 * @return Role
+	 */
+	public function getOrCreateRole($roleUriCode) {
+		$role = $this->fetchRow(array('uri_code = ?' => $roleUriCode));
+		if (!$role) {
+			$roleData = array(
+				'name' => $roleUriCode,
+				'uri_code' => $roleUriCode,
+				'level' => 0,
+			);
+			$role = $this->createRow($roleData);
+		}
+		$role->save();
+
+		return $role;
+	}
+
 }
 
 ?>

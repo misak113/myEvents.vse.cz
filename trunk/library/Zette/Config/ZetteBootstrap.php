@@ -100,7 +100,6 @@ class ZetteBootstrap extends \Zend_Application_Bootstrap_Bootstrap
 	}
 
 
-
 	/**
 	 * Get class resources (as resource/method pairs)
 	 *

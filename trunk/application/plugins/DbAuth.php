@@ -146,6 +146,7 @@ class Application_Plugin_DbAuth extends PluginController
 			$this->failLogin();
 		}
 
+		/** @var stdClass $userInfo  */
 		$userInfo = $this->authTable->getResultRowObject();
 		// Kvůli bezpečnosti smažem heslo
 		$userInfo->{$this->credentialColumn} = null;
@@ -176,7 +177,7 @@ class Application_Plugin_DbAuth extends PluginController
 		// the default storage is a session with namespace Zend_Auth
 		/** @var \Zette\Security\UserStorage $authStorage  */
 		$authStorage = $this->auth->getStorage();
-		$identity = new \Nette\Security\Identity($userInfo->user_id, null, $userInfo); //@todo set Acl roles
+		$identity = new \Nette\Security\Identity($userInfo->user_id, $userInfo->user->getRoles()->toArray(), $userInfo); //@todo set Acl roles
 		$authStorage->setIdentity($identity);
 		$authStorage->setAuthenticated(true);
 
