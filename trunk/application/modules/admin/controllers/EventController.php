@@ -13,7 +13,7 @@ use app\models\authentication\UserTable;
  * Time: 16:39
  * To change this template use File | Settings | File Templates.
  */
-class Admin_IndexController extends BaseController {
+class Admin_EventController extends BaseController {
     
     /** @var TitleLoader */
     protected $titleLoader;
