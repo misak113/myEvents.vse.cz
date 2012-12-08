@@ -45,7 +45,7 @@ class Admin_OrganizationController extends BaseController {
         
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:information');
         
-        $form = new OrganizationForm;
+        $form = new \OrganizationForm;
         
         $form->setAction($this->_helper->url->url());
         
