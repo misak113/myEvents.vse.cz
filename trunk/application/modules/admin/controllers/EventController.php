@@ -52,7 +52,26 @@ class Admin_EventController extends BaseController {
         
         $eventId = $this->_getParam('id');
         if(!empty($eventId)){
+            
+            $userId = $this->user->getId();
+            $user = $this->userTable->getById($userId);
+            $organizations = $user->getOrganizations();
+            $events = $organizations[0]->getEvents();
             $record = $this->eventTable->getById($eventId);
+            
+            if (!$record)
+                throw new Zend_Controller_Request_Exception('Event does not exist', 404);
+                
+            $myEvent = false;
+            foreach($events as $event) {
+                if ($event->event_id == $record->event_id) {
+                    $myEvent = true;
+                    break;
+                }
+            }
+            if (!$myEvent)
+                throw new Zend_Controller_Request_Exception('Not authorized for this event', 404);
+        
         }
         
         $form = new EventForm(array(
@@ -76,9 +95,7 @@ class Admin_EventController extends BaseController {
 					$record = $this->eventTable->createRow();
 				}
 				
-				$userTable = $this->userTable;
-				$organizations = $userTable->getById(Zend_Auth::getInstance()->getIdentity()->user_id)->getOrganizations();
-				
+			
 				$formValues["organization_id"] = $organizations[0]->organization_id;
 				
                 $record->updateFromArray($formValues);
@@ -90,7 +107,7 @@ class Admin_EventController extends BaseController {
                 $this->_helper->redirector->gotoRoute(
                    array(
                         'module' => 'admin',
-                        'controller' => 'index',
+                        'controller' => 'event',
                         'action' => 'index'
                     ),
                         'default',
@@ -125,9 +142,8 @@ class Admin_EventController extends BaseController {
         // $this->template->events = $this->eventTable->fetchAll();
 
         // Seženeme si jeho objekt a přes něj zjistíme, jakých organizací je členem
-        $userTable = new app\models\authentication\UserTable();
 		$userId = $this->user->getId();
-        $user = $userTable->getById($userId);
+        $user = $this->userTable->getById($userId);
         $organizations = $user->getOrganizations();
        
         // Pokud je uživatel členem nějaké organizace

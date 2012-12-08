@@ -43,7 +43,7 @@ class Admin_OrganizationController extends BaseController {
         else
             throw new Zend_Auth_Exception;
         
-        $this->template->title = $this->titleLoader->getTitle('Admin:Index:information');
+        $this->template->title = $this->titleLoader->getTitle('Admin:Organization:edit');
         
         $form = new \OrganizationForm;
         
@@ -63,7 +63,7 @@ class Admin_OrganizationController extends BaseController {
                 $this->_helper->redirector->gotoRoute(
                    array(
                         'module' => 'admin',
-                        'controller' => 'index',
+                        'controller' => 'event',
                         'action' => 'index'
                     ),
                         'default',
