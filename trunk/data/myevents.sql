@@ -50,8 +50,8 @@ CREATE  TABLE IF NOT EXISTS `myevents`.`user` (
   `email` VARCHAR(100) NOT NULL ,
   `first_name` VARCHAR(100) NULL ,
   `last_name` VARCHAR(100) NULL ,
-  `last_login_date` DATETIME NULL ,
-  `last_login_ip` VARCHAR(15) NULL ,
+  `last_login_date` DATETIME NOT NULL ,
+  `last_login_ip` VARCHAR(100) NOT NULL ,
   PRIMARY KEY (`user_id`) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) )
 ENGINE = InnoDB;
