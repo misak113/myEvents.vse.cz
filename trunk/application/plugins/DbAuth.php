@@ -178,15 +178,16 @@ class Application_Plugin_DbAuth extends PluginController {
                 ), "user_id = '" . $userInfo->user_id . "'"
         );
 
-        $userInfo->user = $this->userTable->getById($userInfo->user_id);
+        $user = $this->userTable->getById($userInfo->user_id);
 
         // the default storage is a session with namespace Zend_Auth
         /** @var \Zette\Security\UserStorage $authStorage  */
         $authStorage = $this->auth->getStorage();
 		$roles = array();
-		foreach ($userInfo->user->getRoles() as $role) {
+		foreach ($user->getRoles() as $role) {
 			$roles[] = $role->getUriCode();
 		}
+		$userInfo->user = $user->toArray();
         $identity = new \Nette\Security\Identity($userInfo->user_id, $roles, $userInfo);
         $authStorage->setIdentity($identity);
         $authStorage->setAuthenticated(true);
@@ -196,7 +197,7 @@ class Application_Plugin_DbAuth extends PluginController {
         $role = 'guest';
         $highestLevel = 0;
 
-        foreach ($userInfo->user->getRoles() as $userRole) {
+        foreach ($user->getRoles() as $userRole) {
             if (!$userRole) continue;
             if ($userRole['level'] > $highestLevel) {
                 $role = $userRole['uri_code'];

@@ -115,7 +115,9 @@ input[type='text'], input[type='date'], input[type='url'] {
 }
 
 .messages {
-	display: none;
+	display: block;
+	margin: 3px;
+	text-align: center;
 }
 
 .message {
