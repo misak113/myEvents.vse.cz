@@ -1,0 +1,40 @@
+
+<div id="admins-table">
+    <form method="post" action="{$actionUrl}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Jmeno</th>
+                    {foreach $organizations as $org}
+                        <th>{$org['name']}</th>
+                    {/foreach}
+                </tr>
+            </thead>
+
+            <tbody>
+                {foreach $users as $user}
+                    <tr>
+                        <td>
+                            {$user->getFullName()}
+                        </td>
+                        {foreach $organizations as $org}
+                            {var $orgId = $org['organization_id']}
+                            {var $userId = $user->user_id}
+                            <td>
+                                <input type="checkbox"  id="{$userId}_{$orgId}" name="{$userId}_{$orgId}"
+                                    {ifset $adminArray[$orgId]}
+                                        {if in_array($userId, $adminArray[$orgId])}
+                                             checked="checked"
+                                        {/if}
+                                    {/ifset}
+                                />
+                            </td>
+                        {/foreach}
+                    </tr>
+                {/foreach}
+            </tbody>
+
+        </table>
+        <input type="submit" value="Ulozit" />
+    </form>
+</div>
