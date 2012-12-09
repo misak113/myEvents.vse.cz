@@ -50,7 +50,7 @@ class Application_Plugin_Acl extends PluginController {
         $controller = $request->getControllerName();
         $action = $request->getActionName();
 
-		if ($module == 'default') return; // Frontend vždy povolen
+		if ($module == 'default') return; // @todo Frontend vždy povolen
 
         $resource = $controller;
         $privilege = $action ?$action :'index';
@@ -70,7 +70,12 @@ class Application_Plugin_Acl extends PluginController {
     }
 
 
+	/**
+	 * @todo zacachovat :)
+	 */
 	protected function initPermissions() {
+
+		// @todo přidat automatické vytváření resources a actions do databáze... (Controllery a akce)
 
 		$resources = $this->resourceTable->fetchAll();
 		foreach ($resources as $resource) {
@@ -81,6 +86,8 @@ class Application_Plugin_Acl extends PluginController {
 		foreach ($roles as $role) {
 			/** @var \app\models\authorization\Role $role */
 			$this->authorizator->addRole($role->getUriCode());
+
+			// přidá oprávnění
 			$resources = array();
 			foreach ($role->getResources() as $resource) {
 				$resources[] = $resource->getUriCode();
@@ -92,7 +99,7 @@ class Application_Plugin_Acl extends PluginController {
 			$this->authorizator->allow($role->getUriCode(), $resources, $privileges);
 		}
 
-		// sysAdmin má vše :)
+		// @todo sysAdmin má vše :)
 		$this->authorizator->allow('sysAdmin', Permission::ALL, Permission::ALL);
 
 
