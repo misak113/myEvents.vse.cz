@@ -19,8 +19,8 @@ class User extends NetteUser
 		$roleTable = $context->getService('roleTable');
 		$authenticatedRole = $roleTable->getOrCreateRole($this->authenticatedRole);
 		$guestRole = $roleTable->getOrCreateRole($this->guestRole);
-		$this->authenticatedRole = $authenticatedRole ?$authenticatedRole->toArray() :null;
-		$this->guestRole = $guestRole ?$guestRole->toArray() :null;
+		$this->authenticatedRole = $authenticatedRole ?$authenticatedRole->getUriCode() :null;
+		$this->guestRole = $guestRole ?$guestRole->getUriCode() :null;
 	}
 
 }
