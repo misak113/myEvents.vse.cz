@@ -13,7 +13,7 @@ class OrganizationController extends BaseController {
 	/** @var TitleLoader @inject */
 	protected $titleLoader;
         
-        /** @var \app\models\events\OrganizationTable @inject */
+        /** @var \app\models\organizations\OrganizationTable @inject */
 	protected $organizationTable;
 
 	/**

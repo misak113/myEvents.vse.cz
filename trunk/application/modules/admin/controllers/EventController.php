@@ -3,6 +3,7 @@
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
 use app\models\authentication\UserTable;
+use app\services\facebook\FbImportDispatcher;
 
 
  
@@ -26,6 +27,8 @@ class Admin_EventController extends BaseController {
     protected $tagTable;
     /** @var \app\models\authentication\UserTable */
 	protected $userTable;
+	/** @var \app\services\facebook\FbImportDispatcher */
+	protected $fbImportDispatcher;
   
     
     /**
@@ -35,7 +38,8 @@ class Admin_EventController extends BaseController {
     		app\models\events\EventTable $eventTable,
     		app\models\events\CategoryTable $categoryTable,
     		app\models\events\TagTable $tagTable,
-			UserTable $userTable
+			UserTable $userTable,
+			FbImportDispatcher $fbImportDispatcher
     		) {
     	
         $this->titleLoader = $titleLoader;
@@ -43,7 +47,7 @@ class Admin_EventController extends BaseController {
         $this->categoryTable = $categoryTable;
         $this->tagTable = $tagTable;
 		$this->userTable = $userTable;
-     
+		$this->fbImportDispatcher = $fbImportDispatcher;
     }
     
     public function editAction() {
@@ -160,4 +164,28 @@ class Admin_EventController extends BaseController {
         }
         
     }
+
+
+	public function fbImportAction() {
+		$this->template->title = $this->titleLoader->getTitle('Admin:Event:fbImport');
+
+		$userId = $this->user->getId();
+		$user = $this->userTable->getById($userId);
+		$organizations = $user->getOrganizations();
+		if (empty($organizations)) {
+			$this->flashMessage('Nejste správcem žádné z organizací', self::FLASH_ERROR);
+			$this->redirect('adminEvents');
+		}
+		$events = $this->fbImportDispatcher->importEventsByOrganization($organizations->current());
+
+		if (!$events) {
+			$this->flashMessage('Při importování FB akcí došlo k chybě', self::FLASH_ERROR);
+			$this->redirect('adminEvents');
+		}
+
+		$this->flashMessage('Bylo přidáno '.count($events).' z Facebooku.');
+		$this->redirect('adminEvents');
+	}
+
+	//public function redirect($url, array $prm = array()) {}
 }

@@ -19,3 +19,6 @@ nette:
 
 	security:
 		debugger: false
+
+services:
+	authorizator: Nette\Security\Permission

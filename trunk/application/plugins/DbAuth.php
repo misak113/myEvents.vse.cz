@@ -177,7 +177,11 @@ class Application_Plugin_DbAuth extends PluginController {
         // the default storage is a session with namespace Zend_Auth
         /** @var \Zette\Security\UserStorage $authStorage  */
         $authStorage = $this->auth->getStorage();
-        $identity = new \Nette\Security\Identity($userInfo->user_id, $userInfo->user->getRoles()->toArray(), $userInfo);
+		$roles = array();
+		foreach ($userInfo->user->getRoles() as $role) {
+			$roles[] = $role->getUriCode();
+		}
+        $identity = new \Nette\Security\Identity($userInfo->user_id, $roles, $userInfo);
         $authStorage->setIdentity($identity);
         $authStorage->setAuthenticated(true);
 

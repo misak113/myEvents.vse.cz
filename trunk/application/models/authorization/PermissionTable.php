@@ -28,7 +28,7 @@ class PermissionTable extends Table {
         'Privilege' => array(
            'columns' => array ('privilege_id'), 
            'refTableClass' => 'app\models\authorization\PrivilegeTable', 
-           'refColumns' => array ('privilige_id')
+           'refColumns' => array ('privilege_id')
         ), 
     	'Resource' => array(
     		'columns' => array ('resource_id'),

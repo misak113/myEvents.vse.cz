@@ -14,6 +14,10 @@ common:
 			password:
 			dbname: myevents
 
+		facebook:
+			appId: '301758016608577'
+			secret: '40b2b828dba9beaeedc204a90f8070cb'
+
 
 	services:
 		# Default services
@@ -24,6 +28,13 @@ common:
 			tags: [inject]
 		filterDispatcher:
 			class: app\components\Filter\FilterDispatcher
+			tags: [inject]
+		facebook:
+			class: app\services\Facebook\Facebook(%facebook%)
+			#setup:
+			#	- require_login()
+		fbImportDispatcher:
+			class: app\services\facebook\FbImportDispatcher
 			tags: [inject]
 
 		# Models
@@ -37,6 +48,7 @@ common:
 		userTable: app\models\authentication\UserTable
 		authenticateTable: app\models\authentication\AuthenticateTable
 		roleTable: app\models\authorization\RoleTable
+		resourceTable: app\models\authorization\ResourceTable
 
 
 	factories:
