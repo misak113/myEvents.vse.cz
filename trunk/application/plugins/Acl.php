@@ -6,6 +6,7 @@ use Nette\Security\IAuthorizator;
 use Nette\Security\Permission;
 use app\models\authorization\RoleTable;
 use app\models\authorization\ResourceTable;
+use app\models\authorization\PrivilegeTable;
 
 /**
  * Plugin resi autorizaci uzivatele
@@ -23,6 +24,8 @@ class Application_Plugin_Acl extends PluginController {
 	protected $roleTable;
 	/** @var \app\models\authorization\ResourceTable @inject */
 	protected $resourceTable;
+	/** @var \app\models\authorization\PrivilegeTable */
+	protected $privilegeTable;
 
 	public function injectUserTable(UserTable $userTable) {
 		$this->userTable = $userTable;
@@ -35,6 +38,9 @@ class Application_Plugin_Acl extends PluginController {
 	}
 	public function injectResourceTable(ResourceTable $resourceTable) {
 		$this->resourceTable = $resourceTable;
+	}
+	public function injectPrivilegeTable(PrivilegeTable $privilegeTable) {
+		$this->privilegeTable = $privilegeTable;
 	}
 
     /**
@@ -77,11 +83,35 @@ class Application_Plugin_Acl extends PluginController {
 
 		// @todo přidat automatické vytváření roles, resources a actions do databáze... (Controllery a akce)
 
+		// Vytvoření rolí v DB
+		$authenticatedRole = $this->roleTable->getOrCreateRole($this->user->authenticatedRole);
+		$guestRole = $this->roleTable->getOrCreateRole($this->user->guestRole);
+		$sysAdminRole = $this->roleTable->getOrCreateRole('sysAdmin');
+		$this->user->authenticatedRole = $authenticatedRole ?$authenticatedRole->getUriCode() :null;
+		$this->user->guestRole = $guestRole ?$guestRole->getUriCode() :null;
+
+
+		// Vytvoření resources a privileges
+		$resources = $this->findResources();
+		foreach ($resources as $resource) {
+			$this->resourceTable->getOrCreateResource($resource);
+		}
+		$privileges = $this->findPrivileges();
+		foreach ($privileges as $privilege) {
+			$this->privilegeTable->getOrCreatePrivilege($privilege);
+		}
+
+
+
+
+		// nacpán do Permission objektu resources
 		$resources = $this->resourceTable->fetchAll();
 		foreach ($resources as $resource) {
 			$this->authorizator->addResource($resource->getUriCode());
 		}
 
+
+		// Naspány role a k nim přidány permisions
 		$roles = $this->roleTable->fetchAll();
 		foreach ($roles as $role) {
 			/** @var \app\models\authorization\Role $role */
@@ -99,10 +129,22 @@ class Application_Plugin_Acl extends PluginController {
 			$this->authorizator->allow($role->getUriCode(), $resources, $privileges);
 		}
 
+
+
 		// @todo sysAdmin má vše :)
-		$this->authorizator->allow('sysAdmin', Permission::ALL, Permission::ALL);
+		$this->authorizator->allow($sysAdminRole->getUriCode(), Permission::ALL, Permission::ALL);
 
 
+	}
+
+	protected function findResources() {
+		$controllers = array('admin.event', 'admin.organization', 'admin.system', 'landing.index', 'error', 'index', 'user', 'event', 'organization');
+		return $controllers;
+	}
+
+	protected function findPrivileges() {
+		$actions = array('index', 'edit', 'about', 'contact', 'list', 'detail', 'register', 'login', 'logout', 'activate', 'admins', 'fb-import');
+		return $actions;
 	}
 
 }

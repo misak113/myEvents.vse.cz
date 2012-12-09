@@ -50,6 +50,7 @@ common:
 		roleTable: app\models\authorization\RoleTable
 		organizationHasUserTable: app\models\organizations\OrganizationHasUserTable
 		resourceTable: app\models\authorization\ResourceTable
+		privilegeTable: app\models\authorization\PrivilegeTable
 		authenticateProvidesTable: app\models\authentication\AuthenticateProvidesTable
 
 

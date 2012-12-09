@@ -13,15 +13,4 @@ use Nette\Security\User as NetteUser;
 class User extends NetteUser
 {
 
-	public function __construct(\Nette\Security\IUserStorage $storage, \Nette\DI\Container $context) {
-		parent::__construct($storage, $context);
-		/** @var \app\models\authorization\RoleTable $roleTable  */
-		$roleTable = $context->getService('roleTable');
-		$authenticatedRole = $roleTable->getOrCreateRole($this->authenticatedRole);
-		$guestRole = $roleTable->getOrCreateRole($this->guestRole);
-		$sysAdminRole = $roleTable->getOrCreateRole('sysAdmin');
-		$this->authenticatedRole = $authenticatedRole ?$authenticatedRole->getUriCode() :null;
-		$this->guestRole = $guestRole ?$guestRole->getUriCode() :null;
-	}
-
 }
