@@ -58,7 +58,7 @@ class Application_Plugin_Acl extends PluginController {
 
 		if ($module == 'default') return; // @todo Frontend vždy povolen
 
-        $resource = $controller;
+        $resource = ($module ?$module.'.' :'').($controller ?$controller :'index');
         $privilege = $action ?$action :'index';
 
 		try {
