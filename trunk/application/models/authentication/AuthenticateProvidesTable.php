@@ -27,10 +27,11 @@ class AuthenticateProvidesTable extends Table
 	 * @param string $description popis
 	 * @return AuthenticateProvides
 	 */
-	public function getOrCreateProvides($name, $description) {
+	public function getOrCreateProvides($id, $name, $description) {
 		$provides = $this->fetchRow(array('name = ?' => $name));
 		if (!$provides) {
 			$data = array(
+				'authenticate_provides_id' => $id,
 				'name' => $name,
 				'description' => $description,
 				'active' => 1,

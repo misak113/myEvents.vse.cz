@@ -231,8 +231,8 @@ class Application_Plugin_DbAuth extends PluginController {
 
 
 	protected function initAuthenticateProvides() {
-		$this->authenticateProvidesTable->getOrCreateProvides('email', 'Přihlášení pomocí emailu a hesla');
-		$this->authenticateProvidesTable->getOrCreateProvides('username', 'Přihlášení pomocí uživatelského jména a hesla');
+		$this->authenticateProvidesTable->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_EMAIL, 'email', 'Přihlášení pomocí emailu a hesla');
+		$this->authenticateProvidesTable->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_USER, 'username', 'Přihlášení pomocí uživatelského jména a hesla');
 
 	}
 
