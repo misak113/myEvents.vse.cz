@@ -19,7 +19,7 @@ use app\services\facebook\Facebook;
  */
 class FbImportDispatcher
 {
-	const ACCESS_TOKEN = 'AAAEScoNjWUEBAPHdByS0shkEac79ODCFZB3xrRVkCXZBe5vJr5QbljerBF5lkNHxbXRfIefUVYrOlq5wkA7SOUDZBDEgDN7XxO6UQLPp1JPXUdF7Hnd';
+	const ACCESS_TOKEN = 'AAACEdEose0cBAIGjO2FSGTiZB0pe4rxKpJJzkjy4OxvN5GVbjkfPgXaW4hCPIpeZBhRoqsZAUcFCkvlk7ZBbZB11QoycC98s83kB8o3gWe97vDUPmGZCkj';
 
 	const SOURCE_TYPE_FACEBOOK = 'facebook';
 	const DEFAULT_CATEGORY_ID = 1;

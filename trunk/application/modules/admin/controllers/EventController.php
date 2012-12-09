@@ -183,7 +183,7 @@ class Admin_EventController extends BaseController {
 		$events = $this->fbImportDispatcher->importEventsByOrganization($organizations->current());
 
 		if (!$events) {
-			$this->flashMessage('Při importování FB akcí došlo k chybě', self::FLASH_ERROR);
+			$this->flashMessage('Žádná akce nebyla importována', self::FLASH_ERROR);
 			$this->redirect('adminEvents');
 		}
 

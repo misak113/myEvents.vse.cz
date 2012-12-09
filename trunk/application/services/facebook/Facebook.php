@@ -28,10 +28,13 @@ class Facebook extends FacebookAbstract
 				'client_id' => $app_id,
 				'client_secret' => $app_secret,
 				'grant_type' => 'client_credentials',
+				'scope' => 'offline_access',
 			);
 			$response = $this->_oauthRequest($url, $params);
 
-			$accessToken = $response['access_token'];
+			$data = array();
+			parse_str($response, $data);
+			$accessToken = $data['access_token'];
 		}
 
 		$this->setAccessToken($accessToken);
