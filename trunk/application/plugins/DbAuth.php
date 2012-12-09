@@ -4,6 +4,7 @@ use Zette\Services\PluginController;
 use app\models\authentication\AuthenticateTable;
 use Nette\Security\IUserStorage;
 use app\models\authentication\UserTable;
+use app\models\authentication\AuthenticateProvidesTable;
 
 /**
  * Plugin zajistuje autentifikaci uzivatele a presmerovani
@@ -27,6 +28,8 @@ class Application_Plugin_DbAuth extends PluginController {
 
     /** @var \app\models\authentication\AuthenticateTable @inject */
     protected $authenticateTable;
+	/** @var \app\models\authentication\AuthenticateProvidesTable */
+	protected $authenticateProvidesTable;
 
     /** @var \Zend_Auth */
     protected $auth;
@@ -42,14 +45,15 @@ class Application_Plugin_DbAuth extends PluginController {
         $this->auth->setStorage($userStorage);
         $this->authTable = new Zend_Auth_Adapter_DbTable($this->connection, $this->tableName, $this->identityColumn, $this->credentialColumn);
     }
-
     public function injectAuthenticateTable(AuthenticateTable $authenticateTable) {
         $this->authenticateTable = $authenticateTable;
     }
-
     public function injectUserTable(UserTable $userTable) {
         $this->userTable = $userTable;
     }
+	public function injectAuthenticateProvidesTable(AuthenticateProvidesTable $authenticateProvidesTable) {
+		$this->authenticateProvidesTable = $authenticateProvidesTable;
+	}
 
     /**
      * Metoda vrátí konkrétní hodnotu z konfigurace
@@ -90,6 +94,8 @@ class Application_Plugin_DbAuth extends PluginController {
      * @param Zend_Controller_Request_Abstract $request
      */
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
+
+		$this->initAuthenticateProvides();
 
         // Logout
         $logoutRequest = $request->getParam("logout");
@@ -221,5 +227,13 @@ class Application_Plugin_DbAuth extends PluginController {
         $this->flashMessage("Byly zadány špatné přihlašovací údaje", self::FLASH_ERROR);
         $this->redirect("userLogin");
     }
+
+
+
+	protected function initAuthenticateProvides() {
+		$this->authenticateProvidesTable->getOrCreateProvides('email', 'Přihlášení pomocí emailu a hesla');
+		$this->authenticateProvidesTable->getOrCreateProvides('username', 'Přihlášení pomocí uživatelského jména a hesla');
+
+	}
 
 }

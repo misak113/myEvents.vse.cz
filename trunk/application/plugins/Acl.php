@@ -75,7 +75,7 @@ class Application_Plugin_Acl extends PluginController {
 	 */
 	protected function initPermissions() {
 
-		// @todo přidat automatické vytváření resources a actions do databáze... (Controllery a akce)
+		// @todo přidat automatické vytváření roles, resources a actions do databáze... (Controllery a akce)
 
 		$resources = $this->resourceTable->fetchAll();
 		foreach ($resources as $resource) {
