@@ -35,6 +35,7 @@ class UserHasRoleTable extends Table {
            'refColumns' => array ('role_id')
         ), 
     );
+    
 
 }
 	

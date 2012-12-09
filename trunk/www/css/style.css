@@ -592,6 +592,16 @@ table.actionform th label {
 #info { width: 400px; height: 200px; }
 a.edit-org { margin-right: 20px; }
 
+#admins-table {
+    overflow-x: auto;
+}
+
+#admins-table th, #admins-table td {
+    text-align: center;
+}
+
+
+
 @media (max-width: 450px) {
 	#footer {
 		padding: 0;

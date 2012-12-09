@@ -40,7 +40,8 @@ class RoleTable extends Table
 
 		return $role;
 	}
-
+        
+      
 }
 
 ?>

@@ -45,9 +45,10 @@ common:
 		tagTable: app\models\events\TagTable
 		eventHasSponsorTable: app\models\events\EventHasSponsorTable
 		organizationOwnEventTable: app\models\organizations\OrganizationOwnEventTable
-		userTable: app\models\authentication\UserTable
+		userTable: app\models\authentication\UserTable()
 		authenticateTable: app\models\authentication\AuthenticateTable
 		roleTable: app\models\authorization\RoleTable
+		organizationHasUserTable: app\models\organizations\OrganizationHasUserTable
 		resourceTable: app\models\authorization\ResourceTable
 
 

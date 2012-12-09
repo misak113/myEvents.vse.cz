@@ -2,9 +2,11 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
+use \app\models\organizations\OrganizationTable;
 
 
  
+
 /*
  * Created by JetBrains PhpStorm.
  * User: Michael
@@ -16,7 +18,15 @@ class Admin_SystemController extends BaseController {
     
     /** @var TitleLoader */
     protected $titleLoader;
-  
+    
+    /** @var Table_Abstract */
+    private $organizations;
+    
+    protected $organizationTable;
+    
+    protected $organizationHasUserTable;
+    
+    protected $roleTable;
     
     /**
      * @param TitleLoader $titleLoader 
@@ -27,5 +37,60 @@ class Admin_SystemController extends BaseController {
     
     public function indexAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:index');
+    }
+    
+    public function adminsAction() {
+        $this->template->title = $this->titleLoader->getTitle('Admin:Index:index');
+        $this->template->organizations = $this->organizationTable->getOrganizations();
+        
+        $role = $this->roleTable->getOrCreateRole($roleName = 'orgAdmin');
+        $this->template->users = $role->getUsers();
+
+        $this->template->actionUrl = $this->_helper->url->url();
+        
+        
+        if($this->_request->isPost()) {
+            $values = $this->_request->getPost();
+
+            $this->organizationHasUserTable->saveAdmins($values);
+        
+//            if( $form->isValid($this->_request->getPost()) ) {
+//                $formValues = $form->getValues();
+//                $this->template->formvalues = $formValues;
+                			
+               // $record->updateFromArray($formValues);
+                
+               
+                //TODO flashmessage zmeny ulozeny
+
+                
+                $this->_helper->redirector->gotoRoute(
+                   array(
+                        'module' => 'admin',
+                        'controller' => 'system',
+                        'action' => 'admins'
+                    ),
+                        'default',
+                        true
+                );
+            
+        } 
+        else {
+            $orgUsers = $this->organizationHasUserTable->getAdmins();
+            if($orgUsers){
+            	$adminArray = array();
+            	foreach($orgUsers as $orgUser) {
+                    $adminArray[$orgUser->organization_id][] = $orgUser->user_id;
+                }
+            	$this->template->adminArray = $adminArray;
+                
+            }
+        }
+    }
+    
+    public function injectTables(OrganizationTable $organizationTable, \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable, app\models\authorization\RoleTable $roleTable) {
+        $this->organizationTable = $organizationTable;
+        $this->organizationHasUserTable = $organizationHasUserTable;
+        $this->roleTable = $roleTable;
     }
 }

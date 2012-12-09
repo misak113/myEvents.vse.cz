@@ -21,6 +21,7 @@ class User extends Row
         public function getRoles() {
             return $this->findManyToManyRowset('app\models\authorization\RoleTable', 'app\models\authorization\UserHasRoleTable');
         }
+        
 }
-
+ 
 ?>

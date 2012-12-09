@@ -19,6 +19,7 @@ class UserTable extends Table
 	 * @var string
 	 */
 	protected $_rowClass = 'app\models\authentication\User';
+        
 
 	/**
 	 * @param string $id
@@ -26,7 +27,7 @@ class UserTable extends Table
 	 */
 	public function getById($id) {
 		return $this->fetchRow(array('user_id = ?' => $id));
-	}
+	}       
 
 }
 
