@@ -81,8 +81,6 @@ class Application_Plugin_Acl extends PluginController {
 	 */
 	protected function initPermissions() {
 
-		// @todo přidat automatické vytváření roles, resources a actions do databáze... (Controllery a akce)
-
 		// Vytvoření rolí v DB
 		$authenticatedRole = $this->roleTable->getOrCreateRole($this->user->authenticatedRole);
 		$guestRole = $this->roleTable->getOrCreateRole($this->user->guestRole);
@@ -137,6 +135,8 @@ class Application_Plugin_Acl extends PluginController {
 
 	}
 
+
+	// @todo přidat automatické vytváření roles, resources a actions do databáze... (Controllery a akce)
 	protected function findResources() {
 		$controllers = array('admin.event', 'admin.organization', 'admin.system', 'landing.index', 'error', 'index', 'user', 'event', 'organization');
 		return $controllers;
