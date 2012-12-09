@@ -187,7 +187,7 @@ class Admin_EventController extends BaseController {
 			$this->redirect('adminEvents');
 		}
 
-		$this->flashMessage('Bylo přidáno '.count($events).' z Facebooku.');
+		$this->flashMessage('Byly přidány '.count($events).' akce z Facebooku.');
 		$this->redirect('adminEvents');
 	}
 
