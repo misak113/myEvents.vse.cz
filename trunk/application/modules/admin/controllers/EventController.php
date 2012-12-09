@@ -172,7 +172,7 @@ class Admin_EventController extends BaseController {
 		$userId = $this->user->getId();
 		$user = $this->userTable->getById($userId);
 		$organizations = $user->getOrganizations();
-		if (empty($organizations)) {
+		if ($organizations->count() == 0) {
 			$this->flashMessage('Nejste správcem žádné z organizací', self::FLASH_ERROR);
 			$this->redirect('adminEvents');
 		}

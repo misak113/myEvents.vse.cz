@@ -98,3 +98,22 @@ INSERT INTO `tag` (`tag_id`, `name`) VALUES
 (4, 'Prezentační dovednosti'),
 (5, 'Z praxe'),
 (6, 'Podnikání');
+
+
+
+INSERT INTO `permission` (`role_id`, `resource_id`, `privilege_id`) VALUES
+(2,	1,	1),
+(2,	2,	1),
+(2,	3,	1),
+(2,	4,	1);
+
+INSERT INTO `privilege` (`privilege_id`, `name`, `uri_code`) VALUES
+(1,	'Index',	'index');
+
+INSERT INTO `resource` (`resource_id`, `name`, `uri_code`, `description`) VALUES
+(1,	'Event',	'event',	NULL),
+(2,	'User',	'user',	NULL),
+(3,	'Index',	'index',	NULL),
+(4,	'System',	'system',	NULL);
+
+-- 2012-12-09 20:23:57
