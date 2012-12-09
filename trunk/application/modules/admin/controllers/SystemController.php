@@ -18,14 +18,13 @@ class Admin_SystemController extends BaseController {
     
     /** @var TitleLoader */
     protected $titleLoader;
-    
-    /** @var Table_Abstract */
-    private $organizations;
-    
+
+    /** @var OrganizationTable */
     protected $organizationTable;
-    
+
+	/** @var \app\models\organizations\OrganizationHasUserTable */
     protected $organizationHasUserTable;
-    
+    /** @var \app\models\authorization\RoleTable */
     protected $roleTable;
     
     /**
