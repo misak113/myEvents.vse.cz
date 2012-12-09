@@ -101,7 +101,11 @@ class Admin_EventController extends BaseController {
 				
 			
 				$formValues["organization_id"] = $organizations[0]->organization_id;
-				
+                                
+				dump($formValues);
+                                dump($form->picture);
+                                $stop();
+                                
                 $record->updateFromArray($formValues);
                 
                

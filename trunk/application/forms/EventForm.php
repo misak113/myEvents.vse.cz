@@ -22,7 +22,13 @@ class EventForm extends Zend_Form {
     public function init() {
 
         $this->setMethod('post');
+        
+        $this->setAttrib('enctype', 'multipart/form-data');
 
+        $file = new Zend_Form_Element_File('picture');
+        $file->setLabel('File')
+            ->setDestination(APPLICATION_PATH . '/img/picture');
+        
         $fburl = new My_Form_Element_Url('fburl');
         $fburl->setLabel('Odkaz na facebook: ')
                 ->setAttrib('class', 'idleField')

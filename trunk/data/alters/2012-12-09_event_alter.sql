@@ -1,0 +1,2 @@
+ALTER TABLE `event` 
+ADD `picture` VARCHAR(255) NULL DEFAULT NULL;
