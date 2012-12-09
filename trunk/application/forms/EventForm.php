@@ -28,7 +28,7 @@ class EventForm extends Zend_Form {
         $file = new Zend_Form_Element_File('picture');
         $file->setLabel('Obrázek')
             ->setDestination(APP_DIR . '/../www/img/picture');
-        $this->addElement('picture');
+        $this->addElement($file);
         
         $fburl = new My_Form_Element_Url('fburl');
         $fburl->setLabel('Odkaz na facebook: ')
