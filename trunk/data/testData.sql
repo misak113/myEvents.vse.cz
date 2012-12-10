@@ -13,12 +13,16 @@ INSERT INTO `category` (`category_id`, `name`) VALUES
 (4,	'Zábava');
 
 DELETE FROM `organization`;
-INSERT INTO `organization` (`organization_id`, `name`, `website`, `info`, `email`) VALUES
-(1,	'Business IT',	NULL,	NULL,	NULL),
-(2,	'Klub koučinku',	NULL,	NULL,	NULL),
-(3,	'Klub mladých manažerů',	NULL,	NULL,	NULL),
-(4,	'AIESEC',	NULL,	NULL,	NULL),
-(5,	'Sport.vse.cz',	NULL,	NULL,	NULL);
+--
+-- Dumping data for table `organization`
+--
+
+INSERT INTO `organization` (`organization_id`, `name`, `website`, `info`, `email`, `logo`, `fb_url`) VALUES
+(1, 'Business IT', NULL, NULL, NULL, 'BizIT.png', NULL),
+(2, 'Klub koučinku', NULL, NULL, NULL, 'KlubKoucinku.png', NULL),
+(3, 'Klub mladých manažerů', 'http://www.kmm.cz/', 'Studentský univerzitní klub se zaměřením na management. Pořádáme setkání se zkušenými manažery a podnikateli z praxe.\r\n\r\n\r\nSpojujeme manažerské generace\r\n\r\n\r\nDíky setkáním s manažery a podnikateli předáváme informace, životní postoje a zkušenosti mezi potenciálními a začínajícími manažery a lidmi z praxe. Mimo jiné pořádáme pro členy klubu zajímavé workshopy a neformální akce. Klub mladých manažerů operuje pod záštitou České manažerské asociace. Více info na http://www.kmm.cz/', 'manazeri@man.cz', 'KMM.png', 'https://www.facebook.com/klubmladychmanazeru'),
+(4, 'AIESEC', NULL, NULL, NULL, 'AIESEC.png', NULL),
+(5, 'Sport.vse.cz', NULL, NULL, NULL, 'SportVSE.png', NULL);
 
 
 -- Adminer 3.6.1 MySQL dump
