@@ -1,0 +1,26 @@
+/* 
+    Document   : eventForm
+    Created on : 9.12.2012, 22:58:13
+    Author     : Funder
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+div.clear{
+    clear: both;
+}
+div#nearEvents{
+    float: right;
+}
+div#form{
+    float: left;
+}
+

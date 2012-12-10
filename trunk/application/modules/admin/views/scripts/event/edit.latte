@@ -1,6 +1,19 @@
+<?php
+$view->headScript()
+->appendFile($view->baseUrl() . '/js/modules/admin/nearEvents.js');
+$view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/eventForm.css');
+?>
 {block content}
 
-{!$form}
-<a href="<?php echo $view->url(array(),
-   'adminIndex',
-   true); ?>" class="btn btn-danger"><i class="icon-white icon-remove-circle"></i> Zrušit editaci</a>
+<div id="formwrap">
+    <div id="form">
+        {!$form}
+        <a href="<?php echo $view->url(array(),
+           'adminIndex',
+           true); ?>" class="btn btn-danger"><i class="icon-white icon-remove-circle"></i> Zrušit editaci</a>
+    </div>
+    <div id="nearEvents">
+        <span style="display: none" id="hrefNearEvents"><?php echo $view->baseUrl() . '/admin/event/nearevents'; ?></span>
+    </div>
+    <div clas="clear"></div>
+</div>
