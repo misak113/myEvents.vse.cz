@@ -19,7 +19,7 @@ use app\services\facebook\Facebook;
  */
 class FbImportDispatcher
 {
-	const ACCESS_TOKEN = 'AAACEdEose0cBAIGjO2FSGTiZB0pe4rxKpJJzkjy4OxvN5GVbjkfPgXaW4hCPIpeZBhRoqsZAUcFCkvlk7ZBbZB11QoycC98s83kB8o3gWe97vDUPmGZCkj';
+	const ACCESS_TOKEN = 'AAACEdEose0cBAML7aZCJ1qZCKE2ZAuZCfDKuxUZCoTPa8SmO6WYob2tulR2gZAQZCxA7nBgZCb8W9z0VZCWDsY82lKu2pMKLRFhMMp2gpNezZCDytcQC10MTGn';
 
 	const SOURCE_TYPE_FACEBOOK = 'facebook';
 	const DEFAULT_CATEGORY_ID = 1;
@@ -51,7 +51,8 @@ class FbImportDispatcher
 
 		$since = date('U');
 		// get events
-		$result = $this->facebook->api('/'.$fbId.'/events?since='.$since);
+		$url = '/'.$fbId.'/events?since='.$since;
+		$result = $this->facebook->api($url);
 		if (!isset($result['data'])) {
 			return false;
 		}

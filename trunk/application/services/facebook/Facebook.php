@@ -17,7 +17,7 @@ class Facebook extends FacebookAbstract
 	 * Příhlásí FB SDK pro aktuální příkazy importu
 	 */
 	public function login($accessToken = null) {
-		Facebook::$CURL_OPTS[CURLOPT_CAINFO] = getcwd().'/fb_ca_chain_bundle.crt';
+		//Facebook::$CURL_OPTS[CURLOPT_CAINFO] = getcwd().'/fb_ca_chain_bundle.crt';
 		Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYPEER] = false; // @todo neověřuje crt
 
 		if ($accessToken === null) {
@@ -30,6 +30,7 @@ class Facebook extends FacebookAbstract
 				'grant_type' => 'client_credentials',
 				'scope' => 'offline_access',
 			);
+			$user = $this->getUser();
 			$response = $this->_oauthRequest($url, $params);
 
 			$data = array();
