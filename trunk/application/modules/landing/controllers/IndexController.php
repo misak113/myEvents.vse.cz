@@ -44,6 +44,9 @@ class Landing_IndexController extends BaseController
 		}
 
 		$metaData = $this->getRequest()->getParam('meta_data');
+		$metaData = json_decode($metaData, true);
+		$metaData['tester'] = $this->getRequest()->getParam('tester');
+		$metaData = json_encode($metaData);
 
 		$emailRow = $this->emailTable->createRow();
 		$emailRow->setEmail($email);
