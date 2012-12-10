@@ -40,7 +40,7 @@ class Landing_IndexController extends BaseController
 		$email = $this->getRequest()->getParam('email');
 		if (!$email) {
 			$this->flashMessage($this->t('Email je třeba vyplnit!'), self::FLASH_ERROR);
-			$this->redirect($this->url(array(), 'landing'));
+			$this->redirect('landing');
 		}
 
 		$metaData = $this->getRequest()->getParam('meta_data');
@@ -59,7 +59,7 @@ class Landing_IndexController extends BaseController
 			$this->flashMessage($this->t('Při ukládání e-mailu do databáze došlo k chybě!'), self::FLASH_ERROR);
 		}
 
-		$this->redirect($this->url(array(), 'landing'));
+		$this->redirect('landing');
 	}
 
 }
