@@ -1,9 +1,12 @@
 {block content}
 {if $events->count() > 0}
-    <div>V podobném čase se konají tyto akce: </div>
-    <div class="span2">Název</div>
-    <div class="span2">Čas</div>
-    <div class="span2">Organizace</div>
+    <div><h3>V podobném čase se konají tyto akce: </h3></div>
+    <br/>
+        <div class="row">
+        <div class="span2"><strong>Název</strong></div>
+        <div class="span2"><strong>Čas</strong></div>
+        <div class="span2"><strong>Organizace</strong></div>
+    </div>
     {foreach $events as $e}
         <div class="row">
             <div class="span2">{$e->name}</div>
@@ -12,5 +15,5 @@
         </div>
     {/foreach}
 {else}
-        V podobném čase nikdo jiný nepořádá žádnou akci.
+        <h3>V podobném čase nikdo jiný nepořádá žádnou akci.</h3>
 {/if}
