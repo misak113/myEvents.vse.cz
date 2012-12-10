@@ -94,13 +94,11 @@ class Admin_EventController extends BaseController {
                 if ($record === null) {
                     $record = $this->eventTable->createRow();
                 }
-
-
+                
+                $userId = $this->user->getId();
+                $user = $this->userTable->getById($userId);
+                $organizations = $user->getOrganizations();
                 $formValues["organization_id"] = $organizations[0]->organization_id;
-
-                dump($formValues);
-                dump($form->picture);
-                $stop();
 
                 $record->updateFromArray($formValues);
 

@@ -1,6 +1,8 @@
 <?php
 $view->headScript()
-->appendFile($view->baseUrl() . '/js/modules/admin/nearEvents.js');
+->appendFile($view->baseUrl() . '/js/modules/admin/nearEvents.js')
+->appendFile($view->baseUrl() . '/js/modules/admin/jquery.fineuploader-3.0.min.js')
+->appendFile($view->baseUrl() . '/js/modules/admin/pictureUpload.js');
 $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/eventForm.css');
 ?>
 {block content}

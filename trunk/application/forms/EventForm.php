@@ -22,13 +22,20 @@ class EventForm extends Zend_Form {
     public function init() {
 
         $this->setMethod('post');
-        
-        $this->setAttrib('enctype', 'multipart/form-data');
+       
 
-        $file = new Zend_Form_Element_File('picture');
-        $file->setLabel('Obrázek')
-            ->setDestination(APP_DIR . '/../www/img/picture');
-        $this->addElement($file);
+//        $file = new Zend_Form_Element_File('picture');
+//        $file->setLabel('Obrázek')
+//            ->setDestination(APP_DIR . '/../www/img/picture');
+//        
+//        $file->setDecorators(array(
+//            'File', 
+//            array('ViewScript', 
+//                array('viewScript' => 'file.phtml', 'placement' => false))
+//            )
+//        );
+//        $this->addElement($file);
+        
         
         $fburl = new My_Form_Element_Url('fburl');
         $fburl->setLabel('Odkaz na facebook: ')
@@ -49,7 +56,12 @@ class EventForm extends Zend_Form {
             'required' => true,
             'filters' => array('StringTrim')
         ));
-
+        
+        $this->addElement('text', 'pictureUpload', array(
+            'label' => 'Obrázek: ',
+        ));
+        $this->addElement('hidden', 'picture');
+        
         $date = new My_Form_Element_Date('date');
         $date->setLabel('Datum: ')
                 ->setAttrib('class', 'idleField')
@@ -177,7 +189,7 @@ class EventForm extends Zend_Form {
             array(array('emptyrow' => 'HtmlTag'), array('tag' => 'div', 'class' => 'span2', 'placement' => 'PREPEND')),
             array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'row'))
         ));
-
+        
         $this->setDecorators(array(
             'FormElements',
             array('HtmlTag', array('tag' => 'div')),
