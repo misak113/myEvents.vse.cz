@@ -37,6 +37,17 @@
 						</li>
 					</ul>
 				</li>
+				
+				<li class="nav-header">- Štítek akce <span class="collapse"></span>
+					<ul class="tags">
+						<li class="filter-item tag" n:foreach="$tags as $item">
+							<label><span class="filter-item-label">{$item['name']}</span>
+								<input class="{$tagFilterActivated?showed:hide} filter-input" name="filter[tag][{$item['tag_id']}]" value="1" type="checkbox"
+								{ifset $filter['tag'][$item['tag_id']]}checked="checked"{/ifset}
+								/></label>
+						</li>
+					</ul>
+				</li>
 
 				<li class="nav-header">- Organizace <span class="collapse"></span>
 					<ul class="organizations">

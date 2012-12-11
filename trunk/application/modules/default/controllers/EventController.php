@@ -54,6 +54,7 @@ class EventController extends BaseController {
                 $this->template->event = $eventRow;
                 $this->template->sponsors = $eventRow->getSponsors();
                 $this->template->organizations = $eventRow->getOrganizations();
+                $this->template->tags = $eventRow->getTags();
 	}
 
 	/**

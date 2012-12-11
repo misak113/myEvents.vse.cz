@@ -21,6 +21,12 @@ class TagTable extends Table
 	protected $_rowClass = 'app\models\events\Tag';
 
 
+	public function getTags() {
+		$where = array();
+		$res = $this->fetchAll($where, 'name');
+	
+		return $res->toArray();
+	}
 }
 
 ?>

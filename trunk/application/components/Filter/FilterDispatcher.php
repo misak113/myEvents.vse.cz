@@ -4,6 +4,7 @@ namespace app\components\Filter;
 use app\models\events\CategoryTable;
 use app\models\organizations\OrganizationTable;
 use app\models\events\EventTable;
+use app\models\events\TagTable;
 use Nette\DateTime;
 
 /**
@@ -21,6 +22,8 @@ class FilterDispatcher
 
 	/** @var \app\models\events\CategoryTable @inject */
 	protected $categoryTable;
+	/** @var \app\models\events\TagTable @inject */
+	protected $tagTable;
 	/** @var \app\models\organizations\OrganizationTable @inject */
 	protected $organizationTable;
 	/** @var \app\models\events\EventTable */
@@ -60,6 +63,15 @@ class FilterDispatcher
 			$select->where('category_id IN ('.implode(',', $categories).')'); // @todo nevim jak to stvorit s escapováním
 		}
 
+		// Filtrace štítků
+		if (isset($filter['tag'])) {
+			$select->join(array('eht'=>'event_has_tag'), 'eht.event_id = e.event_id', false);
+			foreach ($filter['tag'] as $tag_id => $tag) {
+				$tags[] = (int)$tag_id;
+			}
+			$select->where('tag_id IN ('.implode(',', $tags).')'); // @todo nevim jak to stvorit s escapováním
+		}
+		
 		// Filtrace Organizací
 		if (isset($filter['organization'])) {
 			$select->join(array('ooe'=>'organization_own_event'), 'ooe.event_id = e.event_id', false);
@@ -90,12 +102,14 @@ class FilterDispatcher
 	 */
 	protected function createFilter() {
 		$categories = $this->categoryTable->getCategories();
+		$tags = $this->tagTable->getTags();
 		$organizations = $this->organizationTable->getOrganizations();
 		$dates = $this->generateDates();
 
 		$filter = new FilterControl();
 		$filter->setDates($dates);
 		$filter->setCategories($categories);
+		$filter->setTags($tags);
 		$filter->setOrganizations($organizations);
 
 		return $filter;
@@ -160,6 +174,9 @@ class FilterDispatcher
 	/******************** Dependency Injection **********************/
 	public function injectCategoryTable(CategoryTable $categoryTable) {
 		$this->categoryTable = $categoryTable;
+	}
+	public function injectTagTable(TagTable $tagTable) {
+		$this->tagTable = $tagTable;
 	}
 	public function injectOrganizationTable(OrganizationTable $organizationTable) {
 		$this->organizationTable = $organizationTable;
