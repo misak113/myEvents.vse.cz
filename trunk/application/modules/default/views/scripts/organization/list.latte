@@ -1,0 +1,1 @@
+<ul>    <?php        foreach ($view->organizations as $organization) {            echo "<li><a href=\"" . $view->url(array("id" => $organization->organization_id, "title" => $view->cleanUrl($organization->name)), "organization", true) . "\">" . $organization->name . "</a></li>";        }    ?></ul>

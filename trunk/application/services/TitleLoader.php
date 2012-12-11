@@ -18,6 +18,7 @@ class TitleLoader
 		'Index:about' => 'O nás',
 		'Index:register' => 'Registrace',
 		'Event:detail' => 'Podrobnosti akce',
+                'Organization:list' => 'Přehled organizací',
                 'Organization:detail' => 'Podrobnosti organizace',
 		'Landing:Index:index' => 'myEvents VŠE - studentské akce pro studenty',
                 'Admin:Organization:edit' => 'Úprava informací o organizaci'

@@ -23,9 +23,11 @@ class OrganizationController extends BaseController {
 	 * @param app\services\TitleLoader $titleLoader
 	 */
 	public function setContext(
-		TitleLoader $titleLoader
+		TitleLoader $titleLoader,
+                app\models\organizations\OrganizationTable $organizationTable
 	) {
 		$this->titleLoader = $titleLoader;
+                $this->organizationTable = $organizationTable;
 	}
 
 
@@ -49,7 +51,8 @@ class OrganizationController extends BaseController {
 	 *
 	 */
 	public function listAction() {
-        
+            $this->template->title = $this->t($this->titleLoader->getTitle('Organization:list'));
+            $this->view->organizations = $this->organizationTable->fetchAll(null, "name");
 	}
 
         
