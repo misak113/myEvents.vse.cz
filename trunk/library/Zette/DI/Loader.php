@@ -42,6 +42,10 @@ class Loader
 
 		$debugMode = APPLICATION_ENV != 'production';
 
+		if (isset($_COOKIE['debugMode']) && $_COOKIE['debugMode'] == 1) {
+			$debugMode = true; // @todo fail? aby se mi v browseru u me zobrazovaly ladenky
+		}
+
 		Debugger::enable(!$debugMode);
 
 // Enable RobotLoader - this will load all classes automatically

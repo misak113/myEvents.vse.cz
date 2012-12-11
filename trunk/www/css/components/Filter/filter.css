@@ -21,3 +21,12 @@
 .filter-control .filter .organizations:hover .filter-item.organization input {
 	display: block;
 }
+.filter-control .filter .tags:hover .filter-item.tag input {
+	display: block;
+}
+
+@media (max-width: 768px) {
+	.filter-control .filter .filter-item input {
+		display: block;
+	}
+}
