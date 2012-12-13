@@ -17,7 +17,8 @@ common:
 		facebook:
 			appId: '301758016608577'
 			secret: '40b2b828dba9beaeedc204a90f8070cb'
-
+			userId: '100004851782671'
+			pageId: '238329219628570'
 
 	services:
 		# Default services

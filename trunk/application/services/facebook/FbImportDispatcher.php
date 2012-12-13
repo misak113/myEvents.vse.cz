@@ -130,7 +130,7 @@ class FbImportDispatcher
 
 	public function injectFacebook(Facebook $facebook) {
 		$this->facebook = $facebook;
-		$this->facebook->login(self::ACCESS_TOKEN);
+		$this->facebook->login();//self::ACCESS_TOKEN);
 	}
 	public function injectOrganizationTable(OrganizationTable $organizationTable) {
 		$this->organizationTable = $organizationTable;
