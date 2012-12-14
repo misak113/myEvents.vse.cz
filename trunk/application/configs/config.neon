@@ -53,6 +53,7 @@ common:
 		resourceTable: app\models\authorization\ResourceTable
 		privilegeTable: app\models\authorization\PrivilegeTable
 		authenticateProvidesTable: app\models\authentication\AuthenticateProvidesTable
+		classroomTable: app\models\events\ClassroomTable
 
 
 	factories:

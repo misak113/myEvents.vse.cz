@@ -26,7 +26,7 @@ class Admin_SystemController extends BaseController {
     protected $organizationHasUserTable;
     /** @var \app\models\authorization\RoleTable */
     protected $roleTable;
-    
+        
     /**
      * @param TitleLoader $titleLoader 
      */
