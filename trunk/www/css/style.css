@@ -44,7 +44,6 @@ h1 {
 	color: #48260e;
 	font: bold 27px/32px Arial;
 	margin: 8px 0 15px;
-	border-bottom: 1px solid #48260e;
 }
 
 .table td, .table th {
@@ -313,10 +312,10 @@ width: 100%;
 
 .background .inside {border: 1px solid #b3b3b3; background: #fff; position: relative;}
 #main h1 {color: #3c3c3c; font-size: 24px; font-weight: bold; margin: 20px 15px;}
-#main h1.abs {position: absolute; top: 20px; left: 15px; margin: 0;}
+#main h1.abs {position: absolute; top: 20px; right: 15px; margin: 0;}
 .dayBox {margin: 10px 0; width: 100%;}
-.day {background: #ed7f25; position: relative; padding: 10px 20px; border: 1px solid #d3660d; position:relative; right: -5px; display: inline-block; float: right;}
-.day:after {content: ""; position: absolute; bottom: -6px; right: -1px; width: 5px; height: 5px; border-left: 5px solid #ca610b; border-bottom: 5px solid transparent;}
+.day {background: #ed7f25; position: relative; padding: 10px 20px; border: 1px solid #d3660d; position:relative; left: -5px; display: inline-block; float: left; border-bottom: 1px solid #DDDDDD;}
+.day:after {content: ""; position: absolute; bottom: -6px; left: -1px; width: 5px; height: 5px; border-right: 5px solid #ca610b; border-bottom: 5px solid transparent;}
 .day strong {font-size: 16px; color: #fff; text-shadow: 0 1px rgba(0,0,0,0.3); }
 
 #search {border:  1px solid #dedede; background: #fff; margin: 25px 10px;}
@@ -396,11 +395,12 @@ width: 100%;
 padding: 15px; 
 cursor: pointer;
 display: block;
-border-top: 1px solid #DDDDDD;
+border-bottom: 1px solid #DDDDDD;
 outline: 0;
 position: relative;
 
 }
+
 
 .item .img {padding: 5px; border: 1px solid #cecece; float: left; background: #fff; margin-right: 20px; width: 112px; overflow: hidden;}
 .item .img img{width: 100px; display: block;}
@@ -426,7 +426,7 @@ position: relative;
 .item:hover .action {display: block; }
 .btn {background: #8daf3e; text-decoration: none; padding: 4px 12px; color: #fff; border: 1px solid #7c9839; border-bottom-width: 2px; font-weight: bold;}
 .btn:hover {text-decoration: none;}
-.item .basic .part {display: inline-block;}
+.item .basic .part {display: inline-block; vertical-align: top;}
 .item .basic span  {background: url("../img/icons.png") no-repeat; width: 25px; height: 35px; display: block; float: left; margin-right: 10px;}
 .item .basic span.speaker {background-position: 0 0; }
 .item .basic span.start {background-position: -30px 0; }
@@ -488,7 +488,7 @@ position: relative;
 .background {border-radius: 10px;}
 .background .inside,  .background:after, .background:before {border-radius: 5px;}
 
-.dayBox .day{border-radius: 5px 0 0 5px;}
+.dayBox .day{border-radius: 0 5px 5px 0;}
 .btn, .item .social a, .nav li a {border-radius: 3px;}
 #filter .head, .dayBox, .item, #main, #top {
     content:"";
