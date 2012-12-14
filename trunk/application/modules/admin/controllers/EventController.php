@@ -192,4 +192,30 @@ class Admin_EventController extends BaseController {
     }
 
     //public function redirect($url, array $prm = array()) {}
+    
+    
+    /**
+     * Nastavi v DB atribut active=0
+     */
+    public function deleteAction(){
+        if($this->_request->isPost()){
+            $eventId = $this->_getParam('id');
+            
+            if(!empty($eventId)){
+                $record = $this->eventTable->getById($eventId);
+                
+                if($record){
+                    //$record->delete();
+                    $record->active = 0;
+                    $record->save();
+                    $this->_helper->flashMessenger->addMessage("Událost byla odstraněna.");
+                }
+            }
+        }
+        $this->_helper->redirector->gotoRoute(array('module' => 'admin',
+                                                        'controller' => 'event',
+                                                        'action' => 'index'), 
+                                                          'default', 
+                        true);
+    }
 }
