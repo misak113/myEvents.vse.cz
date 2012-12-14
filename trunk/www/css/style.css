@@ -334,7 +334,7 @@ width: 100%;
 
 #filter ul {padding: 0; margin: 0;}
 
-#filter > ul > li {
+#filter form > ul > li {
     list-style: none;
     color: #636363;
     border-top: 1px solid #8daf3e;
@@ -403,7 +403,9 @@ position: relative;
 }
 
 .item .img {padding: 5px; border: 1px solid #cecece; float: left; background: #fff; margin-right: 20px; width: 112px; overflow: hidden;}
+.item .img img{width: 100px; display: block;}
 .item .info {float: left; width: 82%; }
+.item .info .closed {display: none;}
 
 .item h2 {
 	margin: 5px 0 15px;
