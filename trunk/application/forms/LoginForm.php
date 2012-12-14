@@ -28,7 +28,7 @@ class LoginForm extends Zend_Form {
         
         // Submit
         $submit = new Zend_Form_Element_Submit("Přihlásit");
-        $submit->setAttribs(array("class" => "btn btn-success btn-large", "name" => "login"));
+        $submit->setAttribs(array("class" => "btn org", "name" => "login"));
         $submit->removeDecorator("DtDdWrapper");
         $this->addElement($submit);
     }

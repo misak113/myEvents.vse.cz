@@ -171,31 +171,39 @@ input[type='text'], input[type='date'], input[type='url'] {
 }
 
 /* Login form */
-#form-signin {
-	position: absolute;
-	width: 450px;
-	height: 250px;
-	padding: 20px;
-	top: 50%;
-	left: 50%;
-	margin: -145px 0 0 -245px;
+#loginForm {
+	
+	width: 300px;
+	height: 285px;
+	
+	margin: 30px auto;
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 }
 
-#form-signin input[type="text"],
-#form-signin input[type="password"] {
+#loginForm input[type="text"],
+#loginForm input[type="password"] {
 	font-size: 16px;
 	height: auto;
 	margin-bottom: 15px;
 	padding: 7px 9px;
+	width: 100%;
+	
 }
+
+#loginForm .head {background:#8daf3e; padding: 20px 10px 20px 20px; width: 100%;}
+#loginForm .head  h3 {color: #fff; font-size: 18px;}
+#loginForm .body {padding: 20px;}
+#loginForm .body label {font-size: 14px; color: #444; margin-bottom: 7px; display: inline-block;}
+#loginForm .btn {float: right;}
+
+#loginForm dd {margin: 0;}
+
+.btn.org {background: #ed7f25; border-color: #d3660d;}
 
 input.btn {
 	padding: 8px 18px;
@@ -492,8 +500,12 @@ background: rgba(141,175,62,0.05);
 #filter .head .how-to span {border-radius: 0 10px 10px 0;}
 
 .background {border-radius: 10px;}
-.background .inside,  .background:after, .background:before {border-radius: 5px;}
+.background .inside,  .background:after, .background:before, #loginForm {
+-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;}
 
+	#loginForm .head {border-radius: 5px 5px 0 0;}
 .dayBox .day{border-radius: 0 5px 5px 0;}
 .btn, .item .social a, .nav li a {border-radius: 3px;}
 #filter .head, .dayBox, .item, #main, #top {
