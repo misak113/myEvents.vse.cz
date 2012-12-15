@@ -163,6 +163,10 @@ class EventForm extends Zend_Form {
             'label' => 'Popis: ',
             'filters' => array('StringTrim')
         ));
+        
+        $public = new Zend_Form_Element_Checkbox('public');
+        $public->setLabel('Publikovat');
+        $this->addElement($public);
 
 
         $submit = new Zend_Form_Element_Submit('Uložit');

@@ -218,4 +218,27 @@ class Admin_EventController extends BaseController {
                                                           'default', 
                         true);
     }
+    
+    public function publishAction() {
+        if($this->_request->isPost()){
+            $eventId = $this->_getParam('id');
+            $public = $this->_getParam('public');
+            
+            if(!empty($eventId) && isset($public)){
+                $record = $this->eventTable->getById($eventId);
+                
+                if($record){
+                    $record->public = $public;
+                    $record->save();
+                    $this->_helper->flashMessenger->addMessage("Událost byla odstraněna.");
+                }
+            }
+        }
+        
+        $this->_helper->redirector->gotoRoute(array('module' => 'admin',
+                                                        'controller' => 'event',
+                                                        'action' => 'index'), 
+                                                          'default', 
+                        true);
+    }
 }
