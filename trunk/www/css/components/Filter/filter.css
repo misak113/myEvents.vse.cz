@@ -12,17 +12,25 @@
 	margin: 0;
 }
 
+.filter-control .filter .filter-item input {
+	opacity: 0;
+	transition: all 0.3s;
+	-moz-transition: all 0.3s; /* Firefox 4 */
+	-webkit-transition: all 0.3s; /* Safari and Chrome */
+	-o-transition: all 0.3s; /* Opera */
+}
+
 .filter-control .filter .dates:hover .filter-item input {
-	display: block;
+	opacity: 1;
 }
 .filter-control .filter .categories:hover .filter-item.category input {
-	display: block;
+	opacity: 1;
 }
 .filter-control .filter .organizations:hover .filter-item.organization input {
-	display: block;
+	opacity: 1;
 }
 .filter-control .filter .tags:hover .filter-item.tag input {
-	display: block;
+	opacity: 1;
 }
 
 @media (max-width: 768px) {
