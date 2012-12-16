@@ -84,6 +84,31 @@ class EventController extends BaseController {
 
 		$this->template->eventDates = $eventDates;
 	}
+        
+        /**
+         * Odesle Json s nazvy eventu pro autocomplete vyhledavani
+         */
+        public function autocompleteAction() {
+            $q = $this->_getParam('q');
+            
+            $select = $this->eventTable->select();
+            $select->where("name like ?", array('%'.$q.'%'))
+                    ->limit(20);
+            $events = $this->eventTable->fetchAll($select);
+            
+            $names = array();
+            foreach ($events as $event){
+                $names[] = $event->name;
+            }
+            
+            $json = Zend_Json::encode($names);
+            $this->getResponse()
+                ->setHeader('Content-Type', 'text/html')
+                ->setBody($json)
+                ->sendResponse();
+
+            exit;
+        }
 
 	public function createComponentFilter() {
 		return $this->filterDispatcher->getFilter();

@@ -1,9 +1,10 @@
-{var $view->headScript()->appendFile($view->baseUrl() . '/js/components/Filter/filter.js')}
+{var $view->headScript()->appendFile($view->baseUrl() . '/js/components/Filter/filter.js')
+                        ->appendFile($view->baseUrl() . '/js/libs/jquery.autocomplete.js')}
 {var $view->headLink()->appendStylesheet($view->baseUrl() . '/css/components/Filter/filter.css')}
 
 <form action="{link this}" method="get" class="filter-control">
 	<div id="search">
-		<input type="text" placeholder="Vyhledávání" name="filter[search]" value="{$filter['search']}"/>
+		<input type="text" class="filter-search" placeholder="Vyhledávání" name="filter[search]" value="{$filter['search']}"/>
 		<input type="submit" value=""/>
 	</div>
 
