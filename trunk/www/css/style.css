@@ -499,11 +499,15 @@ background: rgba(141,175,62,0.05);
 .item .basic span {margin-bottom: 5px;}
 .detail .item .basic strong {margin-right: 20px;}
 
-.team {text-align: center; }
+.team {}
+.team h3 {text-transform: uppercase; font-size: 16px; color: #8daf3e; font-weight: bold; margin: 10px;}
+.team h3 strong {font-size: 14px; color: #3c3c3c;}
+
+/*
 .person {display: inline-block; margin: 20px;}
 .person h3 {text-transform: uppercase; font-size: 16px; color: #8daf3e; font-weight: bold; margin: 10px 0 0;}
 .person strong {font-size: 14px; color: #3c3c3c; display: block; margin-bottom: 5px;}
-.person a {color: #737373;}
+.person a {color: #737373;}*/
 
 
 .tab {padding: 20px;}
