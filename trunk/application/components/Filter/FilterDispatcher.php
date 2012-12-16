@@ -48,10 +48,10 @@ class FilterDispatcher
 
 		// Vyhledávání
                 if (isset($filter['search']) && $filter['search'] != ""){
-                        $search = mysql_real_escape_string($filter['search']);
-                        $select->where('name like \'%'.$search.'%\'')
-                                ->orWhere('shortinfo like \'%'.$search.'%\'')
-                                ->orWhere('longinfo like \'%'.$search.'%\'');
+                        $search = $filter['search'];
+                        $select->where("name like ?", array('%'.$search.'%'))
+                                ->orWhere('shortinfo like ?', array('%'.$search.'%'))
+                                ->orWhere('longinfo like ?', array('%'.$search.'%'));
                 }
                 
                 // Filtrace týdnů
