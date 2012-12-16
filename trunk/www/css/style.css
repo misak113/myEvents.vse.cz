@@ -491,7 +491,7 @@ background: rgba(141,175,62,0.05);
 .detail .item {border: 0; padding: 20px; cursor: default;}
 .detail .item:hover {background: none;}
 .detail .item .img {float: right; margin: 0; width: 262px;}
-.detail .item .img img {width:250px; display: block;}
+.detail .item .img img {width:250px; height: 250px; display: block;}
 .detail .item .info {width: 67%;}
 .detail .item h2 {font-size: 24px; padding-bottom: 10px; border-bottom: 1px solid #DDDDDD; }
 .detail .item p {padding: 0; margin-bottom: 15px;}

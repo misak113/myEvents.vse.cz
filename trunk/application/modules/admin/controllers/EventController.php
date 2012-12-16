@@ -192,7 +192,16 @@ class Admin_EventController extends BaseController {
             $this->flashMessage('Nejste správcem žádné z organizací', self::FLASH_ERROR);
             $this->redirect('adminEvents');
         }
-        $events = $this->fbImportDispatcher->importEventsByOrganization($organizations->current());
+		try {
+        	$events = $this->fbImportDispatcher->importEventsByOrganization($organizations->current());
+		} catch (FacebookApiException $e) {
+			if (strstr($e->getMessage(), 'access token') !== false) { // Pokud je to chyba s access_tokenem
+				$this->flashMessage('Pro import z FB je třeba být přihlášen pomocí Facebooku', self::FLASH_ERROR);
+			} else {
+				$this->flashMessage('Při importování došlo k chybě', self::FLASH_ERROR);
+			}
+			$this->redirect('adminEvents');
+		}
 
         if (!$events) {
             $this->flashMessage('Žádná akce nebyla importována', self::FLASH_ERROR);
