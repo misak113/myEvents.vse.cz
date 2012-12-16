@@ -348,7 +348,7 @@ transition: all 0.3s;
 #filter .head h3 {color: #fff; font-size: 18px; float: left;}
 
 #filter .head .how-to {float: right; position: relative; color: #fff; }
-#filter .head .how-to span {display: none; color: #f6f6f6; position: absolute; top: -20px; left: 70px; z-index: 100; padding: 10px; background: #8daf3e; width: 355px; text-decoration: none;}
+#filter .head .how-to span {display: none; color: #fff; position: absolute; top: -20px; left: 70px; z-index: 100; padding: 10px; background: #8daf3e; width: 355px; text-decoration: none;}
 #filter .head .how-to:hover > span {display: block; }
 
 #filter ul {padding: 0; margin: 0;}
@@ -421,6 +421,8 @@ position: relative;
 
 }
 
+.background .inside .item:last-child {border: 0;}
+
 .item:hover {
 background: rgba(141,175,62,0.05);
 }
@@ -458,7 +460,7 @@ background: rgba(141,175,62,0.05);
 .item .basic span.start {background-position: -30px 0; }
 .item .basic span.room {background-position: -60px 0; }
 .item .basic span.org {background-position: -90px 0; }
-.item p {margin: 10px 0;}
+.item p {margin: 0 0 10px;}
 .item .basic strong {color: #8daf3e; font-size: 16px; margin-right: 10px; display: inline-block; margin-top: 5px;}
 .item .social {border-top: 1px solid #dddddd; padding-top: 15px; margin-top: 15px;}
 .item .social a {display: inline-block; padding: 15px;  margin-right: 8px; background: #fff url("../img/icons.png") no-repeat}
