@@ -471,7 +471,7 @@ background: rgba(141,175,62,0.05);
 
 .item.curr {background: #8daf3e;}
 
-.item.curr p, .item.curr h2, .item.curr .info strong, .item.curr .info a, .item.curr .info a:hover, .item .info div.other {color: #fff; text-shadow: 0 1px rgba(0,0,0,0.2);}
+.item.curr p, .item.curr h2, .item.curr .info strong, .item.curr .info a, .item.curr .info a:hover, .item.curr .info div.other {color: #fff; text-shadow: 0 1px rgba(0,0,0,0.2);}
 .item.curr .info a {text-decoration: underline;}
 .item.curr .info a:hover {text-decoration: none;}
 
