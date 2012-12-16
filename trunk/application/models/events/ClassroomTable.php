@@ -19,8 +19,13 @@ class ClassroomTable extends Table
 	 * @var string
 	 */
 	protected $_rowClass = 'app\models\events\Classroom';
-
         
+        public function getClassrooms() {
+            $query = $this->select()->from($this, array('name', 'capacity'));
+            $res = $this->fetchAll($query);
+            return $res->toArray();
+        }
+       
 }
 
 ?>

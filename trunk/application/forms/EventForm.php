@@ -107,7 +107,7 @@ class EventForm extends Zend_Form {
             'required' => true,
             'filters' => array('StringTrim')
         ));
-
+        
         $this->addElement('text', 'capacity', array(
             'label' => 'Kapacita: ',
             'class' => 'idleField',

@@ -32,11 +32,14 @@ class Admin_EventController extends BaseController {
 
     /** @var \app\services\facebook\FbImportDispatcher */
     protected $fbImportDispatcher;
+    
+    /** @var Classroomtable */
+    protected $classroomtable;
 
     /**
      * @param TitleLoader $titleLoader 
      */
-    public function setContext(TitleLoader $titleLoader, app\models\events\EventTable $eventTable, app\models\events\CategoryTable $categoryTable, app\models\events\TagTable $tagTable, UserTable $userTable, FbImportDispatcher $fbImportDispatcher
+    public function setContext(TitleLoader $titleLoader, app\models\events\EventTable $eventTable, app\models\events\CategoryTable $categoryTable, app\models\events\TagTable $tagTable, UserTable $userTable, FbImportDispatcher $fbImportDispatcher, app\models\events\ClassroomTable $classroomtable
     ) {
 
         $this->titleLoader = $titleLoader;
@@ -45,8 +48,17 @@ class Admin_EventController extends BaseController {
         $this->tagTable = $tagTable;
         $this->userTable = $userTable;
         $this->fbImportDispatcher = $fbImportDispatcher;
+        $this->classroomtable = $classroomtable;
     }
+    
+    public function autocompleteclassroomsAction() {
+        
+        $classrooms = $this->classroomtable->getClassrooms();
+        echo Zend_Json::encode($classrooms);
+        exit();
 
+    }
+    
     public function editAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:new');
         $record = null;

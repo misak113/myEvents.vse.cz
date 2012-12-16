@@ -2,7 +2,8 @@
 $view->headScript()
 ->appendFile($view->baseUrl() . '/js/modules/admin/nearEvents.js')
 ->appendFile($view->baseUrl() . '/js/modules/admin/jquery.fineuploader-3.0.min.js')
-->appendFile($view->baseUrl() . '/js/modules/admin/pictureUpload.js');
+->appendFile($view->baseUrl() . '/js/modules/admin/pictureUpload.js')
+->appendFile($view->baseUrl() . '/js/modules/admin/jquery.autocomplete.js');
 $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/eventForm.css');
 ?>
 {block content}
@@ -10,6 +11,7 @@ $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/event
 <div id="formwrap">
     <div id="form">
         {!$form}
+        <div id="selection"></div>
         <a href="<?php echo $view->url(array(),
            'adminIndex',
            true); ?>" class="btn btn-danger"><i class="icon-white icon-remove-circle"></i> Zrušit editaci</a>
@@ -19,3 +21,37 @@ $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/event
     </div>
     <div clas="clear"></div>
 </div>
+
+
+
+<script type="text/javascript">
+    $(function () {
+    'use strict';
+
+    $.ajax({
+        url: "<?php echo $view->url(array(), 'getClassrooms', true); ?>",
+        type: 'POST',
+        dataType: 'json',
+        data: { id: 6, details: 7 },
+    }).done(function (data) {
+               
+        var classrooms = $.map(data, function (value) {
+                return value.name;
+            });
+        var capacity;
+
+        $('#location').autocomplete({
+            lookup: classrooms,
+            onSelect: function (suggestion) {
+                for (var i=0;i<data.length;i++) {
+                    if(data[i].name === suggestion) {
+                        capacity = data[i].capacity;
+                        break;
+                    }
+                }
+                $("#capacity").val(capacity);
+            }
+        });
+    });
+});
+</script>

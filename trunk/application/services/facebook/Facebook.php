@@ -38,23 +38,23 @@ class Facebook extends FacebookAbstract
 			$accessToken = $data['access_token'];
 			_dBar($accessToken);
 			$loginUrl = $this->getLoginUrl(array('scope' => 'user_events'));
-			echo $loginUrl;
+//			echo $loginUrl;
 			$params = array();
 			$ex = explode('?', $loginUrl);
 			$loginUri = $ex[0];
 			$query = $ex[1];
 			parse_str($query, $params);
-			dump($params);
-			//echo file_get_contents($loginUrl);
-			$loggedResponse = $this->_oauthRequest($loginUrl, array());
-			$ch = curl_init();
-			$result = curl_exec($ch);
-			dump(get_headers($loginUrl));
-			dump($result);
-			dump(curl_getinfo($ch));
-			dump(curl_multi_info_read($ch));
-			dump($loggedResponse);
-			die();
+//			dump($params);
+//			//echo file_get_contents($loginUrl);
+//			$loggedResponse = $this->_oauthRequest($loginUrl, array());
+//			$ch = curl_init();
+//			$result = curl_exec($ch);
+//			dump(get_headers($loginUrl));
+//			dump($result);
+//			dump(curl_getinfo($ch));
+//			dump(curl_multi_info_read($ch));
+//			dump($loggedResponse);
+//			die();
 		}
 
 		$this->setAccessToken($accessToken);
