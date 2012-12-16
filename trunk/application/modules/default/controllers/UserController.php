@@ -40,6 +40,10 @@ class UserController extends BaseController {
         $form = new LoginForm();
         $this->view->loginForm = $form;
     }
+
+	public function fbLoginAction() {
+		$this->redirect('userLogin');
+	}
     
     public function logoutAction() {
         $this->_helper->layout->disableLayout();

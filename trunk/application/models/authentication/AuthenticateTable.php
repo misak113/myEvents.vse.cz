@@ -38,6 +38,18 @@ class AuthenticateTable extends Table
 					'refColumns' => array ('user_id')
 			),
 	);
+
+	/**
+	 * @param string $identity
+	 * @param int $authenticateProvidesId
+	 * @return Authenticate
+	 */
+	public function getByIdentity($identity, $authenticateProvidesId) {
+		return $this->fetchRow(array(
+			'identity = ?' => $identity,
+			'authenticate_provides_id = ?' => $authenticateProvidesId,
+		));
+	}
 }
 
 ?>

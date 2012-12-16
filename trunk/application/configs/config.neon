@@ -37,6 +37,9 @@ common:
 		fbImportDispatcher:
 			class: app\services\facebook\FbImportDispatcher
 			tags: [inject]
+		facebookAuthenticator:
+			class: app\plugins\FacebookAuthenticator
+			tags: [inject]
 
 		# Models
 		eventTable: app\models\events\EventTable

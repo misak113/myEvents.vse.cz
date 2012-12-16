@@ -5,6 +5,9 @@ use app\models\authentication\AuthenticateTable;
 use Nette\Security\IUserStorage;
 use app\models\authentication\UserTable;
 use app\models\authentication\AuthenticateProvidesTable;
+use app\services\facebook\Facebook;
+use app\plugins\FacebookAuthenticator;
+use app\models\authentication\User;
 
 /**
  * Plugin zajistuje autentifikaci uzivatele a presmerovani
@@ -16,6 +19,7 @@ class Application_Plugin_DbAuth extends PluginController {
 
     const AUTHENTICATE_PROVIDE_EMAIL = 1;
     const AUTHENTICATE_PROVIDE_USER = 2;
+	const AUTHENTICATE_PROVIDE_FACEBOOK = 3;
     
     protected static $ROLE_REDIRECTIONS = array(
         "guest" => "eventList",
@@ -39,6 +43,10 @@ class Application_Plugin_DbAuth extends PluginController {
 
     /** @var \app\models\authentication\UserTable */
     protected $userTable;
+	/** @var \app\services\facebook\Facebook */
+	protected $facebook;
+	/** @var \app\plugins\FacebookAuthenticator */
+	protected $facebookAuthenticator;
 
     public function setContext(IUserStorage $userStorage) {
         $this->auth = Zend_Auth::getInstance();
@@ -54,8 +62,14 @@ class Application_Plugin_DbAuth extends PluginController {
 	public function injectAuthenticateProvidesTable(AuthenticateProvidesTable $authenticateProvidesTable) {
 		$this->authenticateProvidesTable = $authenticateProvidesTable;
 	}
+	public function injectFacebook(Facebook $facebook, FacebookAuthenticator $facebookAuthenticator) {
+		$this->facebook = $facebook;
+		$facebook->login();
+		$this->facebookAuthenticator = $facebookAuthenticator;
+	}
 
-    /**
+
+	/**
      * Metoda vrátí konkrétní hodnotu z konfigurace
      * Pokud klíč není nalezen, vyhodíme výjimku
      *
@@ -110,6 +124,13 @@ class Application_Plugin_DbAuth extends PluginController {
             $this->handleLogin();
             return;
         }
+
+		// FB Login
+		$loginRequest = $request->getActionName();
+		if ($loginRequest == "fb-login") {
+			$this->handleFbLogin();
+			return;
+		}
     }
 
     public function handleLogout() {
@@ -170,13 +191,7 @@ class Application_Plugin_DbAuth extends PluginController {
         }
 
         // Uživatel byl úspěšně ověřen a je přihlášen
-        // Uložit last login data
-        $this->connection->update(
-                "user", array(
-            'last_login_ip' => $this->getRequest()->getServer('REMOTE_ADDR'),
-            'last_login_date' => new Zend_Db_Expr('NOW()'),
-                ), "user_id = '" . $userInfo->user_id . "'"
-        );
+        $this->updateUser($userInfo->user_id);
 
         $user = $this->userTable->getById($userInfo->user_id);
 
@@ -192,22 +207,74 @@ class Application_Plugin_DbAuth extends PluginController {
         $authStorage->setIdentity($identity);
         $authStorage->setAuthenticated(true);
 
-
-        // Přesměrování podle role
-        $role = 'guest';
-        $highestLevel = 0;
-
-        foreach ($user->getRoles() as $userRole) {
-            if (!$userRole) continue;
-            if ($userRole['level'] > $highestLevel) {
-                $role = $userRole['uri_code'];
-                $highestLevel = $userRole['level'];
-            }
-        }
-
-        $redirection = empty(self::$ROLE_REDIRECTIONS[$role]) ? self::$ROLE_REDIRECTIONS["guest"] : self::$ROLE_REDIRECTIONS[$role];
-        $this->redirect($redirection); // Přesměrovat na patřičnou stránku
+		$this->accessLogin($user);
     }
+
+	public function handleFbLogin()
+	{
+		try {
+			$me = $this->facebook->api('/me');
+		} catch (FacebookApiException $e) {
+			$loginUrl = $this->facebook->getLoginUrl();
+			$this->redirector->gotoUrl($loginUrl);
+			return;
+		}
+
+		$authenticate = $this->authenticateTable->getByIdentity($me, self::AUTHENTICATE_PROVIDE_FACEBOOK);
+
+		$userId = $authenticate->getUserId();
+		// Uživatel byl úspěšně ověřen a je přihlášen
+		$this->updateUser($userId);
+		$user = $this->userTable->getById($userId);
+
+		$identity = $this->facebookAuthenticator->authenticate($me);
+
+		$this->user->authenticator = $this->facebookAuthenticator;
+		$this->user->login($identity);
+
+
+		$roles = array();
+		foreach ($user->getRoles() as $role) {
+			$roles[] = $role->getUriCode();
+		}
+		$identity->setRoles($roles);
+		//$authenticate->user = $user->toArray();
+		//$identity = new \Nette\Security\Identity($userInfo->user_id, $roles, $userInfo);
+		$authStorage = $this->auth->getStorage(); // @todo je to treba?
+		$authStorage->setIdentity($identity);
+		$authStorage->setAuthenticated(true);
+
+		//defaultní přesměrování
+		$this->accessLogin($user);
+	}
+
+	protected function updateUser($userId) {
+		// Uložit last login data
+		$this->connection->update(
+			"user", array(
+				'last_login_ip' => $this->getRequest()->getServer('REMOTE_ADDR'),
+				'last_login_date' => new Zend_Db_Expr('NOW()'),
+			), "user_id = '" . $userId . "'"
+		);
+	}
+
+	protected function accessLogin(User $userRow) {
+
+		// Přesměrování podle role
+		$role = 'guest';
+		$highestLevel = 0;
+
+		foreach ($userRow->getRoles() as $userRole) {
+			if (!$userRole) continue;
+			if ($userRole['level'] > $highestLevel) {
+				$role = $userRole['uri_code'];
+				$highestLevel = $userRole['level'];
+			}
+		}
+
+		$redirection = empty(self::$ROLE_REDIRECTIONS[$role]) ? self::$ROLE_REDIRECTIONS["guest"] : self::$ROLE_REDIRECTIONS[$role];
+		$this->redirect($redirection); // Přesměrovat na patřičnou stránku
+	}
 
     /**
      *

@@ -37,7 +37,7 @@ class Facebook extends FacebookAbstract
 			parse_str($response, $data);
 			$accessToken = $data['access_token'];
 			_dBar($accessToken);
-			$loginUrl = $this->getLoginUrl(array('scope' => 'user_events'));
+			$loginUrl = $this->getLoginUrl(array('scope' => 'user_events,user_about_me,email'));
 //			echo $loginUrl;
 			$params = array();
 			$ex = explode('?', $loginUrl);
