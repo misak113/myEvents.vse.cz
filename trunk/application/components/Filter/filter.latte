@@ -1,21 +1,20 @@
 {var $view->headScript()->appendFile($view->baseUrl() . '/js/components/Filter/filter.js')}
 {var $view->headLink()->appendStylesheet($view->baseUrl() . '/css/components/Filter/filter.css')}
 
-	<div id="search">
-		<input type="text" placeholder="Vyhledávání" />
-		<input type="submit" value="" />
-	</div>
+        <form action="{link this}" method="get">
+                <div id="search">
+                        <input type="text" placeholder="Vyhledávání" name="filter[search]" value="{$filter['search']}" />
+                        <input type="submit" value="" />
+                </div>
 
 
-	<div id="filter">
-		<div class="head">
-			<h3>Filtrování</h3>
-			<div class="how-to">
-				Jak filtrovat<span>U všech kritérií, podle kterých chcete filtrovat, zaškrtněte políčko <input type="checkbox" />, nebo rovnou klikněte na kritérium.</span>
-			</div>
-		</div>
-		
-		<form action="{link this}" method="get">
+                <div id="filter">
+                        <div class="head">
+                                <h3>Filtrování</h3>
+                                <div class="how-to">
+                                        Jak filtrovat<span>U všech kritérií, podle kterých chcete filtrovat, zaškrtněte políčko <input type="checkbox" />, nebo rovnou klikněte na kritérium.</span>
+                                </div>
+                        </div>
 			
 			<ul>
 
@@ -63,6 +62,6 @@
 					</ul>
 				</li>
 			</ul>
-		</form>
-	</div>
+                </div>
+        </form>
 

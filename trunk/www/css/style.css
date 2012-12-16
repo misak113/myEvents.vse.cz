@@ -327,7 +327,7 @@ width: 100%;
 .day:after {content: ""; position: absolute; bottom: -6px; left: -1px; width: 5px; height: 5px; border-right: 5px solid #ca610b; border-bottom: 5px solid transparent;}
 .day strong {font-size: 16px; color: #fff; text-shadow: 0 1px rgba(0,0,0,0.3); }
 
-#search {border:  1px solid #dedede; background: #fff; margin: 25px 10px; display: none;}
+#search {border:  1px solid #dedede; background: #fff; margin: 25px 10px;}
 #search input {background: none; border: 0; }
 #search input[type="text"] { width: 150px; padding: 5px 10px; font-size: 17px;}
  #search input[type="submit"]{padding: 0 5px; background: url("../img/icons.png") no-repeat 0 -78px;}
@@ -353,7 +353,7 @@ transition: all 0.3s;
 
 #filter ul {padding: 0; margin: 0;}
 
-#filter form > ul > li {
+form #filter > ul > li {
     list-style: none;
     color: #636363;
     border-top: 1px solid #8daf3e;

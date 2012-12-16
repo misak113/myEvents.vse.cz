@@ -46,7 +46,15 @@ class FilterDispatcher
 	public function getFilteredEvents($filter) {
 		$select = $this->eventTable->select()->from(array('e'=>'event'));
 
-		// Filtrace týdnů
+		// Vyhledávání
+                if (isset($filter['search']) && $filter['search'] != ""){
+                        $search = mysql_real_escape_string($filter['search']);
+                        $select->where('name like \'%'.$search.'%\'')
+                                ->orWhere('shortinfo like \'%'.$search.'%\'')
+                                ->orWhere('longinfo like \'%'.$search.'%\'');
+                }
+                
+                // Filtrace týdnů
 		if (isset($filter['date'])) {
 			$allDates = $this->generateDates();
 			foreach ($filter['date'] as $date_id => $date) {
