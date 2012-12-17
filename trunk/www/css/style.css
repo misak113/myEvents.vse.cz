@@ -421,7 +421,7 @@ position: relative;
 
 }
 
-.background .inside .item:last-child {border: 0;}
+/*.background .inside .item:last-child {border: 0;}*/
 
 .item:hover {
 background: rgba(141,175,62,0.05);
