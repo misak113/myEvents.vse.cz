@@ -59,7 +59,7 @@
 
 			<li class="title"><span>Organizace</span>
 				<ul class="organizations">
-					<li class="filter-item organization" n:foreach="$organizations as $item">
+					<li class="filter-item organization" n:foreach="$organizations as $item" title="{$item['name']}">
 						<label><span class="filter-item-label">{$item['name']}</span>
 							<input class="{$organizationFilterActivated?showed:''} filter-input"
 								   name="filter[organization][{$item['organization_id']}]" value="1" type="checkbox"

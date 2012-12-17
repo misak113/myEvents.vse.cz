@@ -37,6 +37,15 @@
 	opacity: 1;
 }
 
+.filter-control .filter .filter-item.organization .filter-item-label {
+	font-size: 9px;
+	display: block;
+	height: 14px;
+	width: 120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 @media (max-width: 768px) {
 	.filter-control .filter .filter-item input {
 		opacity: 1;
