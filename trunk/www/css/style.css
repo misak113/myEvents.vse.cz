@@ -448,7 +448,9 @@ background: rgba(141,175,62,0.05);
 
 
 
-
+.nav li a.btn.fb { background-color: #6D84B4;
+    border-color: #4E5D7B;
+	color: #fff;}
 .item .btn {display: none; position: absolute; top: 15px; right: 10px; }
 
 .item:hover .btn {display: block; }
