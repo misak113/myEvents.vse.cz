@@ -44,7 +44,10 @@ class FilterDispatcher
 	}
 
 	public function getFilteredEvents($filter) {
-		$select = $this->eventTable->select()->from(array('e'=>'event'));
+		$select = $this->eventTable->select()->from(array('e'=>'event'))
+                        ->where('active = 1')
+                        ->where('public = 1')
+                        ;
 
 		// Vyhledávání
                 if (isset($filter['search']) && $filter['search'] != ""){
