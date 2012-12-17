@@ -162,6 +162,7 @@ class Admin_EventController extends BaseController {
             // Pošleme do view akce první organizace, které je členem
             // Systém tedy zatím umožňuje uživateli správu jen jedné organizace
             // TODO: Umožnit správu více organizací
+            // TODO: Nezobrayovat smazane akce
             $this->template->events = $organizations[0]->getEvents();
             $this->template->nazevOrganizace = $organizations[0]->name;
             // Uživatel není členem organizace, dummy výpis
