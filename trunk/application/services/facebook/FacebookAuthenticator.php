@@ -82,7 +82,7 @@ class FacebookAuthenticator implements IAuthenticator, IAuthenticateProvidesCons
 			$userId = $this->user->getId();
 		} else {
 			$user = $this->userTable->createRow(array(
-				'email' => isset($fbIdentity['email']) ?$fbIdentity['email'] :'',
+				'email' => isset($fbIdentity['email']) ?$fbIdentity['email'] :null,
 				'first_name' => isset($fbIdentity['first_name']) ?$fbIdentity['first_name'] :'',
 				'last_name' => isset($fbIdentity['last_name']) ?$fbIdentity['last_name'] :'',
 			));
