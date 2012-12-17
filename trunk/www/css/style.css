@@ -304,7 +304,7 @@ width: 100%;
 #main {margin: 55px 0 40px; width: 100%;}
 #leftSide {float: left; width: 20%;}
 #rightSide {float: left; width: 80%;}
-.background {background: #f7f7f7; border: 1px solid #b3b3b3; padding: 10px;  position: relative;  width: 100%; margin-bottom: 20px;}
+.background {background: #f7f7f7; border: 1px solid #b3b3b3; padding: 10px;  position: relative;  width: 100%; margin-bottom: 20px; }
 .background:before, .background:after {
     border: 1px solid #b3b3b3;
     background: #f7f7f7;
