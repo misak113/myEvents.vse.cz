@@ -6,7 +6,7 @@ $(function() {
     if (fileuploader.length > 0) {
         $('#file-uploader').fineUploader({
             request: {
-              endpoint: baseUrl + "../upload.php"
+              endpoint: uploadPictureUrl
             },
             sizeLimit: 5*1024*1024, // max size
             allowedExtensions: ['png','jpg','jpeg','gif','bmp'],
@@ -20,7 +20,7 @@ $(function() {
             fileTemplate: '<li>' +
               '<div class="qq-progress-bar"></div>' +
               '<span class="qq-upload-spinner"></span>' +
-              '<span class="qq-upload-finished"></span>' + 
+              '<span class="qq-upload-finished"></span>' +
               '<span class="qq-upload-file" id="logoimg"></span>' +
               '<span class="qq-upload-size"></span>' +
               '<a class="qq-upload-cancel" href="#">{cancelButtonText}</a>' +

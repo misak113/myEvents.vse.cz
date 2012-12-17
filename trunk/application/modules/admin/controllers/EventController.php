@@ -64,6 +64,29 @@ class Admin_EventController extends BaseController {
 
     }
     
+    public function handleuploadAction() {
+        // list of valid extensions, ex. array("jpeg", "xml", "bmp")
+        $allowedExtensions = array("png","jpg","jpeg","gif","bmp");
+        // max file size in bytes
+        $sizeLimit = 10 * 1024 * 1024;
+        
+        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+        
+        $dir = "img/picture";
+        
+        $result = $uploader->handleUpload($dir);
+        
+        Nette\Diagnostics\Debugger::fireLog($result);
+        
+        $image = $dir . "/" . $result['filename'];
+        $max_new_width = 100;
+        $max_new_height = 67;
+        LogoResizer::imageResize($image, $max_new_width, $max_new_height, $save = $image);
+        // to pass data through iframe you will need to encode all html tags
+        echo htmlspecialchars(Zend_Json::encode($result), ENT_NOQUOTES);
+        exit();
+    }
+    
     public function editAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:new');
         $record = null;
