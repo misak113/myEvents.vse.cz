@@ -10,13 +10,13 @@ use app\models\authentication\AuthenticateTable;
 use Nette\Security\Identity;
 use app\services\User;
 use app\models\authentication\User as DbUser;
+use app\models\authentication\IAuthenticateProvidesConstants;
 
 /**
  * Users authenticator.
  */
-class FacebookAuthenticator implements IAuthenticator
+class FacebookAuthenticator implements IAuthenticator, IAuthenticateProvidesConstants
 {
-	const AUTHENTICATE_PROVIDE_FACEBOOK = 3;
 
 	protected $id;
 
@@ -52,7 +52,6 @@ class FacebookAuthenticator implements IAuthenticator
 	 */
 	public function authenticate(array $fbIdentity)
 	{
-
 		//load by FB UID authenticator
 		$authenticate = $this->authenticateTable->getByIdentity($fbIdentity['id'], self::AUTHENTICATE_PROVIDE_FACEBOOK);
 
@@ -67,7 +66,14 @@ class FacebookAuthenticator implements IAuthenticator
 		$authenticateData = $authenticate->toArray();
 		$authenticateData['user'] = $user->toArray();
 
-		return new Identity($authenticate->getUserId(), null, $authenticateData);
+		// Uživatel byl úspěšně ověřen a je přihlášen
+		$this->updateUserData($user, $fbIdentity);
+		$roles = array();
+		foreach ($user->getRoles() as $role) {
+			$roles[] = $role->getUriCode();
+		}
+
+		return new Identity($authenticate->getUserId(), $roles, $authenticateData);
 	}
 
 
@@ -79,13 +85,23 @@ class FacebookAuthenticator implements IAuthenticator
 		} else {
 			$user = $this->userTable->createRow(array(
 				'email' => $fbIdentity['email'],
-				'first_name' => $fbIdentity['name'],
+				'first_name' => $fbIdentity['first_name'],
+				'last_name' => $fbIdentity['last_name'],
 			));
-			$user->save();
-			$userId = $user->getUserId();
+			try {
+				$user->save();
+				$userId = $user->getUserId();
+			} catch (\Zend_Db_Statement_Exception $e) {
+				if ($e->getCode() == 23000) {
+					$user = $this->userTable->getByEmail($fbIdentity['email']);
+					$userId = $user->getUserId();
+				} else {
+					throw $e;
+				}
+			}
 		}
 
-		$authenticate = $this->userTable->createRow(array(
+		$authenticate = $this->authenticateTable->createRow(array(
 			'identity' => $fbIdentity['id'],
 			'verification' => null,
 			'authenticate_provides_id' => self::AUTHENTICATE_PROVIDE_FACEBOOK,
@@ -104,7 +120,8 @@ class FacebookAuthenticator implements IAuthenticator
 		$updateData = array();
 
 		if (empty($user['first_name'])) {
-			$updateData['first_name'] = $me['name'];
+			$updateData['first_name'] = $me['first_name'];
+			$updateData['last_name'] = $me['last_name'];
 		}
 
 		if (!empty($updateData)) {

@@ -21,43 +21,28 @@ class Facebook extends FacebookAbstract
 		Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYPEER] = false; // @todo neověřuje crt
 
 		if ($accessToken === null) {
-			$app_id = $this->getAppId();
-			$app_secret = $this->getApiSecret();
-			$url = 'https://graph.facebook.com/oauth/access_token';
-			$params = array(
-				'client_id' => $app_id,
-				'client_secret' => $app_secret,
-				'grant_type' => 'client_credentials',
-				'scope' => 'offline_access',
-			);
-			$user = $this->getUser();
-			$response = $this->_oauthRequest($url, $params);
-
-			$data = array();
-			parse_str($response, $data);
-			$accessToken = $data['access_token'];
-			_dBar($accessToken);
-			$loginUrl = $this->getLoginUrl(array('scope' => 'user_events,user_about_me,email'));
-//			echo $loginUrl;
-			$params = array();
-			$ex = explode('?', $loginUrl);
-			$loginUri = $ex[0];
-			$query = $ex[1];
-			parse_str($query, $params);
-//			dump($params);
-//			//echo file_get_contents($loginUrl);
-//			$loggedResponse = $this->_oauthRequest($loginUrl, array());
-//			$ch = curl_init();
-//			$result = curl_exec($ch);
-//			dump(get_headers($loginUrl));
-//			dump($result);
-//			dump(curl_getinfo($ch));
-//			dump(curl_multi_info_read($ch));
-//			dump($loggedResponse);
-//			die();
+			$accessToken = $this->getUserAccessToken();
 		}
 
 		$this->setAccessToken($accessToken);
+	}
+
+	protected function getAppAccessToken() {
+		$app_id = $this->getAppId();
+		$app_secret = $this->getApiSecret();
+		$url = 'https://graph.facebook.com/oauth/access_token';
+		$params = array(
+			'client_id' => $app_id,
+			'client_secret' => $app_secret,
+			'type' => 'client_cred',
+		);
+		$response = $this->_oauthRequest($url, $params);
+
+		$data = array();
+		parse_str($response, $data);
+		$accessToken = $data['access_token'];
+		_dBar($accessToken);
+		return $accessToken;
 	}
 
 }

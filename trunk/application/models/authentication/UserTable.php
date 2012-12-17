@@ -22,12 +22,19 @@ class UserTable extends Table
         
 
 	/**
-	 * @param string $id
+	 * @param int $id
 	 * @return User|null
 	 */
 	public function getById($id) {
 		return $this->fetchRow(array('user_id = ?' => $id));
-	}       
+	}
+	/**
+	 * @param string $email
+	 * @return User|null
+	 */
+	public function getByEmail($email) {
+		return $this->fetchRow(array('email = ?' => $email));
+	}
 
 }
 

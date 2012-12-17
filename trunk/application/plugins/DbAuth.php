@@ -8,6 +8,7 @@ use app\models\authentication\AuthenticateProvidesTable;
 use app\services\facebook\Facebook;
 use app\plugins\FacebookAuthenticator;
 use app\models\authentication\User;
+use app\models\authentication\IAuthenticateProvidesConstants;
 
 /**
  * Plugin zajistuje autentifikaci uzivatele a presmerovani
@@ -15,11 +16,8 @@ use app\models\authentication\User;
  *
  * @see Zend_Auth_Adapter_DbTable
  */
-class Application_Plugin_DbAuth extends PluginController {
+class Application_Plugin_DbAuth extends PluginController implements IAuthenticateProvidesConstants {
 
-    const AUTHENTICATE_PROVIDE_EMAIL = 1;
-    const AUTHENTICATE_PROVIDE_USER = 2;
-	const AUTHENTICATE_PROVIDE_FACEBOOK = 3;
     
     protected static $ROLE_REDIRECTIONS = array(
         "guest" => "eventList",
@@ -220,29 +218,17 @@ class Application_Plugin_DbAuth extends PluginController {
 			return;
 		}
 
-		$authenticate = $this->authenticateTable->getByIdentity($me, self::AUTHENTICATE_PROVIDE_FACEBOOK);
-
-		$userId = $authenticate->getUserId();
-		// Uživatel byl úspěšně ověřen a je přihlášen
-		$this->updateUser($userId);
-		$user = $this->userTable->getById($userId);
-
 		$identity = $this->facebookAuthenticator->authenticate($me);
 
 		$this->user->authenticator = $this->facebookAuthenticator;
 		$this->user->login($identity);
 
-
-		$roles = array();
-		foreach ($user->getRoles() as $role) {
-			$roles[] = $role->getUriCode();
-		}
-		$identity->setRoles($roles);
-		//$authenticate->user = $user->toArray();
-		//$identity = new \Nette\Security\Identity($userInfo->user_id, $roles, $userInfo);
 		$authStorage = $this->auth->getStorage(); // @todo je to treba?
 		$authStorage->setIdentity($identity);
 		$authStorage->setAuthenticated(true);
+
+		$user = $this->userTable->getById($this->user->getId());
+		$this->updateUser($this->user->getId());
 
 		//defaultní přesměrování
 		$this->accessLogin($user);
