@@ -40,6 +40,9 @@ common:
 		facebookAuthenticator:
 			class: app\services\facebook\FacebookAuthenticator
 			tags: [inject]
+		fbExportDispatcher:
+			class: app\services\facebook\FbExportDispatcher
+			tags: [inject]
 
 		# Models
 		eventTable: app\models\events\EventTable

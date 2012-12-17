@@ -61,8 +61,6 @@ class FacebookAuthenticator implements IAuthenticator, IAuthenticateProvidesCons
 
 		$user = $this->userTable->getById($authenticate->getUserId());
 
-		$this->updateUserData($user, $fbIdentity);
-
 		$authenticateData = $authenticate->toArray();
 		$authenticateData['user'] = $user->toArray();
 
@@ -84,15 +82,15 @@ class FacebookAuthenticator implements IAuthenticator, IAuthenticateProvidesCons
 			$userId = $this->user->getId();
 		} else {
 			$user = $this->userTable->createRow(array(
-				'email' => $fbIdentity['email'],
-				'first_name' => $fbIdentity['first_name'],
-				'last_name' => $fbIdentity['last_name'],
+				'email' => isset($fbIdentity['email']) ?$fbIdentity['email'] :'',
+				'first_name' => isset($fbIdentity['first_name']) ?$fbIdentity['first_name'] :'',
+				'last_name' => isset($fbIdentity['last_name']) ?$fbIdentity['last_name'] :'',
 			));
 			try {
 				$user->save();
 				$userId = $user->getUserId();
 			} catch (\Zend_Db_Statement_Exception $e) {
-				if ($e->getCode() == 23000) {
+				if ($e->getCode() == 23000 && isset($fbIdentity['email'])) {
 					$user = $this->userTable->getByEmail($fbIdentity['email']);
 					$userId = $user->getUserId();
 				} else {
@@ -120,8 +118,10 @@ class FacebookAuthenticator implements IAuthenticator, IAuthenticateProvidesCons
 		$updateData = array();
 
 		if (empty($user['first_name'])) {
-			$updateData['first_name'] = $me['first_name'];
-			$updateData['last_name'] = $me['last_name'];
+			$updateData['first_name'] = isset($me['first_name']) ?$me['first_name'] :'';
+		}
+		if (empty($user['last_name'])) {
+			$updateData['last_name'] = isset($me['last_name']) ?$me['last_name'] :'';
 		}
 
 		if (!empty($updateData)) {

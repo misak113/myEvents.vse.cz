@@ -19,7 +19,6 @@ use app\services\facebook\Facebook;
  */
 class FbImportDispatcher
 {
-	const ACCESS_TOKEN = 'AAACEdEose0cBAML7aZCJ1qZCKE2ZAuZCfDKuxUZCoTPa8SmO6WYob2tulR2gZAQZCxA7nBgZCb8W9z0VZCWDsY82lKu2pMKLRFhMMp2gpNezZCDytcQC10MTGn';
 
 	const SOURCE_TYPE_FACEBOOK = 'facebook';
 	const DEFAULT_CATEGORY_ID = 1;
@@ -37,7 +36,7 @@ class FbImportDispatcher
 	protected $organization;
 
 	/**
-	 * @param int|\app\models\organizations\Organization $idOrganization
+	 * @param int|\app\models\organizations\Organization $organization
 	 */
 	public function importEventsByOrganization($organization) {
 		if (is_int($organization)) {
@@ -130,7 +129,7 @@ class FbImportDispatcher
 
 	public function injectFacebook(Facebook $facebook) {
 		$this->facebook = $facebook;
-		$this->facebook->login();//self::ACCESS_TOKEN);
+		$this->facebook->login();
 	}
 	public function injectOrganizationTable(OrganizationTable $organizationTable) {
 		$this->organizationTable = $organizationTable;

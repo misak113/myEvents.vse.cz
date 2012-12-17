@@ -27,3 +27,5 @@ INSERT INTO `organization` (`organization_id`, `name`, `website`, `info`, `email
 (29, 'Model UN Prague', '', '', '', '', '', '477237812316043'),
 (31, 'Studentský klub pro projektové řízení', NULL, NULL, NULL, NULL, NULL, NULL);
 
+INSERT INTO `organization` (`name`, `website`, `info`, `email`, `logo`, `fb_url`, `facebook_id`)
+VALUES ('myEvents.vse.cz', 'http://myevents.vse.cz', NULL, 'myeventsvse@gmail.com', NULL, 'http://www.facebook.com/myEvents.vse.cz', '238329219628570');

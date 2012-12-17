@@ -4,6 +4,7 @@ use Zette\UI\BaseController;
 use app\services\TitleLoader;
 use app\models\authentication\UserTable;
 use app\services\facebook\FbImportDispatcher;
+use app\services\facebook\FbExportDispatcher;
 
 /*
  * Created by JetBrains PhpStorm.
@@ -32,6 +33,8 @@ class Admin_EventController extends BaseController {
 
     /** @var \app\services\facebook\FbImportDispatcher */
     protected $fbImportDispatcher;
+	/** @var \app\services\facebook\FbExportDispatcher */
+	protected $fbExportDispatcher;
     
     /** @var Classroomtable */
     protected $classroomtable;
@@ -40,7 +43,8 @@ class Admin_EventController extends BaseController {
      * @param TitleLoader $titleLoader 
      */
     public function setContext(TitleLoader $titleLoader, app\models\events\EventTable $eventTable, app\models\events\CategoryTable $categoryTable, app\models\events\TagTable $tagTable, UserTable $userTable, FbImportDispatcher $fbImportDispatcher, app\models\events\ClassroomTable $classroomtable
-    ) {
+    	, FbExportDispatcher $fbExportDispatcher
+	) {
 
         $this->titleLoader = $titleLoader;
         $this->eventTable = $eventTable;
@@ -48,6 +52,7 @@ class Admin_EventController extends BaseController {
         $this->tagTable = $tagTable;
         $this->userTable = $userTable;
         $this->fbImportDispatcher = $fbImportDispatcher;
+		$this->fbExportDispatcher = $fbExportDispatcher;
         $this->classroomtable = $classroomtable;
     }
     
@@ -205,13 +210,42 @@ class Admin_EventController extends BaseController {
 		}
 
         if (!$events) {
-            $this->flashMessage('Žádná akce nebyla importována', self::FLASH_ERROR);
+            $this->flashMessage('Žádná akce nebyla importována', self::FLASH_INFO);
             $this->redirect('adminEvents');
         }
 
         $this->flashMessage('Byly přidány ' . count($events) . ' akce z Facebooku.');
         $this->redirect('adminEvents');
     }
+	public function fbExportAction() {
+		$this->template->title = $this->titleLoader->getTitle('Admin:Event:fbExport');
+
+		$userId = $this->user->getId();
+		$user = $this->userTable->getById($userId);
+		$organizations = $user->getOrganizations();
+		if ($organizations->count() == 0) {
+			$this->flashMessage('Nejste správcem žádné z organizací', self::FLASH_ERROR);
+			$this->redirect('adminEvents');
+		}
+		try {
+			$events = $this->fbExportDispatcher->exportEventsToOrganization($organizations->current());
+		} catch (FacebookApiException $e) {
+			if (strstr($e->getMessage(), 'access token') !== false) { // Pokud je to chyba s access_tokenem
+				$this->flashMessage('Pro import z FB je třeba být přihlášen pomocí Facebooku', self::FLASH_ERROR);
+			} else {
+				$this->flashMessage('Při importování došlo k chybě', self::FLASH_ERROR);
+			}
+			$this->redirect('adminEvents');
+		}
+
+		if (!$events) {
+			$this->flashMessage('Žádná akce nebyla exportována', self::FLASH_INFO);
+			$this->redirect('adminEvents');
+		}
+
+		$this->flashMessage('Byly přidány ' . count($events) . ' akce z Facebooku.');
+		$this->redirect('adminEvents');
+	}
 
     //public function redirect($url, array $prm = array()) {}
     
