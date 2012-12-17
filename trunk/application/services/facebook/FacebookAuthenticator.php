@@ -1,5 +1,5 @@
 <?php
-namespace app\plugins;
+namespace app\services\facebook;
 
 use Nette\Security\IAuthenticator;
 

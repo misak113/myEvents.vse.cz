@@ -6,7 +6,7 @@ use Nette\Security\IUserStorage;
 use app\models\authentication\UserTable;
 use app\models\authentication\AuthenticateProvidesTable;
 use app\services\facebook\Facebook;
-use app\plugins\FacebookAuthenticator;
+use app\services\facebook\FacebookAuthenticator;
 use app\models\authentication\User;
 use app\models\authentication\IAuthenticateProvidesConstants;
 

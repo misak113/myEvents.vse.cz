@@ -38,7 +38,7 @@ common:
 			class: app\services\facebook\FbImportDispatcher
 			tags: [inject]
 		facebookAuthenticator:
-			class: app\plugins\FacebookAuthenticator
+			class: app\services\facebook\FacebookAuthenticator
 			tags: [inject]
 
 		# Models
