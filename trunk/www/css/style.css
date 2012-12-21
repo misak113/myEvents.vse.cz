@@ -448,9 +448,7 @@ background: rgba(141,175,62,0.05);
 
 
 
-.nav li a.btn.fb { background-color: #6D84B4;
-    border-color: #4E5D7B;
-	color: #fff;}
+
 .item .btn {display: none; position: absolute; top: 15px; right: 10px; }
 
 .item:hover .btn {display: block; }
@@ -545,8 +543,44 @@ background: rgba(141,175,62,0.05);
     .autocomplete strong { font-weight: normal; color: #8DAF3E; }
 
 
+	.logIn {float: right;}
+	.logIn li {float: left; margin: 0 10px;}
+	.logIn li a {color: #3C3C3C;}
+	.logIn li a.btn.fb { background-color: #6D84B4; border-color: #4E5D7B; color: #fff;}
+	
 
+/* Login form */
+#loginForm {
+	
+	width: 300px;
+	height: 285px;
+	
+	margin: 30px auto;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
 
+#loginForm input[type="text"],
+#loginForm input[type="password"] {
+	font-size: 16px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
+	width: 100%;
+	
+}
+
+#loginForm .head {background:#8daf3e; padding: 20px 10px 20px 20px; width: 100%;}
+#loginForm .head  h3 {color: #fff; font-size: 18px;}
+#loginForm .body {padding: 20px;}
+#loginForm .body label {font-size: 14px; color: #444; margin-bottom: 7px; display: inline-block;}
+#loginForm .btn {float: right;}
+
+.btn.org {background: #ed7f25; border-color: #d3660d;}
 
 /* responsive */
 @media (max-width: 800px) {
@@ -562,3 +596,5 @@ background: rgba(141,175,62,0.05);
 @media (max-width: 450px) {
 
 }
+
+
