@@ -291,7 +291,11 @@ width: 100%;
 
 
 .logo {display: block; float: left; margin: 25px;}
-.nav {float: right; margin: 72px 20px 0 0;}
+.nav { 
+ border-bottom: 1px solid #CCCCCC;
+    margin: 42px 20px 0 0;
+    padding: 0 0 10px;
+}
 .nav li {float: left; margin: 0 5px; list-style: none}
 .nav li a {color: #3C3C3C; text-decoration: none; font-size: 16px; font-weight: bold; padding: 5px 10px;
     transition: all 0.2s;
@@ -543,7 +547,7 @@ background: rgba(141,175,62,0.05);
     .autocomplete strong { font-weight: normal; color: #8DAF3E; }
 
 
-	.logIn {float: right;}
+	.logIn {list-style: none;  border-top: 1px solid #eee; padding: 10px 0 0 0;}
 	.logIn li {float: left; margin: 0 10px;}
 	.logIn li a {color: #3C3C3C;}
 	.logIn li a.btn.fb { background-color: #6D84B4; border-color: #4E5D7B; color: #fff;}
