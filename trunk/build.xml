@@ -11,11 +11,15 @@
     </fileset>
     <fileset id="public" dir="${project.basedir}/www">
         <include name="**/*.php"/>
+		<exclude name="adminer/*" />
     </fileset>
 	<fileset id="library" dir="${project.basedir}/library">
         <include name="**/*.php"/>
 		<exclude name="Zend/"/>
 		<exclude name="Nette/"/>
+		<exclude name="FacebookSDK/"/>
+		<exclude name="LogoResizer/"/>
+		<exclude name="Uploader/"/>
     </fileset>
     
     <target name="cleanbuild" description="Vyčistění workspace">
@@ -63,7 +67,7 @@
     </target>
     
     <target name="phploc" depends="prepare" description="Analýza PHPLOC">
-        <exec command="phploc  --exclude ./library/Zend/ --exclude ./library/Nette/ --log-csv ${project.basedir}/build/phploc.csv ${project.basedir}" logoutput="true" />
+        <exec command="phploc  --exclude ./library/Zend/ --exclude ./library/Nette/ --exclude ./www/adminer/ --log-csv ${project.basedir}/build/phploc.csv ${project.basedir}" logoutput="true" />
     </target>
     
     <target name="pdepend" depends="prepare" description="Analýza nástrojem PDepend">
