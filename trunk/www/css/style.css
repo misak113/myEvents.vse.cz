@@ -50,9 +50,12 @@ h1 {
 	vertical-align: middle;
 }
 
-input[type='text'], input[type='date'], input[type='url'] {
-	padding: 5px;
-	height: 33px;
+input[type='text'], input[type='date'], input[type='url'], input[type='password']  {
+	
+	font-size: 16px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
 }
 
 #coming-soon-box {
@@ -188,10 +191,7 @@ input[type='text'], input[type='date'], input[type='url'] {
 
 #loginForm input[type="text"],
 #loginForm input[type="password"] {
-	font-size: 16px;
-	height: auto;
-	margin-bottom: 15px;
-	padding: 7px 9px;
+
 	width: 100%;
 	
 }
@@ -202,7 +202,8 @@ input[type='text'], input[type='date'], input[type='url'] {
 #loginForm .body label {font-size: 14px; color: #444; margin-bottom: 7px; display: inline-block;}
 #loginForm .btn {float: right;}
 
-#loginForm dd, #loginForm dl {margin: 0;}
+form dd, form dl {margin: 0;}
+form label {font-weight: bold;}
 
 .btn.org {background: #ed7f25; border-color: #d3660d;}
 
@@ -325,7 +326,9 @@ width: 100%;
 .background:before {top: -11px; width: 98%; margin: 0 1%; box-shadow: 0 8px 20px 4px rgba(0,0,0,0.1);}
 
 .background .inside {border: 1px solid #b3b3b3; background: #fff; position: relative;}
+.background .inside.p20 {padding: 20px;}
 #main h1 {color: #3c3c3c; font-size: 22px; font-weight: bold; margin: 20px 15px;}
+#main .p20 h1 {margin: 0 0 20px 0;}
 #main h1.abs {position: absolute; top: 30px; right: 15px; margin: 0;}
 .dayBox {padding: 25px 0 8px; width: 100%; border-bottom: 1px solid #DDDDDD;}
 .day {background: #ed7f25; position: relative; padding: 10px 20px; border: 1px solid #d3660d; position:relative; left: -5px; display: inline-block; float: left; }
@@ -458,6 +461,12 @@ background: rgba(141,175,62,0.05);
 
 .item:hover .btn {display: block; }
 .btn {background: #8daf3e; text-decoration: none; padding: 4px 12px; color: #fff; border: 1px solid #7c9839; border-bottom-width: 2px; font-weight: bold;}
+.btn.gr {   background-color: #CCCCCC;
+    border-color: #9D9B9B;
+    color: #333333; }
+	
+.btn.gr:hover{background-color:	#c7c5c5;}
+
 .btn:hover {text-decoration: none; color: #fff;}
 .item .basic .part {display: inline-block; vertical-align: top;}
 .item .basic span  {background: url("../img/icons.png") no-repeat; width: 25px; height: 35px; display: block; float: left; margin-right: 10px;}
@@ -550,46 +559,56 @@ background: rgba(141,175,62,0.05);
 
 	.logIn {  border-top: 1px solid #EEEEEE;
     height: 35px;
-    list-style: none outside none;
+    list-style: none;
     margin: 0 20px 0 0;
     padding: 10px 0 0;}
 	.logIn li {float: left; margin: 0 10px;}
 	.logIn li a {color: #3C3C3C;}
 	.logIn li a.btn.fb { background-color: #6D84B4; border-color: #4E5D7B; color: #fff;}
 	
+.submenu {height: 40px; margin-bottom: 20px;}
+.submenu ul  {list-style: none; margin: 0; padding: 0;}
+.submenu ul li {float: left; margin: 0 10px; padding: 0;}
 
-/* Login form */
-#loginForm {
-	
-	width: 300px;
-	height: 285px;
-	
-	margin: 30px auto;
-	background-color: #fff;
-	border: 1px solid #e5e5e5;
-	
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-}
 
-#loginForm input[type="text"],
-#loginForm input[type="password"] {
-	font-size: 16px;
-	height: auto;
-	margin-bottom: 15px;
-	padding: 7px 9px;
-	width: 100%;
-	
-}
-
-#loginForm .head {background:#8daf3e; padding: 20px 10px 20px 20px; width: 100%;}
-#loginForm .head  h3 {color: #fff; font-size: 18px;}
-#loginForm .body {padding: 20px;}
-#loginForm .body label {font-size: 14px; color: #444; margin-bottom: 7px; display: inline-block;}
-#loginForm .btn {float: right;}
 
 .btn.org {background: #ed7f25; border-color: #d3660d;}
+
+/* bootstrap */
+
+table {
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.table thead th {
+  vertical-align: bottom;
+}
+
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th {
+  background-color: #f9f9f9;
+}
 
 /* responsive */
 @media (max-width: 800px) {
