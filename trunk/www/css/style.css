@@ -65,10 +65,10 @@ input[type='text'], select, input[type='date'], input[type='url'], input[type='p
 }
 
 form .row input, form .row select , textarea,
-form .email-element input, form .email-element select { margin: 0;}
-form .row, form .email-element {margin-bottom: 20px;}
+form dd input, form dd select { margin: 0;}
+form .row, form dd {margin-bottom: 20px;}
 
-form .row .err, form .email-element .errors {
+form .row .err, form dd .errors {
   display: inline-block;
     
     list-style: none outside none;
@@ -76,7 +76,7 @@ form .row .err, form .email-element .errors {
     padding-left: 10px;
 }
 
-form .row .err  li, form .email-element .errors li {
+form .row .err  li, form dd .errors li {
 background: red;
 color: #fff;
 padding: 5px;
