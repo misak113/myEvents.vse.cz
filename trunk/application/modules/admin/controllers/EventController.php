@@ -142,10 +142,8 @@ class Admin_EventController extends BaseController {
 
                 $record->updateFromArray($formValues);
 
-
-                //TODO flashmessage zmeny ulozeny
-
-
+                $this->flashMessage("Změny v události uloženy.");
+                
                 $this->_helper->redirector->gotoRoute(
                         array(
                     'module' => 'admin',
@@ -190,7 +188,6 @@ class Admin_EventController extends BaseController {
             // Pošleme do view akce první organizace, které je členem
             // Systém tedy zatím umožňuje uživateli správu jen jedné organizace
             // TODO: Umožnit správu více organizací
-            // TODO: Nezobrayovat smazane akce
             $this->template->events = $organizations[0]->getEvents();
             $this->template->nazevOrganizace = $organizations[0]->name;
             // Uživatel není členem organizace, dummy výpis
@@ -284,17 +281,16 @@ class Admin_EventController extends BaseController {
                 $record = $this->eventTable->getById($eventId);
                 
                 if($record){
-                    //$record->delete();
                     $record->active = 0;
                     $record->save();
-                    $this->_helper->flashMessenger->addMessage("Událost byla odstraněna.");
+                    $this->flashMessage("Událost " . $record->name. " byla odstraněna.", self::FLASH_INFO);
                 }
             }
         }
         $this->_helper->redirector->gotoRoute(array('module' => 'admin',
                                                         'controller' => 'event',
                                                         'action' => 'index'), 
-                                                          'default', 
+                                                        'default', 
                         true);
     }
     
@@ -305,12 +301,7 @@ class Admin_EventController extends BaseController {
             
             if(!empty($eventId) && isset($public)){
                 $record = $this->eventTable->getById($eventId);
-                
-                if($record){
-                    $record->public = $public;
-                    $record->save();
-                    $this->_helper->flashMessenger->addMessage("Událost byla odstraněna.");
-                }
+                $this->setPublic($record, $public);
             }
         }
         
@@ -319,5 +310,17 @@ class Admin_EventController extends BaseController {
                                                         'action' => 'index'), 
                                                           'default', 
                         true);
+    }
+    
+    protected function setPublic($record, $public) {
+        if($record){
+            $record->public = $public;
+            $record->save();
+            if($public){
+                $this->flashMessage("Událost " . $record->name. " byla publikována.", self::FLASH_INFO);
+            } else {
+                $this->flashMessage("Událost " . $record->name. " byla skryta.", self::FLASH_INFO);
+            }
+        }
     }
 }

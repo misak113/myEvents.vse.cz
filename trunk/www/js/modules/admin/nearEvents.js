@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var url = $('#hrefNearEvents').html();
+    var url = baseUrl + '/admin/event/nearevents';
     $('#date').change(function(){
         getNearEvents(url);
     });
@@ -16,7 +16,7 @@ $(document).ready(function(){
             var source = url + '?datetime=' 
                 + encodeURIComponent(datetime);
             
-            $('#nearEvents').html('nacitam');
+            $('#nearEvents').html();
             $.get(source, function(data){
                 $('#nearEvents').html(data);
             });
