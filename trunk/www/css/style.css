@@ -50,7 +50,7 @@ h1 {
 	vertical-align: middle;
 }
 
-input[type='text'], input[type='date'], input[type='url'], input[type='password']  {
+input[type='text'], input[type='date'], input[type='url'], input[type='password'] , input[type='time'], textarea {
   border: 1px solid #8DAF3E;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 0 1px 1px rgba(141, 175, 62, 0.31) inset;
@@ -219,9 +219,7 @@ font-size: 14px; color: #444;
 
 .btn.org {background: #ed7f25; border-color: #d3660d;}
 
-input.btn {
-	padding: 8px 18px;
-}
+
 
 .wrap {
 	width: 750px;
@@ -474,13 +472,20 @@ background: rgba(141,175,62,0.05);
 .item .btn {display: none; position: absolute; top: 15px; right: 10px; }
 
 .item:hover .btn {display: block; }
-.btn {background: #8daf3e; text-decoration: none; padding: 4px 12px; color: #fff; border: 1px solid #7c9839; border-bottom-width: 2px; font-weight: bold;}
+.btn {background: #8daf3e; text-decoration: none; padding: 6px 10px; color: #fff; font-family: Arial;
+    font-size: 13px; border: 1px solid #7c9839; border-bottom-width: 2px; font-weight: bold; cursor: pointer;}
 .btn.gr {   background-color: #CCCCCC;
     border-color: #9D9B9B;
     color: #333333; }
 	
-.btn.gr:hover{background-color:	#c7c5c5;}
-
+.btn.gr:hover{background-color:	#ddd; color: #222;}
+ .btn.rd {   background-color: #C92F2F;
+    border-color: #990404;
+     }
+ .btn.bl {   background-color: #4091C9;
+    border-color: #055084;
+     }	 
+	  
 .btn:hover {text-decoration: none; color: #fff;}
 .item .basic .part {display: inline-block; vertical-align: top;}
 .item .basic span  {background: url("../img/icons.png") no-repeat; width: 25px; height: 35px; display: block; float: left; margin-right: 10px;}
@@ -623,6 +628,8 @@ table {
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #f9f9f9;
 }
+
+.editOrg form {margin-bottom: 10px;}
 
 @media (max-width: 1000px) {
 #wrap {
