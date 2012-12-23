@@ -9,7 +9,7 @@ $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/event
 {block content}
 
 <div class="background">
-	<div class="inside p20">
+	<div class="inside editOrg p20">
 	<h1>Editace akce</h1>
 <div id="formwrap">
     <div id="form">
@@ -17,7 +17,7 @@ $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/event
         <div id="selection"></div>
         <a href="<?php echo $view->url(array(),
            'adminIndex',
-           true); ?>" class="btn btn-danger"><i class="icon-white icon-remove-circle"></i> Zrušit editaci</a>
+           true); ?>" class="btn gr"><i class="icon-white icon-remove-circle"></i> Zrušit editaci</a>
     </div>
     <div id="nearEvents">
         <span style="display: none" id="hrefNearEvents"><?php echo $view->baseUrl() . '/admin/event/nearevents'; ?></span>

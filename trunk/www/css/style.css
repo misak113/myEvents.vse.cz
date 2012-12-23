@@ -50,16 +50,23 @@ h1 {
 	vertical-align: middle;
 }
 
-input[type='text'], input[type='date'], input[type='url'], input[type='password'] , input[type='time'], textarea {
+row.gap {
+margin-bottom: 20px;
+}
+
+input[type='text'], select, input[type='date'], input[type='url'], input[type='password'] , input[type='time'], textarea {
   border: 1px solid #8DAF3E;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 0 1px 1px rgba(141, 175, 62, 0.31) inset;
-    font-size: 16px;
+    font-size: 13px;
+	font-family: arial;
     height: auto;
     margin-bottom: 20px;
     padding: 7px 9px;
 	background: #FAFAFA;
 }
+
+
 
 input[type='text']:focus, input[type='date']:focus, input[type='url']:focus, input[type='password']:focus  {
   border: 1px solid #DB6C00; 
@@ -266,9 +273,9 @@ table.actionform th label {
 }
 
 #shortinfo {width: 400px; height: 100px;}
-#longinfo {width: 400px; height: 200px;}
+#longinfo {width: 500px; height: 200px;}
 
-#info { width: 400px; height: 200px; }
+#info { width: 500px; height: 200px; }
 
 
 
@@ -472,8 +479,8 @@ background: rgba(141,175,62,0.05);
 .item .btn {display: none; position: absolute; top: 15px; right: 10px; }
 
 .item:hover .btn {display: block; }
-.btn {background: #8daf3e; text-decoration: none; padding: 6px 10px; color: #fff; font-family: Arial;
-    font-size: 13px; border: 1px solid #7c9839; border-bottom-width: 2px; font-weight: bold; cursor: pointer;}
+.btn {background: #8daf3e; text-decoration: none; padding: 4px 10px; color: #fff; font-family: Arial;
+    font-size: 13px; border: 1px solid #7c9839; display: inline-block; border-bottom-width: 2px; font-weight: bold; cursor: pointer;}
 .btn.gr {   background-color: #CCCCCC;
     border-color: #9D9B9B;
     color: #333333; }
@@ -563,7 +570,7 @@ background: rgba(141,175,62,0.05);
 	#loginForm .head {border-radius: 5px 5px 0 0;}
 .dayBox .day{border-radius: 0 5px 5px 0;}
 .btn, .item .social a, .nav li a {border-radius: 3px;}
-#filter .head, .dayBox, .item, #main, #top {
+#filter .head, .dayBox, .item, #main, #top, .background .inside {
     content:"";
     clear:both;
     display:table;
@@ -592,7 +599,9 @@ background: rgba(141,175,62,0.05);
 
 
 .btn.org {background: #ed7f25; border-color: #d3660d;}
-
+.listA .btn.new{
+position: absolute; top: 10px; right: 20px;
+}
 /* bootstrap */
 
 table {
@@ -604,28 +613,29 @@ table {
 
 .table {
   width: 100%;
-  margin-bottom: 20px;
+  margin: 0;
 }
 
 .table th,
 .table td {
-  padding: 8px;
+  padding: 10px;
   line-height: 20px;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
   border-top: 1px solid #dddddd;
 }
 
 .table th {
   font-weight: bold;
+  background: #ddd;
 }
 
 .table thead th {
   vertical-align: bottom;
 }
 
-.table-striped tbody tr:nth-child(odd) td,
-.table-striped tbody tr:nth-child(odd) th {
+.table-striped tbody tr:nth-child(2n+3) td,
+.table-striped tbody tr:nth-child(2n+3) th {
   background-color: #f9f9f9;
 }
 
