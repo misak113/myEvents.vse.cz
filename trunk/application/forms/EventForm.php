@@ -181,7 +181,7 @@ class EventForm extends Zend_Form {
         $this->setElementDecorators(array(
             'ViewHelper',
             //'Errors',
-            array('Errors', array('tag' => 'span', 'class' => 'label label-important')),
+            array('Errors', array('tag' => 'span', 'class' => 'label label-important err')),
             array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'span2')),
             array('Label', array('tag' => 'div', 'class' => 'span2')),
             array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'row'))
