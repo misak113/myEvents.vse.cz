@@ -64,12 +64,15 @@ input[type='text'], select, input[type='date'], input[type='url'], input[type='p
 	background: #FAFAFA;
 }
 
-form .row input, form .row select { margin: 0;}
+form .row input, form .row select , textarea{ margin: 0;}
 form .row {margin-bottom: 20px;}
 
 form .row .err {
-margin-bottom: 0;
-padding-left: 10px;
+  display: inline-block;
+    
+    list-style: none outside none;
+    margin: 0;
+    padding-left: 10px;
 }
 
 form .row .err  li {
