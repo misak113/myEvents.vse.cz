@@ -56,8 +56,9 @@ input[type='text'], input[type='date'], input[type='url'], input[type='password'
     box-shadow: 0 1px 1px rgba(141, 175, 62, 0.31) inset;
     font-size: 16px;
     height: auto;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding: 7px 9px;
+	background: #FAFAFA;
 }
 
 input[type='text']:focus, input[type='date']:focus, input[type='url']:focus, input[type='password']:focus  {
@@ -213,7 +214,7 @@ form label {
 font-size: 14px; color: #444;
   display: inline-block;
     font-weight: bold;
-    margin-bottom: 7px;
+    margin-bottom: 3px;
 }
 
 .btn.org {background: #ed7f25; border-color: #d3660d;}
@@ -652,6 +653,7 @@ display: none;
 .detail .item .img {
 width: 250px;
 	float: none;
+	margin-top: 3em;
 }
 
 .detail .item .info {
