@@ -47,6 +47,7 @@ class FilterDispatcher
 		$select = $this->eventTable->select()->from(array('e'=>'event'))
                         ->where('active = 1')
                         ->where('public = 1')
+						->where('timestart >= ?', date('Y-m-d'))
                         ;
 
 		// Vyhledávání
