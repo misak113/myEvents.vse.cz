@@ -76,11 +76,11 @@ class EventController extends BaseController {
 
 		$filterControl = $this->getComponent('filter');
 		$filter = $filterControl->getFilter();
-		if (!$filter) {
-			$eventDates = $this->eventTable->getEventsThisWeek();
-		} else {
+		//if (!$filter) {
+		//	$eventDates = $this->eventTable->getEventsThisWeek();
+		//} else {
 			$eventDates = $this->filterDispatcher->getFilteredEvents($filter);
-		}
+		//}
 
 		$this->template->eventDates = $eventDates;
 	}

@@ -50,12 +50,13 @@ class FilterDispatcher
                         ;
 
 		// Vyhledávání
-                if (isset($filter['search']) && $filter['search'] != ""){
-                        $search = $filter['search'];
-                        $select->where("name like ?", array('%'.$search.'%'))
-                                ->orWhere('shortinfo like ?', array('%'.$search.'%'))
-                                ->orWhere('longinfo like ?', array('%'.$search.'%'));
-                }
+		if (isset($filter['search']) && $filter['search'] != ""){
+			_dBar('search filtering');
+				$search = $filter['search'];
+				$select->where("name like ?", array('%'.$search.'%'))
+						->orWhere('shortinfo like ?', array('%'.$search.'%'))
+						->orWhere('longinfo like ?', array('%'.$search.'%'));
+		}
                 
                 // Filtrace týdnů
 		if (isset($filter['date'])) {
@@ -96,7 +97,7 @@ class FilterDispatcher
 
 		$events = $this->eventTable->fetchAll($select, $order);
 		$eventsArray = $this->eventTable->createEventDated($events);
-
+_dBar($events);
 		return $eventsArray;
 	}
 
