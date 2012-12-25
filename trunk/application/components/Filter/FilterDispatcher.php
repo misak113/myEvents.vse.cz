@@ -129,34 +129,99 @@ _dBar($events);
 	}
 
 	/**
-	 * Vygeneruje data pro filter a to následující týdny výuky
+	 * Vygeneruje semestrální i mimosemestrální týdny pro dates filter
 	 * @return array
 	 */
 	protected function generateDates() {
-		$now = new DateTime();
-		$weekNow = $now->format('W');
-		$firstWeekNumber = 1;
-		if ($weekNow >= 39 && $weekNow <= 51) {
-			$firstWeekNumber = 39;
-		} elseif ($weekNow >= 7 && $weekNow <= 19) {
-			$firstWeekNumber = 7;
+		$weeks = $this->getSemestralWeeks();
+
+		if (empty($weeks)) {
+			$from = $this->getDate()->format('W');
+			$weeks = $this->getSemestralWeeks(
+				$from >= self::WEEK_START_NUMBER_ZIMNI + self::WEEKS_SEMESTRAL_COUNT && $from <= self::WEEK_START_NUMBER_LETNI
+					?self::WEEK_START_NUMBER_LETNI
+					:self::WEEK_START_NUMBER_ZIMNI
+			);
+		} else {
+			$last = end($weeks);
+			$from = ($last['end']->format('W')+1)%self::WEEKS_YEAR_COUNT;
+		}
+		$weeks += $this->getMimosemestralWeeks($from);
+
+		uasort($weeks, function ($a, $b) {
+			return $a['start']->getTimestamp() > $b['start']->getTimestamp() ?1 :-1;
+		});
+
+		$weeks = array_slice($weeks, 0, 6);
+
+		return $weeks;
+	}
+
+
+
+	const WEEK_START_NUMBER_LETNI = 39;
+	const WEEK_START_NUMBER_ZIMNI = 7;
+	const WEEKS_SEMESTRAL_COUNT = 13;
+	const WEEKS_YEAR_COUNT = 53;
+
+	/**
+	 * Vygeneruje data pro filter a to následující týdny výuky
+	 * @return array
+	 */
+	protected function getSemestralWeeks($weekNow = false) {
+		$now = $this->getDate();
+		if ($weekNow === false) $weekNow = $now->format('W');
+		$firstWeekNumber = false;
+		if ($weekNow >= self::WEEK_START_NUMBER_LETNI && $weekNow < self::WEEK_START_NUMBER_LETNI + self::WEEKS_SEMESTRAL_COUNT) {
+			$firstWeekNumber = self::WEEK_START_NUMBER_LETNI;
+		} elseif ($weekNow >= self::WEEK_START_NUMBER_ZIMNI && $weekNow < self::WEEK_START_NUMBER_ZIMNI + self::WEEKS_SEMESTRAL_COUNT) {
+			$firstWeekNumber = self::WEEK_START_NUMBER_ZIMNI;
+		}
+
+		// Mimo semestr
+		if ($firstWeekNumber === false) {
+			return array();
 		}
 
 		$weekNumber = $firstWeekNumber;
 		$weeks = array();
-		for ($schoolWeek = 1;$schoolWeek <= 13;$schoolWeek++,$weekNumber++) {
+		for ($schoolWeek = 1;$schoolWeek <= self::WEEKS_SEMESTRAL_COUNT;$schoolWeek++,$weekNumber++) {
 			if ($weekNumber >= $now->format('W')) {
 				$start = $this->createDateTimeFromWeek($weekNumber);
-				$end = $this->createDateTimeFromWeek($weekNumber+1)->sub(\DateInterval::createFromDateString('1 days'));
+				$end = $this->createDateTimeFromWeek($weekNumber+1);
+				if (!$start || !$end) continue;
 				$week = array(
 					'id' => $schoolWeek,
 					'title' => $schoolWeek.'. Týden ('.$start->format('j.n.').'-'.$end->format('j.n.').')',
 					'week_number' => $weekNumber,
 					'start' => $start,
-					'end' => $end,
+					'end' => $end->sub(\DateInterval::createFromDateString('1 days')),
 				);
-				$weeks[$schoolWeek] = $week;
+				$weeks[$weekNumber] = $week;
 			}
+		}
+
+		return $weeks;
+	}
+
+	protected function getMimosemestralWeeks($fromWeek) {
+		$weeks = array();
+		for ($i=self::WEEKS_SEMESTRAL_COUNT+1,$weekNumber = $fromWeek;$i <= self::WEEKS_SEMESTRAL_COUNT+10;$i++,$weekNumber++) {
+			$realStart = $weekNumber % self::WEEKS_YEAR_COUNT;
+			$realEnd = ($weekNumber+1) % self::WEEKS_YEAR_COUNT;
+			$yearStart = $realStart != $weekNumber ?$this->getDate('Y')+1 :$this->getDate('Y');
+			$yearEnd = $realEnd != ($weekNumber+1) ?$this->getDate('Y')+1 :$this->getDate('Y');
+			$start = $this->createDateTimeFromWeek($realStart, $yearStart);
+			$end = $this->createDateTimeFromWeek($realEnd, $yearEnd);
+			if (!$start || !$end) continue;
+			$week = array(
+				'id' => $i,
+				'title' => $start->format('j.n.').' - '.$end->format('j.n.'),
+				'week_number' => $weekNumber,
+				'start' => $start,
+				'end' => $end->sub(\DateInterval::createFromDateString('1 days')),
+			);
+			$weeks[$weekNumber] = $week;
 		}
 
 		return $weeks;
@@ -167,8 +232,9 @@ _dBar($events);
 	 * @param int $week
 	 * @return bool|\DateTime
 	 */
-	protected function createDateTimeFromWeek($week) {
-		$date = \DateTime::createFromFormat('Y-m-D', date('Y').'-01-Mon');
+	protected function createDateTimeFromWeek($week, $year = false) {
+		if ($year === false) $year = $this->getDate('Y');
+		$date = \DateTime::createFromFormat('Y-m-D', $year.'-01-Mon')->sub(\DateInterval::createFromDateString('4 weeks'));
 		$limit = 100;
 		while($limit > 0) {
 			if ($date->format('W') >= $week) {
@@ -177,9 +243,23 @@ _dBar($events);
 			$date = $date->add(\DateInterval::createFromDateString('1 weeks'));
 			$limit--;
 		}
+
+		// Když se něco posere tak aby se nezacyklilo
 		return false;
 	}
 
+
+	/**
+	 * @param bool $params
+	 * @return \Nette\DateTime|string
+	 */
+	protected function getDate($params = false) {
+		$date = new DateTime();
+		//$date = \DateTime::createFromFormat('Y-m-d', '2011-03-12');
+		if ($params === false) return $date;
+
+		return $date->format($params);
+	}
 
 
 
