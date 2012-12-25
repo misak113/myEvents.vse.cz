@@ -26,8 +26,8 @@
 					<li class="filter-item date" n:foreach="$dates as $item">
 						<label><span class="filter-item-label">{$item['title']}</span>
 							<input class="{$dateFilterActivated?showed:''} filter-input"
-								   name="filter[date][{$item['id']}]" value="1" type="checkbox"
-							{ifset $filter['date'][$item['id']]}checked="checked"{/ifset}
+								   name="filter[date][{$item['week_number']}]" value="1" type="checkbox"
+							{ifset $filter['date'][$item['week_number']]}checked="checked"{/ifset}
 							/></label>
 					</li>
 				</ul>

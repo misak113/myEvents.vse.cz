@@ -152,7 +152,7 @@ _dBar($events);
 			return $a['start']->getTimestamp() > $b['start']->getTimestamp() ?1 :-1;
 		});
 
-		$weeks = array_slice($weeks, 0, 6);
+		$weeks = array_slice($weeks, 0, 6, true);
 
 		return $weeks;
 	}
