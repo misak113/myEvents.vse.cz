@@ -294,6 +294,7 @@ table.actionform th label {
 
 #info { width: 500px; height: 200px; }
 
+.row #fburl, .row #name {width: 350px;}
 
 
 #wrap {
@@ -342,7 +343,7 @@ width: 100%;
 }
 .nav li a:hover, .nav li a.active {background:#8daf3e; color: #fff;}
 
-#main {margin: 55px 0 40px; width: 100%;}
+#main {margin: 2em 0 2em; width: 100%;}
 #leftSide {float: left; width: 20%;}
 #rightSide {float: left; width: 80%;}
 .background {background: #f7f7f7; border: 1px solid #b3b3b3; padding: 10px;  position: relative;  width: 100%; margin-bottom: 20px; }
@@ -548,13 +549,15 @@ background: rgba(141,175,62,0.05);
 .detail .item {border: 0; padding: 20px; cursor: default;}
 .detail .item:hover {background: none;}
 .detail .item .img {float: right; margin: 0; width: 30%;}
-.detail .item .img img {width:250px; height: 250px; display: block;}
+.detail .item .img img { display: block;}
 .detail .item .info {width: 67%;}
-.detail .item h2 {font-size: 24px; padding-bottom: 10px; border-bottom: 1px solid #DDDDDD; }
+.detail .item h2 {font-size: 24px; padding-bottom: 10px; border-bottom: 1px solid #DDDDDD; line-height: 30px;}
 .detail .item p {padding: 0; margin-bottom: 15px;}
 
 .item .basic span {margin-bottom: 5px;}
 .detail .item .basic strong {margin-right: 20px;}
+
+
 
 .team {}
 .team h3 {text-transform: uppercase; font-size: 16px; color: #8daf3e; font-weight: bold; margin: 30px;}
@@ -707,7 +710,7 @@ width: 250px;
 #top { padding-bottom: 2em; }
 .logo {width: 55%; float: none;}
 
-#top .fr {width: 100%; float: none;}
+#top .fr {width: 100%; float: none; margin: 1em 1em 0 1em;}
 
 .item .basic span, .item .btn, .item:hover .btn  {
 display: none;
@@ -721,7 +724,7 @@ background: 0;
 border: 0;
 padding: 0;
 }
-#wrap {width: 450px; padding: 0 1em;}
+
 
 
 .item .img {
@@ -731,6 +734,11 @@ padding: 0;
 .item .info {
 width: 100%; float: none;
 } 
+}
+
+@media (max-width: 320px) {
+#wrap {width: 320px; padding: 0 1em;}
+.day  {padding: 1em;}
 }
 
 
