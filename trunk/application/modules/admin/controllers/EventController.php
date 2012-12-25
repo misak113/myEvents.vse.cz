@@ -38,6 +38,10 @@ class Admin_EventController extends BaseController {
     
     /** @var Classroomtable */
     protected $classroomtable;
+    
+    public function init() {
+        $this->_helper->layout->setLayout('admin_org');
+    }
 
     /**
      * @param TitleLoader $titleLoader 
