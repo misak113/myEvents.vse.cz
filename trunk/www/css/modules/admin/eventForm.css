@@ -24,6 +24,11 @@ div#form{
     float: left;
 }
 
+.required:after{
+    content: " *";
+    color: red;
+}
+
 /****** uploas */
 .qq-uploader { position:relative; width: 100%;}
 
