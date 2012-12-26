@@ -93,6 +93,7 @@ class Admin_EventController extends BaseController {
     
     public function editAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:new');
+        $this->template->formHeader = "Nová akce";
         $record = null;
 
         $eventId = $this->_getParam('id');
@@ -125,6 +126,7 @@ class Admin_EventController extends BaseController {
         $form->setAction($this->_helper->url->url());
 
         if ($record !== null) {
+            $this->template->formHeader = "Editace akce";
             $form->setModifyMode();
         }
 

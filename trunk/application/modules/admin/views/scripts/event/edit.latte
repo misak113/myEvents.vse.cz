@@ -13,6 +13,7 @@ $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/event
 	
 <div id="formwrap">
     <div id="form">
+        <h1>{$formHeader}</h1>
         {!$form}
         <div id="selection"></div>
         <a href="<?php echo $view->url(array(),
