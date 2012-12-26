@@ -65,6 +65,7 @@ class EventForm extends Zend_Form {
         $date = new My_Form_Element_Date('date');
         $date->setLabel('Datum: ')
                 ->setAttrib('class', 'idleField')
+                ->setValue('rrrr-mm-dd')
                 ->setRequired(true)
                 ->addFilter('StringTrim')
                 ->addValidators(array(
@@ -78,6 +79,7 @@ class EventForm extends Zend_Form {
         $timestart = new My_Form_Element_Time('timestart');
         $timestart->setLabel('Čas začátku: ')
                 ->setAttrib('class', 'idleField')
+                ->setValue('hh:mm')
                 ->setRequired(true)
                 ->addFilter('StringTrim')
                 ->addValidators(array(
@@ -91,6 +93,7 @@ class EventForm extends Zend_Form {
         $timeend = new My_Form_Element_Time('timeend');
         $timeend->setLabel('Předpokládaný čas konce: ')
                 ->setAttrib('class', 'idleField')
+                ->setValue('hh:mm')
                 ->setRequired(true)
                 ->addFilter('StringTrim')
                 ->addValidators(array(
