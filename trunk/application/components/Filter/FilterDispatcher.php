@@ -136,40 +136,42 @@ _dBar($events);
 	const WEEK_START_NUMBER_LETNI = 39;
 	const WEEK_START_NUMBER_ZIMNI = 7;
 	const WEEKS_SEMESTRAL_COUNT = 13;
-	const WEEKS_YEAR_COUNT = 53;
+	const WEEKS_YEAR_COUNT = 52;
 
 	protected function generateDates() {
 		$weeks = array();
 		$weekNumber = $this->getDate('W');
-		for ($i=0;$i < 7;$i++,$weekNumber = ($weekNumber+1) % self::WEEKS_YEAR_COUNT) {
-			$start = $this->createDateTimeFromWeek($weekNumber);
-			$end = $this->createDateTimeFromWeek($weekNumber+1)->sub(\DateInterval::createFromDateString('1 days'));
+		$year = $this->getDate('Y');
+		for ($i=0;$i < 7;$i++,$year = $weekNumber+1 >= self::WEEKS_YEAR_COUNT ?$this->getDate('Y')+1 :$this->getDate('Y'),$weekNumber = $weekNumber+1) {
+			$realWeekNumber = $weekNumber % self::WEEKS_YEAR_COUNT;
+			$start = $this->createDateTimeFromWeek($realWeekNumber, $year);
+			$end = $this->createDateTimeFromWeek($realWeekNumber+1, $year)->sub(\DateInterval::createFromDateString('1 days'));
 			if (
-				($weekNumber >= self::WEEK_START_NUMBER_LETNI && $weekNumber < self::WEEK_START_NUMBER_LETNI + self::WEEKS_SEMESTRAL_COUNT)
-				|| ($weekNumber >= self::WEEK_START_NUMBER_ZIMNI && $weekNumber < self::WEEK_START_NUMBER_ZIMNI + self::WEEKS_SEMESTRAL_COUNT)
+				($realWeekNumber >= self::WEEK_START_NUMBER_LETNI && $realWeekNumber < self::WEEK_START_NUMBER_LETNI + self::WEEKS_SEMESTRAL_COUNT)
+				|| ($realWeekNumber >= self::WEEK_START_NUMBER_ZIMNI && $realWeekNumber < self::WEEK_START_NUMBER_ZIMNI + self::WEEKS_SEMESTRAL_COUNT)
 			)
 			{
 				$schoolWeek =
-						$weekNumber - self::WEEK_START_NUMBER_ZIMNI < self::WEEKS_SEMESTRAL_COUNT && $weekNumber - self::WEEK_START_NUMBER_ZIMNI >= 0
-								?$weekNumber - self::WEEK_START_NUMBER_ZIMNI+1
-								:$weekNumber - self::WEEK_START_NUMBER_LETNI+1;
+						$realWeekNumber - self::WEEK_START_NUMBER_ZIMNI < self::WEEKS_SEMESTRAL_COUNT && $realWeekNumber - self::WEEK_START_NUMBER_ZIMNI >= 0
+								?$realWeekNumber - self::WEEK_START_NUMBER_ZIMNI+1
+								:$realWeekNumber - self::WEEK_START_NUMBER_LETNI+1;
 				$week = array(
-					'id' => $weekNumber,
+					'id' => $realWeekNumber,
 					'title' => $schoolWeek.'. Týden ('.$start->format('j.n.').'-'.$end->format('j.n.').')',
-					'week_number' => $weekNumber,
+					'week_number' => $realWeekNumber,
 					'start' => $start,
 					'end' => $end,
 				);
 			} else {
 				$week = array(
-					'id' => $weekNumber,
-					'title' => $start->format('j.n.').' - '.$end->format('j.n.'),
-					'week_number' => $weekNumber,
+					'id' => $realWeekNumber,
+					'title' => $start->format('j.n.').' - '.$end->format('j.n.Y'),
+					'week_number' => $realWeekNumber,
 					'start' => $start,
 					'end' => $end,
 				);
 			}
-			$weeks[$weekNumber] = $week;
+			$weeks[$realWeekNumber] = $week;
 		}
 
 		return $weeks;
