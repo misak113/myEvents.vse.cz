@@ -19,15 +19,19 @@ div.clear{
 }
 
 #formwrap {position: relative;}
-div#nearEvents{
+div#nearEvents {
+position: absolute;
+    top: 365px;
+	left: 350px;
+}
+div#nearEvents .inside{
   background: none repeat scroll 0 0 #FAFAFA;
     border: 1px solid #EEEEEE;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    left: 350px;
+    
     padding: 15px;
-    position: absolute;
-    top: 365px;
+    
     width: auto;
 	max-width: 400px;
 }
@@ -35,8 +39,10 @@ div#nearEvents{
 div#nearEvents table {
 
 }
+div#nearEvents th {text-align: left; padding: 5px;}
 div#nearEvents td {
 border-bottom: 1px solid #EEEEEE;
+padding: 5px;
 }
 
 
