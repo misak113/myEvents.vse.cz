@@ -21,7 +21,7 @@ div.clear{
 #formwrap {position: relative;}
 div#nearEvents {
 position: absolute;
-    top: 365px;
+    top: 350px;
 	left: 350px;
 }
 div#nearEvents .inside{
@@ -36,14 +36,17 @@ div#nearEvents .inside{
 	max-width: 400px;
 }
 
-div#nearEvents table {
+div#nearEvents h3 {color: #8DAF3E; font-weight: bold}
 
-}
-div#nearEvents th {text-align: left; padding: 5px;}
+
+div#nearEvents th {text-align: left; padding: 5px 10px 5px 0; }
 div#nearEvents td {
-border-bottom: 1px solid #EEEEEE;
-padding: 5px;
+border-top: 1px solid #aaa;
+padding: 5px 10px 5px 0;
 }
+
+div#nearEvents tr th:last-child, div#nearEvents tr td:last-child {padding-right: 0;}
+
 
 
 .required:after{
