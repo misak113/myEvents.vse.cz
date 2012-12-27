@@ -743,4 +743,18 @@ width: 100%; float: none;
 
 
 
+.vertical {
+	-webkit-transform: rotate(90deg);
+	width: 200px;
+	height: 30px;
+	overflow: hidden;
+	display: inline-block;
+	margin-left: -94px;
+	margin-top: 88px;
+}
 
+#admins-table .wrapper {
+	overflow: hidden;
+	width: 20px;
+	height: 200px;
+}
