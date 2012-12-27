@@ -41,9 +41,10 @@
 	font-size: 9px;
 	display: block;
 	height: 14px;
+	/*
 	width: 120px;
 	overflow: hidden;
-	text-overflow: ellipsis;
+	text-overflow: ellipsis;*/
 }
 
 @media (max-width: 768px) {
