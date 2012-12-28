@@ -40,6 +40,10 @@ class ZetteExtension extends CompilerExtension
 				->addSetup('Nette\Diagnostics\Debugger::$bar->addPanel(?)', array(
 					new \Nette\DI\Statement('Zette\Security\Diagnostics\UserPanel')
 				));
+		$container->addDefinition('zette.exceptionLogPanel')
+				->setClass('Zette\Diagnostics\ExceptionLogPanel')
+				->addSetup('\Nette\Diagnostics\Debugger::$bar->addPanel($service);?', array('')) // @todo proč nejde normálně bez ?
+				->addTag('run');
 
 	}
 
