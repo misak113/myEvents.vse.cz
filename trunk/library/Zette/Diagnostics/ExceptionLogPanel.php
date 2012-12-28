@@ -53,7 +53,7 @@ class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBar
 				$dom->loadHTML($source);
 				$blueScreen = $dom->getElementById('netteBluescreenError');
 				$name = $blueScreen->firstChild->nextSibling->textContent;
-				$description = $blueScreen->firstChild->nextSibling->nextSibling->nextSibling->textContent;
+				$description = str_replace('search►', '', $blueScreen->firstChild->nextSibling->nextSibling->nextSibling->textContent);
 				$this->exceptions[] = array(
 					'url' => $this->httpRequest->url->baseUrl.'log/'.$file,
 					'name' => $name,
