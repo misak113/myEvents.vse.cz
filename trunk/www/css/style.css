@@ -390,8 +390,8 @@ transition: all 0.3s;
 }
 
 #filter:hover  ul{opacity: 1;}
-#filter .head {background:#8daf3e; padding: 20px 10px 20px 20px; width: 100%;}
-#filter .head h3 {color: #fff; font-size: 18px; float: left;}
+#filter .head {background:#8daf3e; padding: 20px 10px 10px 20px; width: 100%;}
+#filter .head h3 {color: #fff; font-size: 18px; float: left; margin-bottom: 5px;}
 
 #filter .head .how-to {float: right; position: relative; color: #fff; }
 #filter .head .how-to span {display: none; color: #fff; position: absolute; top: -20px; left: 70px; z-index: 100; padding: 10px; background: #8daf3e; width: 355px; text-decoration: none;}

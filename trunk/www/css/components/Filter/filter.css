@@ -53,6 +53,14 @@
 	}
 }
 
-.filter-control .filter .head .clearFilter a{
-        color: white;
+.clearFilter {clear: both; border-top: 1px solid #cadba2; padding-top: 5px;}
+.clearFilter a{
+        color: #fff;
+}
+.clearFilter a span{
+   background: url("../img/icons.png") no-repeat scroll -24px -76px transparent;
+    display: inline-block;
+    height: 15px;
+    margin-right: 5px;
+    width: 11px;
 }
