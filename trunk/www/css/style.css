@@ -327,8 +327,9 @@ width: 100%;
 
 
 
-.logo {display: block; float: left; margin: 2em;
-    width: 30%;}
+.logo {display: block; float: left; margin: 2em; border: 0; width: 30%;}
+.logo img {border: 0;}
+
 .nav { 
     border-bottom: 1px solid #CCCCCC;
     height: 30px;
@@ -709,8 +710,8 @@ width: 250px;
 @media (max-width: 640px) {
 
 #top { padding-bottom: 2em; }
-.logo {width: 55%; float: none; border: 0;}
-.logo img {border: 0;}
+.logo {width: 55%; float: none;}
+
 
 
 #top .fr {width: 100%; float: none; margin: 1em 1em 0 1em;}
