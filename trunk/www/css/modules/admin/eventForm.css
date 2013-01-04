@@ -54,19 +54,25 @@ div#nearEvents tr th:last-child, div#nearEvents tr td:last-child {padding-right:
     color: red;
 }
 
-/****** uploas */
+/****** uploads */
 .qq-uploader { position:relative; width: 100%;}
 
 .qq-upload-button {
-    display:block; /* or inline-block */
-    width: 205px; padding: 7px 0; text-align:center;    
-    background:#E4671A;
-    color:#FFFFFF;
-    border-radius:5px;
-    margin-top:10px;
+    background: #8daf3e; 
+    text-decoration: none; 
+    padding: 4px 10px; 
+    color: #fff; 
+    font-family: Arial;
+    font-size: 13px; 
+    border: 1px solid #7c9839; 
+    display: inline-block; 
+    border-bottom-width: 2px; 
+    font-weight: bold; 
+    cursor: pointer;
+
     margin-bottom:0px;
 }
-.qq-upload-button-hover {background:#cc0000;}
+.qq-upload-button-hover {}
 .qq-upload-button-focus {outline:1px dotted black;}
 
 .qq-upload-drop-area {
@@ -91,3 +97,4 @@ div#nearEvents tr th:last-child, div#nearEvents tr td:last-child {padding-right:
 .qq-upload-failed-text {display:none;}
 .qq-upload-fail .qq-upload-failed-text {display:inline;}
 
+#default-picture.qq-upload-button { margin-left: 20px; vertical-align: top;}

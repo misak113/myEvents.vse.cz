@@ -80,15 +80,14 @@ class Admin_EventController extends BaseController {
         
         $result = $uploader->handleUpload($dir);
         
-        Nette\Diagnostics\Debugger::fireLog($result);
+        $image = \Nette\Image::fromFile($dir . "/" . $result['filename']);
+        $image->resize(300, 200, \Nette\Image::EXACT);
+        $image->save($dir . "/" . $result['filename']);
         
-        $image = $dir . "/" . $result['filename'];
-        $max_new_width = 100;
-        $max_new_height = 67;
-        LogoResizer::imageResize($image, $max_new_width, $max_new_height, $save = $image);
         // to pass data through iframe you will need to encode all html tags
         echo htmlspecialchars(Zend_Json::encode($result), ENT_NOQUOTES);
-        exit();
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
     }
     
     public function editAction() {

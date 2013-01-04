@@ -14,7 +14,43 @@ $view->headLink()->appendStylesheet($view->baseUrl() . '/css/modules/admin/event
 <div id="formwrap">
     <div id="form">
         <h1>{$formHeader}</h1>
-        {!$form}
+       
+        
+        
+        <form method="{$form->getMethod()}" action="{$form->getAction()}">
+            {!$form->fburl->render()}
+            {!$form->name->render()}
+            {!$form->date->render()}
+            
+            <div class="row picture">
+                <div id="picture-label">
+                    <label class="span2" for="picture-upload">Obrázek:</label>
+                </div>
+                <img id="event-image" src="{$view->baseUrl()}/img/action-screen.jpg" width="100px" height="67px" />
+                <div class="span2">
+                    <div id="picture-upload">
+                        <noscript>
+                            Pro nahrávání obrázku musíte mít zapnutý JavaScript
+                        </noscript>
+                    </div>
+                </div>
+            </div>
+            {!$form->picture->renderViewHelper()}
+            
+            {!$form->timestart->render()}
+            {!$form->timeend->render()}
+            {!$form->location->render()}
+            {!$form->capacity->render()}
+            {!$form->category->render()}
+            {!$form->tags1->render()}
+            {!$form->shortinfo->render()}
+            {!$form->longinfo->render()}
+            {!$form->public->render()}
+            
+            
+            {!$form->save->render()}
+        </form>
+        
         <div id="selection"></div>
         <a href="<?php echo $view->url(array(),
            'adminIndex',

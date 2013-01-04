@@ -57,9 +57,6 @@ class EventForm extends Zend_Form {
             'filters' => array('StringTrim')
         ));
         
-        $this->addElement('text', 'pictureUpload', array(
-            'label' => 'Obrázek: ',
-        ));
         $this->addElement('hidden', 'picture');
         
         $date = new My_Form_Element_Date('date');
@@ -172,7 +169,7 @@ class EventForm extends Zend_Form {
         $this->addElement($public);
 
 
-        $submit = new Zend_Form_Element_Submit('Uložit');
+        $submit = new Zend_Form_Element_Submit('save');
         $submit->setIgnore(true);
         $submit->setValue('Uložit');
         $submit->setAttribs(array('class' => 'btn btn-success btn-large'));
@@ -207,7 +204,7 @@ class EventForm extends Zend_Form {
      * Upravi formular do podoby editacniho formulare
      */
     public function setModifyMode() {
-        $this->getElement('Uložit')->setLabel('Upravit');
+        $this->getElement('save')->setLabel('Upravit');
     }
 
 }

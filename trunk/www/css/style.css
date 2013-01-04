@@ -477,6 +477,7 @@ background: rgba(141,175,62,0.05);
 
 .item .img {padding: 5px; border: 1px solid #cecece; float: left; background: #fff; margin-right: 20px; width: 112px; overflow: hidden;}
 .item .img img{width: 100px; display: block;}
+.item.detail .img img { width: 300px; }
 .item .info {float: left; width: 82%; }
 .item .info div.other {margin-bottom: 10px;}
 .item .info div.other strong {margin-left: 10px; font-size: 14px;}

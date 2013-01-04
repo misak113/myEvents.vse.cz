@@ -1,22 +1,35 @@
 $(function() {
-    $("#pictureUpload").replaceWith("<div id='file-uploader'></div>");
+//    $("#picture-label").parent(".row").hide();
+    $("body").on("click", "#default-picture", function() {
+        $("#event-image").replaceWith('<img id="event-image" src="'+ baseUrl +'/img/action-screen.jpg" width="100px" height="67px" />');
+        $("#picture").val("");
+        $(".qq-upload-success").remove();
+        $("#default-picture").remove();
+        return false;
+    })
+
 // UPLOADER
-    var fileuploader = $("#file-uploader");
+    var fileuploader = $("#picture-upload");
     
-    if (fileuploader.length > 0) {
-        $('#file-uploader').fineUploader({
+    if (fileuploader.length) {
+        fileuploader.fineUploader({
             request: {
               endpoint: uploadPictureUrl
             },
             sizeLimit: 5*1024*1024, // max size
             allowedExtensions: ['png','jpg','jpeg','gif','bmp'],
-            showMessage: function(message) {
-              // Using Twitter Bootstrap's classes and jQuery selector and method
-              $('#file-uploader').append('<div class="alert alert-error">' + message + '</div>');
-            },
             retry: {
                 preventRetryResponseProperty: true
             },
+            text: {
+                    uploadButton: "Nahrát vlastní obrázek",
+                    cancelButton: "Zrušit nahrávání",
+                    retryButton: "Skusit znovu",
+                    failUpload: 'Upload neůspěšný',
+                    dragZone: "Přesuňte obrázek sem pro nahrání",
+                    formatProgress: "{percent}% ze {total_size}",
+                    waitingForResponse: "Čekejte"
+                },
             fileTemplate: '<li>' +
               '<div class="qq-progress-bar"></div>' +
               '<span class="qq-upload-spinner"></span>' +
@@ -33,9 +46,14 @@ $(function() {
       .on('complete', function(event, id, filename, responseJSON){ 
         uploaded = true;         
         $("#picture").val(responseJSON.filename);
-        $(".qq-upload-list").html("<img src='" + baseUrl + "/img/picture/" + responseJSON.filename + "' alt='" + responseJSON.filename + "' />");
+        $(".picture img").attr("src", baseUrl + "/img/picture/" + responseJSON.filename).attr("alt", responseJSON.filename);
+        $("#picture-upload .qq-uploader .qq-upload-button div").html("Nahrát jiný obrázek")
+        if ($("#default-picture").length == 0) {
+            $("#picture-upload .qq-uploader .qq-upload-button").after("<button id='default-picture' class='qq-upload-button'>Původní obrázek</button>")
+        }
       })
-      .on('submit', function(id, filename){     
+      .on('submit', function(id, filename){ 
+        $(".qq-upload-success").remove();
         uploaded = false;  
       })
       .on('cancel', function(id, filename){
@@ -43,4 +61,9 @@ $(function() {
       });
     }
 
+    if ($("#picture").val() !== "") {
+        $(".picture img").attr("src", baseUrl + "/img/picture/" + $("#picture").val());
+        $("#picture-upload .qq-uploader .qq-upload-button div").html("Nahrát jiný obrázek");
+        $("#picture-upload .qq-uploader .qq-upload-button").after("<button id='default-picture' class='qq-upload-button'>Původní obrázek</button>")
+    }
 })
