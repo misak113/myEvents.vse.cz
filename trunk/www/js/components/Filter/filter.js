@@ -25,13 +25,9 @@ jQuery(document).ready(function ($) {
         filterForm.trigger('submit');
     });
 
-});
-
 /**
  * Searching events
  */
-
-jQuery(document).ready(function ($){
     
     var searchInput = $('.filter-search');
     searchInput.keyup(function(){
@@ -47,4 +43,22 @@ jQuery(document).ready(function ($){
             });
         });
     });
+    
+    var filters = $("#filter ul li.title");
+    filters.each(function() {
+        if (!$(this).find("input[type=checkbox]").is(":checked")) {
+            $(this).find("ul").hide();
+        }
+    })
+    $("#filter").on("mouseover", "li.title", function() {
+        $(this).find("ul").show();  
+    })
+    $("#filter").on("mouseout", "li.title", function() {
+        if (!$(this).find("input[type=checkbox]").is(":checked")) {
+            $(this).find("ul").hide();  
+        }
+    })
+    
+    
+    
 });
