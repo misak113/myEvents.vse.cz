@@ -110,7 +110,7 @@ class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBar
 				$name = $value['name'];
 				$desc = $value['description'];
 				$date = $value['date'];
-				$return .= '<tr><td>'.$date->format('j.n.y G:i').'</td>
+				$return .= '<tr><td><b style="font-weight: bold;">'.$date->format('j.n.').'</b> <i style="font-style: italic;">' . $date->format('G:i').'</i></td>
 					<td><a href="'.$url.'" target="_blank">'.$name.'</a></td><td title="'.Strings::normalize($desc).'">' . Strings::truncate($desc, 200) . '</td>
 					<td><a href="'.$url.'-resolve"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAK3RFWHRDcmVhdGlvbiBUaW1lAERpIDMwIFNlcCAyMDAzIDIzOjU0OjI2ICswMTAwZdX/wQAAAAd0SU1FB9MJHhU2OF5bzowAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAEZ0FNQQAAsY8L/GEFAAACcElEQVR42q1TXUgUURg94/7goutC/iRoGT1YZphZoIRhBBUZsRRBVr5V0EM9RfTSU9BLiNRLRA9FJPQgBD2IhtpKFga57mq20CL+sGsotauz4+7O3Jl7b98uuaztq/Mw9873fefMOWfuANt9BYD2MaBvCmj+v/cZuD6kYGQAOHsfKCoAzwNPoxePCfPhZRlUlE/5vUngTKi+gsmr9TLS5JFDNiWQqW9hkbXl3prOZsXuBHaeOnDcD3Rn6rS2yBpPf0NHrQNpA6zEAYNLfwFBPBrrNxdXAMNAdeseWOUlvcPASVZZNnjU2+CGugHNMBGaikftwN0CgjLg9dLYrISkB53hsLexsrjCPdLW1VQFNQHBLcx8V4XbEDfOAWoBwT5gNjYxNw7LBEwLDpcD7V0HFag0y02EIxoSkeSzE8CHTUxBkmkuehbHwwRgWStIJImM4Xc8hR/fYkENuJc/v4WAkq5NA3eKPS4CkQrGsuDsPm3CklgjgC0fo2yuX4Gb2LXj8ZHzjR4714EUUVnWPxIikBzxdR2+L/HJMgHvaeBXjuAjcKGute7d3rYaYC1BQE4WONlmsFFwwqR9piYFdN2Ez6+tpFOiuwsYzVpYp0SFSX7/xCl9Pes9sZHEwPCyNb+k0Vs4YTkJsmBXJDpaiqtJ34NcBg6b0ru7rpR8prPgVTUJ39hqTGpmRyCoPl+IUl0ISFLBSNnkPAOdtZcZrD1zS3E5yrWNQ4ZLQZiGf06r0yVCXuoE5qg98X5Gs9h+1+0Mam6ZwYjxJ9eAN7kM+oCKUmfRoLArVXqKv6AUem6Rlvy03wKP6BM63cCrK0Bo2/7ev40+Kr/ztfp4AAAAAElFTkSuQmCC" alt="delete" /></a></td>
 				</tr>';
