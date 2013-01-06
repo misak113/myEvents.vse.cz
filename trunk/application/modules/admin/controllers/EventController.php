@@ -81,7 +81,7 @@ class Admin_EventController extends BaseController {
         $result = $uploader->handleUpload($dir);
         
         $image = \Nette\Image::fromFile($dir . "/" . $result['filename']);
-        $image->resize(300, 200, \Nette\Image::EXACT);
+        $image->resize(269, 200, \Nette\Image::EXACT);
         $image->save($dir . "/" . $result['filename']);
         
         // to pass data through iframe you will need to encode all html tags
