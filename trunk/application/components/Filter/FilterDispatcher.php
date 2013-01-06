@@ -48,6 +48,7 @@ class FilterDispatcher
                         ->where('active = 1')
                         ->where('public = 1')
 						->where('timestart >= ?', date('Y-m-d'))
+                                                ->order('timestart ASC')
                         ;
 
 		// Vyhledávání
