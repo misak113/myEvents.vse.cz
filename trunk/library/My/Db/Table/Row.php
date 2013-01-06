@@ -2,12 +2,13 @@
 namespace My\Db\Table;
 
 use Zend_Filter_Inflector;
+use Zette\Database\Row as ZetteRow;
 
 /**
  * Trida reprezentujici obecny radek v databazi
  *
  */
-class Row extends \Zend_Db_Table_Row_Abstract {
+class Row extends ZetteRow {
 	
 	
    /**

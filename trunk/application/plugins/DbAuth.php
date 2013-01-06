@@ -285,9 +285,9 @@ class Application_Plugin_DbAuth extends PluginController implements IAuthenticat
 
 
 	protected function initAuthenticateProvides() {
-		$this->authenticateProvidesTable->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_EMAIL, 'email', 'Přihlášení pomocí emailu a hesla');
-		$this->authenticateProvidesTable->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_USER, 'username', 'Přihlášení pomocí uživatelského jména a hesla');
-		$this->authenticateProvidesTable->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_FACEBOOK, 'facebook', 'Přihlášení pomocí facebook');
+		$this->authenticateProvidesTable->cache()->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_EMAIL, 'email', 'Přihlášení pomocí emailu a hesla');
+		$this->authenticateProvidesTable->cache()->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_USER, 'username', 'Přihlášení pomocí uživatelského jména a hesla');
+		$this->authenticateProvidesTable->cache()->getOrCreateProvides(self::AUTHENTICATE_PROVIDE_FACEBOOK, 'facebook', 'Přihlášení pomocí facebook');
 
 	}
 

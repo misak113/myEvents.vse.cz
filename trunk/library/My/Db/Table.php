@@ -1,11 +1,13 @@
 <?php
 namespace My\Db;
 
+use Zette\Database\Table as ZetteTable;
+
 /**
  * Trida reprezentujici obecny tabulku v databazi
  *
  */
-class Table extends \Zend_Db_Table_Abstract {
+class Table extends ZetteTable {
 
     /**
      * Navrati zaznam dle zadaneho primarniho klice

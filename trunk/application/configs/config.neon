@@ -20,6 +20,9 @@ common:
 			userId: '100004851782671'
 			pageId: '238329219628570'
 
+		classCache:
+
+
 	services:
 		# Default services
 		user:

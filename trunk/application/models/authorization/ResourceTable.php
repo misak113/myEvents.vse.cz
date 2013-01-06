@@ -3,6 +3,10 @@ namespace app\models\authorization;
 
 use My\Db\Table;
 
+/**
+ *
+ * @method ResourceTable cache
+ */
 class ResourceTable extends Table
 {
 

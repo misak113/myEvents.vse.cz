@@ -83,9 +83,9 @@ class Application_Plugin_Acl extends PluginController {
 	protected function initPermissions() {
 
 		// Vytvoření rolí v DB
-		$authenticatedRole = $this->roleTable->getOrCreateRole($this->user->authenticatedRole);
-		$guestRole = $this->roleTable->getOrCreateRole($this->user->guestRole);
-		$sysAdminRole = $this->roleTable->getOrCreateRole('sysAdmin');
+		$authenticatedRole = $this->roleTable->cache()->getOrCreateRole($this->user->authenticatedRole);
+		$guestRole = $this->roleTable->cache()->getOrCreateRole($this->user->guestRole);
+		$sysAdminRole = $this->roleTable->cache()->getOrCreateRole('sysAdmin');
 		$this->user->authenticatedRole = $authenticatedRole ?$authenticatedRole->getUriCode() :null;
 		$this->user->guestRole = $guestRole ?$guestRole->getUriCode() :null;
 
@@ -93,18 +93,18 @@ class Application_Plugin_Acl extends PluginController {
 		// Vytvoření resources a privileges
 		$resources = $this->findResources();
 		foreach ($resources as $resource) {
-			$this->resourceTable->getOrCreateResource($resource);
+			$this->resourceTable->cache()->getOrCreateResource($resource);
 		}
 		$privileges = $this->findPrivileges();
 		foreach ($privileges as $privilege) {
-			$this->privilegeTable->getOrCreatePrivilege($privilege);
+			$this->privilegeTable->cache()->getOrCreatePrivilege($privilege);
 		}
 
 
 
 
 		// nacpán do Permission objektu resources
-		$resources = $this->resourceTable->fetchAll();
+		$resources = $this->resourceTable->cache()->fetchAll();
 		foreach ($resources as $resource) {
 			$this->authorizator->addResource($resource->getUriCode());
 		}
@@ -118,11 +118,11 @@ class Application_Plugin_Acl extends PluginController {
 
 			// přidá oprávnění
 			$resources = array();
-			foreach ($role->getResources() as $resource) {
+			foreach ($role->cache()->getResources() as $resource) {
 				$resources[] = $resource->getUriCode();
 			}
 			$privileges = array();
-			foreach ($role->getPrivileges() as $privilege) {
+			foreach ($role->cache()->getPrivileges() as $privilege) {
 				$privileges[] = $privilege->getUriCode();
 			}
 			$this->authorizator->allow($role->getUriCode(), $resources, $privileges);
