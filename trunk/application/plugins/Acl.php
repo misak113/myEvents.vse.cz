@@ -7,6 +7,7 @@ use Nette\Security\Permission;
 use app\models\authorization\RoleTable;
 use app\models\authorization\ResourceTable;
 use app\models\authorization\PrivilegeTable;
+use Nette\Reflection\ClassType;
 
 /**
  * Plugin resi autorizaci uzivatele
@@ -53,8 +54,8 @@ class Application_Plugin_Acl extends PluginController {
 		$this->initPermissions();
 
 		$module = $request->getModuleName();
-        $controller = $request->getControllerName();
-        $action = $request->getActionName();
+        $controller = strtolower(str_replace('-', '', $request->getControllerName()));
+        $action = strtolower(str_replace('-', '', $request->getActionName()));
 
 		if ($module == 'default') return; // @todo Frontend vždy povolen
 
@@ -136,15 +137,48 @@ class Application_Plugin_Acl extends PluginController {
 	}
 
 
-	// @todo přidat automatické vytváření roles, resources a actions do databáze... (Controllery a akce)
 	protected function findResources() {
-		$controllers = array('admin.event', 'admin.organization', 'admin.system', 'landing.index', 'error', 'index', 'user', 'event', 'organization');
-		return $controllers;
+		$resources = array();
+
+		$modulesDir = APP_DIR.'/modules';
+		$modules = scandir($modulesDir);
+		foreach ($modules as $module) {
+			$controllersDir = $modulesDir.'/'.$module.'/controllers';
+			if (!is_dir($controllersDir)) continue;
+			$controllers = scandir($controllersDir);
+			foreach ($controllers as $controller) {
+				if (strstr($controller, 'Controller.php') === false) continue;
+				$ctrlName = strtolower(str_replace('Controller.php', '', $controller));
+				$resource = ($module != 'default' ?$module.'.' :'').$ctrlName;
+				$resources[] = $resource;
+			}
+		}
+
+		return $resources;
 	}
 
 	protected function findPrivileges() {
-		$actions = array('index', 'edit', 'about', 'contact', 'list', 'detail', 'register', 'login', 'logout', 'activate', 'admins', 'fb-import');
-		return $actions;
+		$privileges = array();
+
+		$resources = $this->findResources();
+		foreach ($resources as $resource) {
+			$ex = explode('.', $resource);
+			$class = '';
+			if (isset($ex[1])) {
+				$class = ucfirst($ex[0]).'_';
+				$ex[0] = $ex[1];
+			}
+			$class = $class.ucfirst($ex[0]).'Controller';
+			$refClass = new ClassType($class);
+			$methods = $refClass->getMethods(ReflectionMethod::IS_PUBLIC);
+			foreach ($methods as $method) {
+				if (preg_match('~^(.+)Action$~', $method->name, $m)) {
+					$privileges[] = strtolower($m[1]);
+				}
+			}
+		}
+
+		return $privileges;
 	}
 
 }
