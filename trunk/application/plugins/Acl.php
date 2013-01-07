@@ -118,6 +118,7 @@ class Application_Plugin_Acl extends PluginController {
 
 			// přidá oprávnění
 			$resources = array();
+			// @todo nefunguje cache() na serveru 
 			foreach ($role->cache()->getResources() as $resource) {
 				$resources[] = $resource->getUriCode();
 			}
