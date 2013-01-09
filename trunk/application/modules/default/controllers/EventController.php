@@ -22,6 +22,16 @@ class EventController extends BaseController {
         
         /** @var \app\models\events\EventTable @inject */
 	protected $eventTable;
+        
+        protected $dayOfWeek = array(
+            0 => 'Neděle',
+            1 => 'Pondělí',
+            2 => 'Úterý',
+            3 => 'Středa',
+            4 => 'Čtvrtek',
+            5 => 'Pátek',
+            6 => 'Sobota'
+        );
 
 	/**
 	 * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
@@ -40,17 +50,15 @@ class EventController extends BaseController {
 
 	public function detailAction() {
                 $id = $this->_getParam('id');
-                barDump($id);
                 $eventRow = $this->eventTable->getById((int)$id);
-                barDump($eventRow);
-                barDump($this->_getParam('bla'));
                 if (!$eventRow)
                     throw new Zend_Controller_Action_Exception('Akce neexistuje', 404);
                 
 		$title = $eventRow->name;
 		$this->template->title = $title.' - '.$this->t($this->titleLoader->getTitle('Event:detail'));
                 
-                
+                $this->template->dayOfWeek = $this->dayOfWeek;
+                $this->template->date = new DateTime($eventRow->timestart);
                 $this->template->event = $eventRow;
                 $this->template->sponsors = $eventRow->getSponsors();
                 $this->template->organizations = $eventRow->getOrganizations();
@@ -62,15 +70,7 @@ class EventController extends BaseController {
 	 *
 	 */
 	public function listAction() {
-                $this->template->dayOfWeek = array(
-                    0 => 'Neděle',
-                    1 => 'Pondělí',
-                    2 => 'Úterý',
-                    3 => 'Středa',
-                    4 => 'Čtvrtek',
-                    5 => 'Pátek',
-                    6 => 'Sobota'
-                );
+                $this->template->dayOfWeek = $this->dayOfWeek;
                 
 		$this->template->title = $this->t($this->titleLoader->getTitle('Event:list'));
 
