@@ -8,7 +8,7 @@ class Authenticate extends Row
 
 	
 	public function getUser() {
-		return $this->findParentRow('UserTable');
+		return $this->findParentRow('app\models\authentication\UserTable');
 	}
 	
 }

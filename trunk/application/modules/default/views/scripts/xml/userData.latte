@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<userData>
+    <status>{if $userData != null}1{else}0{/if}</status>
+    {if $userData != null}
+    <user id="{$userData->user_id}">
+        <name>
+            <first>{$userData->first_name}</first>
+            <last>{$userData->last_name}</last>
+        </name>
+        <organizations>
+            {foreach $organizations as $org}
+            <organization id="{$org->organization_id}">{$org->name}</organization>
+            {/foreach}
+        </organizations>
+    </user>
+    {/if}
+</userData>
