@@ -41,8 +41,11 @@ class XmlController extends BaseController {
         $auth = $this->authenticateTable->fetchRow($select);
         
         if ($auth != null) {
+            $this->template->userExists = true;
             $this->template->userData = $auth->getUser();
             $this->template->organizations = $this->template->userData->getOrganizations();
+        } else {
+            $this->template->userExists = false;
         }
     }
 
