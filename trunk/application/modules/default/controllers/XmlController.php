@@ -13,6 +13,8 @@ class XmlController extends BaseController {
     protected $userTable;
     protected $authenticateTable;
     
+    const TOKEN_SALT = "9HA7Ekef";
+    
     public function init() {
         $this->_helper->layout->disableLayout();
         Nette\Diagnostics\Debugger::$bar = FALSE;
@@ -38,6 +40,7 @@ class XmlController extends BaseController {
         $select->where("identity = ?", $email);
         $select->where("verification = ?", $password);
         $select->where("authenticate_provides_id = 1");
+        $select->where("active = 1");
         $auth = $this->authenticateTable->fetchRow($select);
         
         if ($auth != null) {
@@ -49,5 +52,22 @@ class XmlController extends BaseController {
         }
     }
 
+    public function usersaltAction() {
+        $email = $this->_getParam("email");
+        $token = $id = $this->_getParam("token");
+        
+        $select = $this->authenticateTable->select();
+        $select->where("identity = ?", $email);
+        $select->where("authenticate_provides_id = 1");
+        $select->where("active = 1");
+        $auth = $this->authenticateTable->fetchRow($select);
+        
+        $explodedEmail = explode("@", $auth->identity);
+        $authToken = hash("sha256", $explodedEmail[0] . self::TOKEN_SALT . "@" . $explodedEmail[1]);
+        
+        if ($token == $authToken) {
+            $this->template->salt = My_Password::extractSalt($auth->verification);
+        }
+    }
 }
 
