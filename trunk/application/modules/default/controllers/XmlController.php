@@ -62,6 +62,10 @@ class XmlController extends BaseController {
         $select->where("active = 1");
         $auth = $this->authenticateTable->fetchRow($select);
         
+        if ($auth == null) {
+            return;
+        }
+        
         $explodedEmail = explode("@", $auth->identity);
         $authToken = hash("sha256", $explodedEmail[0] . self::TOKEN_SALT . "@" . $explodedEmail[1]);
         
