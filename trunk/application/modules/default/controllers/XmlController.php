@@ -11,7 +11,7 @@ class XmlController extends BaseController {
 
     /** @var TitleLoader */
     protected $eventTable;
-    protected $organizationOwnEventTable;
+    protected $organizationTable;
     protected $authenticateTable;
     
     const TOKEN_SALT = "9HA7Ekef";
@@ -30,10 +30,10 @@ class XmlController extends BaseController {
      */
     public function setContext(
             app\models\authentication\AuthenticateTable $authenticateTable,
-            app\models\organizations\OrganizationOwnEventTable $organizationOwnEventTable,
+            app\models\organizations\OrganizationTable $organizationTable,
             app\models\events\EventTable $eventTable) {
         
-        $this->organizationOwnEventTable = $organizationOwnEventTable;
+        $this->organizationTable = $organizationTable;
         $this->authenticateTable = $authenticateTable;
         $this->eventTable = $eventTable;
     }
@@ -86,6 +86,10 @@ class XmlController extends BaseController {
         $inCond = "(";
         $i = 0;
         foreach ($organizations as $orgId) {
+            if ($orgId == "0") {
+                continue;
+            }
+            
             if ($i != 0) {
                 $inCond .= ",";
             }
@@ -95,16 +99,22 @@ class XmlController extends BaseController {
         }
         $inCond .= ")";
 
-        $select =  My_Model::get('app\models\events\EventTable')->select();
+        $select = My_Model::get('app\models\events\EventTable')->select();
         $select->setIntegrityCheck(false);
         $select->from("event");
         $select->join(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
-        $select->where("oe.organization_id IN " . $inCond);
+        if ($i != 0) {
+            $select->where("oe.organization_id IN " . $inCond);
+        }
         $select->where("timeend > NOW()");
         $select->where("active = 1 AND public = 1");
         
 
         $this->template->events = $select->query()->fetchAll();
+    }
+    
+    public function organizationsAction() {
+        $this->template->organizations = $this->organizationTable->fetchAll($this->organizationTable->select());
     }
 }
 

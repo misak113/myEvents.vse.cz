@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organizations>
+    {foreach $organizations as $org}
+    <organization id="{$org->organization_id}">
+        <name>{$org->name}</name>
+        <website>{$org->website}</website>
+        <info>{$org->info}</info>
+        <email>{$org->email}</email>
+        <fbLink>{$org->fb_url}</fbLink>
+        {if $org->getContactUser() != null}<contactPerson>{$org->getContactUser()->first_name} {$org->getContactUser()->last_name}</contactPerson>{/if}
+    </organization>
+    {/foreach}
+</organizations>
