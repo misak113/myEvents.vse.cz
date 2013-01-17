@@ -7,7 +7,7 @@
         <info>{$org->info}</info>
         <email>{$org->email}</email>
         <fbLink>{$org->fb_url}</fbLink>
-        {if $org->getContactUser() != null}<contactPerson>{$org->getContactUser()->first_name} {$org->getContactUser()->last_name}</contactPerson>{/if}
+        <contactPerson>{if $org->getContactUser() != null}{$org->getContactUser()->first_name} {$org->getContactUser()->last_name}{/if}</contactPerson>
     </organization>
     {/foreach}
 </organizations>
