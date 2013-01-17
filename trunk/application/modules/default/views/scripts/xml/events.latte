@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<events>
+    {foreach $events as $event}
+    <event id="{$event["event_id"]}">
+        <name>{$event["name"]}</name>
+        <location>{$event["location"]}</location>
+        <start>{$event["timestart"]}</start>{>
+        <end>{$event["timeend"]}</end>
+        <description>{$event["longinfo"]}</description>
+        <capacity>{$event["capacity"]}</capacity>
+        <url>{$event["url"]}</url>
+        <fbLink>{$event["fburl"]}</fbLink>
+    </event>
+    {/foreach}
+</events>

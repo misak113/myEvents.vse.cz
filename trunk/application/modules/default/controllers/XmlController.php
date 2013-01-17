@@ -10,7 +10,8 @@ use app\services\TitleLoader;
 class XmlController extends BaseController {
 
     /** @var TitleLoader */
-    protected $userTable;
+    protected $eventTable;
+    protected $organizationOwnEventTable;
     protected $authenticateTable;
     
     const TOKEN_SALT = "9HA7Ekef";
@@ -27,9 +28,14 @@ class XmlController extends BaseController {
      * Je třeba nadefinovat modely v config.neon
      * @param app\services\TitleLoader $titleLoader
      */
-    public function setContext(app\models\authentication\AuthenticateTable $authenticateTable, app\models\authentication\UserTable $userTable) {
+    public function setContext(
+            app\models\authentication\AuthenticateTable $authenticateTable,
+            app\models\organizations\OrganizationOwnEventTable $organizationOwnEventTable,
+            app\models\events\EventTable $eventTable) {
+        
+        $this->organizationOwnEventTable = $organizationOwnEventTable;
         $this->authenticateTable = $authenticateTable;
-        $this->userTable = $userTable;
+        $this->eventTable = $eventTable;
     }
 
     public function userdataAction() {
@@ -54,7 +60,7 @@ class XmlController extends BaseController {
 
     public function usersaltAction() {
         $email = $this->_getParam("email");
-        $token = $id = $this->_getParam("token");
+        $token = $this->_getParam("token");
         
         $select = $this->authenticateTable->select();
         $select->where("identity = ?", $email);
@@ -72,6 +78,33 @@ class XmlController extends BaseController {
         if ($token == $authToken) {
             $this->template->salt = My_Password::extractSalt($auth->verification);
         }
+    }
+    
+    public function eventsAction() {
+        $organizations = explode(",", $this->_getParam("organizations"));
+        
+        $inCond = "(";
+        $i = 0;
+        foreach ($organizations as $orgId) {
+            if ($i != 0) {
+                $inCond .= ",";
+            }
+            $inCond .= mysql_real_escape_string($orgId);
+            
+            $i++;
+        }
+        $inCond .= ")";
+
+        $select =  My_Model::get('app\models\events\EventTable')->select();
+        $select->setIntegrityCheck(false);
+        $select->from("event");
+        $select->join(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
+        $select->where("oe.organization_id IN " . $inCond);
+        $select->where("timeend > NOW()");
+        $select->where("active = 1 AND public = 1");
+        
+
+        $this->template->events = $select->query()->fetchAll();
     }
 }
 
