@@ -93,7 +93,7 @@ class XmlController extends BaseController {
             if ($i != 0) {
                 $inCond .= ",";
             }
-            $inCond .= mysql_real_escape_string($orgId);
+            $inCond .= (int) $orgId;
             
             $i++;
         }
