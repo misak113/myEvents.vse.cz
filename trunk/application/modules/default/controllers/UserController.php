@@ -84,7 +84,7 @@ class UserController extends BaseController {
         $email = $this->_getParam("email");
         $password = $this->_getParam("password");
         $name = $this->_getParam("name");
-        $activationRequired = $this->_getParam("activationRequired") == "true";
+        $activationRequired = $this->_getParam("activationRequired") != "false";
         
         // Name and surname
         $nameExploded = explode(" ", $name);
@@ -97,7 +97,7 @@ class UserController extends BaseController {
         Nette\Diagnostics\Debugger::$bar = FALSE;
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
         
-        //try {
+        try {
             // Check email existence
             $select = $this->authenticateTable->select();
             $select->where("identity = ?", $email);
@@ -122,9 +122,9 @@ class UserController extends BaseController {
                 $this->doRegistration($email, $password, $finalName, $surname, $activationRequired, true);
                 $status = 1;
             }
-        /*} catch (Exception $ex) {
+        } catch (Exception $ex) {
             $status = 0;
-        }*/
+        }
         
         $this->template->status = $status;
     }
