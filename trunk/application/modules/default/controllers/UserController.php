@@ -88,7 +88,7 @@ class UserController extends BaseController {
         
         // Name and surname
         $nameExploded = explode(" ", $name);
-        $name = $nameExploded[0];
+        $finalName = $nameExploded[0];
         
         $nameExploded[0] = null;
         $surname = trim(implode(" ", $nameExploded));
@@ -98,19 +98,30 @@ class UserController extends BaseController {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
         
         try {
-            // Check token
-            $explodedEmail = explode("@", $email);
+            // Check email existence
+            $select = $this->authenticateTable->select();
+            $select->where("identity = ?", $email);
+            $select->where("authenticate_provides_id = 1");
+            $auth = $this->authenticateTable->fetchRow($select);
             
-            if (count($explodedEmail) != 2) {
-                throw new Exception();
+            if ($auth != null) {
+                $status = 2;
+            } else {
+                // Check token
+                $explodedEmail = explode("@", $email);
+
+                if (count($explodedEmail) != 2) {
+                    throw new Exception();
+                }
+
+                $checkAuthToken = hash("sha256", $explodedEmail[0] . self::USER_REGISTRATION_AUTH_SALT . "@" . $explodedEmail[1]);
+                if ($authToken != $checkAuthToken) {
+                    throw new Exception();
+                }
+
+                $this->doRegistration($email, $password, $finalName, $surname, $activationRequired, true);
+                $status = 1;
             }
-            
-            $checkAuthToken = hash("sha256", $explodedEmail[0] . self::USER_REGISTRATION_AUTH_SALT . "@" . $explodedEmail[1]);
-            if ($authToken != $checkAuthToken) {
-                throw new Exception();
-            }
-            
-            $this->doRegistration($email, $password, $name, $surname, $activationRequired, true);
         } catch (Exception $ex) {
             $status = 0;
         }
