@@ -83,8 +83,15 @@ class UserController extends BaseController {
         $authToken = $this->_getParam("authToken");
         $email = $this->_getParam("email");
         $password = $this->_getParam("password");
-        $name = explode(" ", $this->_getParam("name"));
+        $name = $this->_getParam("name");
         $activationRequired = $this->_getParam("activationRequired") == "true";
+        
+        // Name and surname
+        $nameExploded = explode(" ", $name);
+        $name = $nameExploded[0];
+        
+        $nameExploded[0] = null;
+        $surname = trim(implode(" ", $nameExploded));
         
         $this->_helper->layout->disableLayout();
         Nette\Diagnostics\Debugger::$bar = FALSE;
@@ -93,12 +100,17 @@ class UserController extends BaseController {
         try {
             // Check token
             $explodedEmail = explode("@", $email);
+            
+            if (count($explodedEmail) != 2) {
+                throw new Exception();
+            }
+            
             $checkAuthToken = hash("sha256", $explodedEmail[0] . self::USER_REGISTRATION_AUTH_SALT . "@" . $explodedEmail[1]);
             if ($authToken != $checkAuthToken) {
                 throw new Exception();
             }
             
-            $this->doRegistration($email, $password, $name[0], $name[1], $activationRequired, true);
+            $this->doRegistration($email, $password, $name, $surname, $activationRequired, true);
         } catch (Exception $ex) {
             $status = 0;
         }
