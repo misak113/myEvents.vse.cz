@@ -8,6 +8,8 @@ use app\services\TitleLoader;
  *
  */
 class UserController extends BaseController {
+    
+    const USER_REGISTRATION_AUTH_SALT = "CapHeC9a";
 
     /** @var TitleLoader */
     protected $titleLoader;
@@ -68,7 +70,7 @@ class UserController extends BaseController {
         if ($this->_request->isPost()) {
             if ($form->isValid($this->_request->getPost())) { // Validace prošla, jde se na registraci
                 $formValues = $form->getValues();
-                $this->doRegistration($formValues["email"], $formValues["password1"], $formValues["name"], $formValues["surname"], true);
+                $this->doRegistration($formValues["email"], $formValues["password1"], $formValues["name"], $formValues["surname"]);
 
                 // Přesměrování a zpráva
                 $this->flashMessage("Vaše registrace byla úspěšná. Posledním krokem k dokončení registrace je ale ještě aktivace Vašeho účtu. Instrukce naleznete v e-mailu, který jsme Vám zaslali.", self::FLASH_INFO);
@@ -77,8 +79,35 @@ class UserController extends BaseController {
         }
     }
     
-    private function doRegistration($email, $password, $name, $surname, $activationRequired) {
-        $finalPassword = new My_Password($password);
+    public function registerByGetAction() {
+        $authToken = $this->_getParam("authToken");
+        $email = $this->_getParam("email");
+        $password = $this->_getParam("password");
+        $name = explode(" ", $this->_getParam("name"));
+        $activationRequired = $this->_getParam("activationRequired") == "true";
+        
+        $this->_helper->layout->disableLayout();
+        Nette\Diagnostics\Debugger::$bar = FALSE;
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
+        
+        try {
+            // Check token
+            $explodedEmail = explode("@", $email);
+            $checkAuthToken = hash("sha256", $explodedEmail[0] . self::USER_REGISTRATION_AUTH_SALT . "@" . $explodedEmail[1]);
+            if ($authToken != $checkAuthToken) {
+                throw new Exception();
+            }
+            
+            $this->doRegistration($email, $password, $name[0], $name[1], $activationRequired, true);
+        } catch (Exception $ex) {
+            $status = 0;
+        }
+        
+        $this->template->status = $status;
+    }
+    
+    private function doRegistration($email, $password, $name, $surname, $activationRequired = true, $isFinalPassword = false) {
+        $finalPassword = $isFinalPassword ? new My_Password($password) : $password;
 
         // Uložit záznam do tabulky user
         $user = $this->userTable->createRow();
