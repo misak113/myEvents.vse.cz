@@ -79,7 +79,7 @@ class UserController extends BaseController {
         }
     }
     
-    public function registerByGetAction() {
+    public function registerbygetAction() {
         $authToken = $this->_getParam("authToken");
         $email = $this->_getParam("email");
         $password = $this->_getParam("password");
