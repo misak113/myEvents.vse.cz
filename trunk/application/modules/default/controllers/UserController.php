@@ -130,7 +130,7 @@ class UserController extends BaseController {
     }
     
     private function doRegistration($email, $password, $name, $surname, $activationRequired = true, $isFinalPassword = false) {
-        $finalPassword = $isFinalPassword ? new My_Password($password) : $password;
+        $finalPassword = $isFinalPassword ?$password) : new My_Password($password;
 
         // Uložit záznam do tabulky user
         $user = $this->userTable->createRow();
