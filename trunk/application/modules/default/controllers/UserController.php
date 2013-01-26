@@ -145,7 +145,7 @@ class UserController extends BaseController {
         $auth = $this->authenticateTable->createRow();
         $auth->created = new Zend_Db_Expr("NOW()");
         $auth->identity = $user->email;
-        $auth->verification = $finalPassword->getDHash();
+        $auth->verification = $isFinalPassword ? $finalPassword : $finalPassword->getDHash();
         $auth->user_id = $user->user_id;
         $auth->authenticate_provides_id = Application_Plugin_DbAuth::AUTHENTICATE_PROVIDE_EMAIL;
         $auth->active = $activationRequired ? 0 : 1;
