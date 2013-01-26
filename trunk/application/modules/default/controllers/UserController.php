@@ -83,7 +83,7 @@ class UserController extends BaseController {
         // Uložit záznam do tabulky user
         $user = $this->userTable->createRow();
         $user->email = $email;
-        $user->first_name =$name ;
+        $user->first_name = $name ;
         $user->last_name = $surname;
         $user->last_login_date = new Zend_Db_Expr("NOW()");
         $user->last_login_ip = $this->getRequest()->getServer('REMOTE_ADDR');
@@ -105,7 +105,7 @@ class UserController extends BaseController {
             $text .= "zasíláme Vám registrační údaje na portálu myEvents.vse.cz.\n";
             $text .= "Váš účet je ještě třeba aktivovat. Aktivaci provedete kliknutím na odkaz, který je přiložený níže. Pokud Vám na odkaz nejde kliknout, překopírujte ho do adresního řádku svého webového prohlížeče.\n\n";
             $text .= "Přihlašovací e-mail: " . $auth->identity . "\n";
-            $text .= "Heslo: " . $formValues["password1"] . "\n";
+            $text .= "Heslo: " . $password . "\n";
             $text .= "Aktivační odkaz: http://" . $_SERVER['SERVER_NAME'] . "/aktivace/" . $auth->authenticate_id . "/" . substr($auth->verification, 0, 10) . "\n\n";
             $text .= "Doufáme, že se Vám bude na portálu MyEvents líbit a že pro vás bude užitečným :).";
 
