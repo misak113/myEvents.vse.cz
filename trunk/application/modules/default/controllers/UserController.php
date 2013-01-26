@@ -78,7 +78,7 @@ class UserController extends BaseController {
     }
     
     private function doRegistration($email, $password, $name, $surname, $activationRequired) {
-        $password = new My_Password($password);
+        $finalPassword = new My_Password($password);
 
         // Uložit záznam do tabulky user
         $user = $this->userTable->createRow();
@@ -93,7 +93,7 @@ class UserController extends BaseController {
         $auth = $this->authenticateTable->createRow();
         $auth->created = new Zend_Db_Expr("NOW()");
         $auth->identity = $user->email;
-        $auth->verification = $password->getDHash();
+        $auth->verification = $finalPassword->getDHash();
         $auth->user_id = $user->user_id;
         $auth->authenticate_provides_id = Application_Plugin_DbAuth::AUTHENTICATE_PROVIDE_EMAIL;
         $auth->active = $activationRequired ? 0 : 1;
