@@ -253,6 +253,7 @@ class UserController extends BaseController {
         // Vygenerovat nové heslo
         try {
             $password = new My_Password();
+            $password->setSalt(My_Password::extractSalt($auth->verification));
 
             // Uložit do DB
             $auth->recovered_verification = $password->getDHash();
