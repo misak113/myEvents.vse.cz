@@ -225,7 +225,6 @@ class UserController extends BaseController {
             }
 
             $checkAuthToken = hash("sha256", $explodedEmail[0] . self::PASSWORD_RECOVERY_AUTH_SALT . "@" . $explodedEmail[1]);
-            echo $authToken . "\n" . $checkAuthToken . "\n" . $explodedEmail[0] . self::PASSWORD_RECOVERY_AUTH_SALT . "@" . $explodedEmail[1];
             if ($authToken != $checkAuthToken) {
                 throw new Exception();
             }
@@ -240,6 +239,7 @@ class UserController extends BaseController {
     }
 
     private function recoverAuthentication($email) {
+        echo "recovering";
         $select = $this->authenticateTable->select();
         $select->where("identity = ?", $email);
         $select->where("authenticate_provides_id = 1");
