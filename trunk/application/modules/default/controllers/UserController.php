@@ -225,6 +225,7 @@ class UserController extends BaseController {
             }
 
             $checkAuthToken = hash("sha256", $explodedEmail[0] . self::PASSWORD_RECOVERY_AUTH_SALT . "@" . $explodedEmail[1]);
+            echo $authToken . "\n" . $checkAuthToken . "\n" . $explodedEmail[0] . self::PASSWORD_RECOVERY_AUTH_SALT . "@" . $explodedEmail[1];
             if ($authToken != $checkAuthToken) {
                 throw new Exception();
             }
