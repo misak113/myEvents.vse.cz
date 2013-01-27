@@ -1,0 +1,1 @@
+ALTER TABLE  `authenticate` ADD  `recovered_verification` VARCHAR( 255 ) NULL AFTER  `verification`;

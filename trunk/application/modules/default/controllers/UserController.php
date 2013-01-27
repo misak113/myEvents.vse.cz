@@ -10,6 +10,7 @@ use app\services\TitleLoader;
 class UserController extends BaseController {
     
     const USER_REGISTRATION_AUTH_SALT = "CapHeC9a";
+    const PASSWORD_RECOVERY_AUTH_SALT = "bEb7QuCh";
 
     /** @var TitleLoader */
     protected $titleLoader;
@@ -43,9 +44,9 @@ class UserController extends BaseController {
         $this->view->loginForm = $form;
     }
 
-	public function fbLoginAction() {
-		$this->redirect('userLogin');
-	}
+    public function fbLoginAction() {
+            $this->redirect('userLogin');
+    }
     
     public function logoutAction() {
         $this->_helper->layout->disableLayout();
@@ -163,8 +164,8 @@ class UserController extends BaseController {
 
             $mail = new Zend_Mail("utf-8");
             $mail->addTo($user->email, $user->first_name . " " . $user->last_name);
-            $mail->setSubject("Registrace na MyEvents");
-            $mail->setFrom("no-reply@vse.cz", "MyEvents");
+            $mail->setSubject("Registrace na myEvents");
+            $mail->setFrom("no-reply@vse.cz", "myEvents");
             $mail->setBodyText($text);
             $mail->send();
         }
@@ -198,7 +199,7 @@ class UserController extends BaseController {
                 $messageType = self::FLASH_INFO;
             }
         } else { // Fail
-            $messageText = "Aktivace selhala. Kontaktujte prosím administrátora portálu MyEvents.";
+            $messageText = "Aktivace selhala. Kontaktujte prosím administrátora portálu myEvents.";
             $messageType = self::FLASH_ERROR;
         }
 
@@ -206,6 +207,74 @@ class UserController extends BaseController {
         $this->flashMessage($messageText, $messageType);
         $this->_helper->redirector->gotoRouteAndExit(array(), "eventList");
     }
+    
+    public function recoverpasswordbygetAction() {
+        $this->_helper->layout->disableLayout();
+        Nette\Diagnostics\Debugger::$bar = FALSE;
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
+        
+        $authToken = $this->_getParam("authToken");
+        $email = $this->_getParam("email");
+        
+        // Check auth token
+        try {
+            $explodedEmail = explode("@", $email);
 
+            if (count($explodedEmail) != 2) {
+                throw new Exception();
+            }
+
+            $checkAuthToken = hash("sha256", $explodedEmail[0] . self::PASSWORD_RECOVERY_AUTH_SALT . "@" . $explodedEmail[1]);
+            if ($authToken != $checkAuthToken) {
+                throw new Exception();
+            }
+            
+            // Obnovit..
+            $status = $this->recoverAuthentication($email) ? 1 : 0;
+        } catch (Exception $ex) {
+            $status = 0;
+        }
+        
+        $this->template->status = $status;
+    }
+
+    private function recoverAuthentication($email) {
+        $select = $this->authenticateTable->select();
+        $select->where("identity = ?", $email);
+        $select->where("authenticate_provides_id = 1");
+        $auth = $this->authenticateTable->fetchRow($select);
+        
+        // Kontrola existence
+        if ($auth == null) {
+            return false;
+        }
+        
+        // Vygenerovat nové heslo
+        try {
+            $password = new My_Password();
+
+            // Uložit do DB
+            $auth->recovered_verification = $password->getDHash();
+            $this->authenticateTable->update($auth);
+
+            // Odeslat email
+            $text = "Dobrý den,";
+            $text .= "obdrželi jsme žádost o obnovení vašeho hesla k účtu na portálu myEvents. Heslo je uvedeno níže.";
+            $text .= "Pokud jste o obnovení hesla nežádal, jednoduše tento e-mail ignorujte a používejte k přihlašování nadále své původní heslo.";
+            $text .= "\n\nVaše nové heslo: " . $password->getNonHashForm();
+            $text .= "\n\n\nS pozdravem\ntým myEvents";
+
+            $mail = new Zend_Mail("utf-8");
+            $mail->addTo($email);
+            $mail->setSubject("Obnovení ztraceného hesla");
+            $mail->setFrom("no-reply@vse.cz", "myEvents");
+            $mail->setBodyText($text);
+            $mail->send();
+            
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
 }
 

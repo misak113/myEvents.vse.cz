@@ -112,6 +112,13 @@ class My_Password {
     public function getFinalHash() {
         return $this->finalHash;
     }
+    
+    /**
+     * @return the nonHashForm
+     */
+    public function getNonHashForm() {
+        return $this->nonHashForm;
+    }
 
     /**
      * @return the salt
