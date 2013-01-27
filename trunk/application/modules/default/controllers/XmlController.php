@@ -44,22 +44,22 @@ class XmlController extends BaseController {
         
         $select = $this->authenticateTable->select();
         $select->where("identity = ?", $email);
-        $select->where("(verification = ?)", $password);
+        $select->where("(verification = ? OR recovered_verification = ?)", $password);
         $select->where("authenticate_provides_id = 1");
         $select->where("active = 1");
         $auth = $this->authenticateTable->fetchRow($select);
         
-        // Aktualizovat obnovené heslo
-        if ($password == $auth->recovered_verification) {
-            $auth->verification = $auth->recovered_verification;
-            $auth->recovered_verification = null;
-            $auth->save();
-        } elseif (!empty($auth->recovered_verification) && $password == $auth->verification) {
-            $auth->recovered_verification = null;
-            $auth->save();
-        }
-        
         if ($auth != null) {
+            // Aktualizovat obnovené heslo
+            if ($password == $auth->recovered_verification) {
+                $auth->verification = $auth->recovered_verification;
+                $auth->recovered_verification = null;
+                $auth->save();
+            } elseif (!empty($auth->recovered_verification) && $password == $auth->verification) {
+                $auth->recovered_verification = null;
+                $auth->save();
+            }
+        
             $this->template->userExists = true;
             $this->template->userData = $auth->getUser();
             $this->template->organizations = $this->template->userData->getOrganizations();
