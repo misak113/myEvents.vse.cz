@@ -232,7 +232,7 @@ class UserController extends BaseController {
             // Obnovit..
             $status = $this->recoverAuthentication($email) ? 1 : 0;
         } catch (Exception $ex) {
-            $status = 0;
+            $status = 2;
         }
         
         $this->template->status = $status;
@@ -242,6 +242,7 @@ class UserController extends BaseController {
         $select = $this->authenticateTable->select();
         $select->where("identity = ?", $email);
         $select->where("authenticate_provides_id = 1");
+        $select->where("active = 1");
         $auth = $this->authenticateTable->fetchRow($select);
         
         // Kontrola existence
