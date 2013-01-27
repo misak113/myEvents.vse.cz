@@ -239,7 +239,6 @@ class UserController extends BaseController {
     }
 
     private function recoverAuthentication($email) {
-        echo "recovering";
         $select = $this->authenticateTable->select();
         $select->where("identity = ?", $email);
         $select->where("authenticate_provides_id = 1");
@@ -275,6 +274,7 @@ class UserController extends BaseController {
             
             return true;
         } catch (Exception $ex) {
+            echo $ex;
             return false;
         }
     }
