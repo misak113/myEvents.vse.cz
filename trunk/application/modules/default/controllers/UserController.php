@@ -256,7 +256,7 @@ class UserController extends BaseController {
 
             // Uložit do DB
             $auth->recovered_verification = $password->getDHash();
-            $this->authenticateTable->update($auth);
+            $auth->save();
 
             // Odeslat email
             $text = "Dobrý den,";
