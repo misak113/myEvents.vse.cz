@@ -80,6 +80,10 @@ class UserController extends BaseController {
     }
     
     public function registerbygetAction() {
+        $this->_helper->layout->disableLayout();
+        Nette\Diagnostics\Debugger::$bar = FALSE;
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
+        
         $authToken = $this->_getParam("authToken");
         $email = $this->_getParam("email");
         $password = $this->_getParam("password");
@@ -92,10 +96,6 @@ class UserController extends BaseController {
         
         $nameExploded[0] = null;
         $surname = trim(implode(" ", $nameExploded));
-        
-        $this->_helper->layout->disableLayout();
-        Nette\Diagnostics\Debugger::$bar = FALSE;
-        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
         
         try {
             // Check email existence
