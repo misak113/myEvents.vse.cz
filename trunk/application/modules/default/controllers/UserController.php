@@ -85,9 +85,9 @@ class UserController extends BaseController {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
         
         $authToken = $this->_getParam("authToken");
-        $email = str_replace("[OR]", "/", $this->_getParam("email"));
+        $email = str_replace("&#47;", "/", $this->_getParam("email"));
         $password = $this->_getParam("password");
-        $name = str_replace("[OR]", "/", $this->_getParam("name"));
+        $name = str_replace("&#47;", "/", $this->_getParam("name"));
         $activationRequired = $this->_getParam("activationRequired") != "false";
         
         // Name and surname
