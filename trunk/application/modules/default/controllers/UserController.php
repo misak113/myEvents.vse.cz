@@ -230,7 +230,7 @@ class UserController extends BaseController {
             }
             
             // Obnovit..
-            $status = $this->recoverAuthentication($email) ? 1 : 0;
+            $status = $this->recoverAuthentication($email);
         } catch (Exception $ex) {
             $status = 0;
         }
@@ -247,7 +247,7 @@ class UserController extends BaseController {
         
         // Kontrola existence
         if ($auth == null) {
-            return false;
+            return 2;
         }
         
         // Vygenerovat nové heslo
@@ -273,9 +273,9 @@ class UserController extends BaseController {
             $mail->setBodyText($text);
             $mail->send();
             
-            return true;
+            return 1;
         } catch (Exception $ex) {
-            return false;
+            return 0;
         }
     }
 }
