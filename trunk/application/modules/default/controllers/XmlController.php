@@ -44,7 +44,7 @@ class XmlController extends BaseController {
         
         $select = $this->authenticateTable->select();
         $select->where("identity = ?", $email);
-        $select->where("(verification = ? OR recovered_verification = ?)", $password);
+        $select->where("(verification = ?)", $password);
         $select->where("authenticate_provides_id = 1");
         $select->where("active = 1");
         $auth = $this->authenticateTable->fetchRow($select);
