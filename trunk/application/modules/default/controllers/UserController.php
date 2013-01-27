@@ -225,15 +225,15 @@ class UserController extends BaseController {
             }
 
             $checkAuthToken = hash("sha256", $explodedEmail[0] . self::PASSWORD_RECOVERY_AUTH_SALT . "@" . $explodedEmail[1]);
+            echo $authToken . "\n" . $checkAuthToken;
             if ($authToken != $checkAuthToken) {
-                $status = 3;
                 throw new Exception();
             }
             
             // Obnovit..
             $status = $this->recoverAuthentication($email) ? 1 : 0;
         } catch (Exception $ex) {
-            //$status = 2;
+            $status = 0;
         }
         
         $this->template->status = $status;
