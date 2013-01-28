@@ -262,7 +262,7 @@ class UserController extends BaseController {
             // Odeslat email
             $text = "Dobrý den,\n";
             $text .= "obdrželi jsme žádost o obnovení vašeho hesla k účtu na portálu myEvents. Heslo je uvedeno níže.";
-            $text .= "Pokud jste o obnovení hesla nežádal, jednoduše tento e-mail ignorujte a používejte k přihlašování nadále své původní heslo.";
+            $text .= "\nPokud jste o obnovení hesla nežádal, jednoduše tento e-mail ignorujte a používejte k přihlašování nadále své původní heslo.";
             $text .= "\n\nVaše nové heslo: " . $password->getNonHashForm();
             $text .= "\n\n\nS pozdravem\ntým myEvents";
 
