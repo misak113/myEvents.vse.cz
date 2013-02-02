@@ -11,6 +11,7 @@ class UserController extends BaseController {
     
     const USER_REGISTRATION_AUTH_SALT = "CapHeC9a";
     const PASSWORD_RECOVERY_AUTH_SALT = "bEb7QuCh";
+    const FB_REGISTRATION_AUTH_SALT = "Cefre9u8";
 
     /** @var TitleLoader */
     protected $titleLoader;
@@ -277,6 +278,37 @@ class UserController extends BaseController {
         } catch (Exception $ex) {
             return 0;
         }
+    }
+    
+    public function registerfbuserbygetAction() {
+        $this->_helper->layout->disableLayout();
+        Nette\Diagnostics\Debugger::$bar = FALSE;
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
+        
+        $authToken = $this->_getParam("authToken");
+        $fbId = $this->_getParam("id");
+        $email = $this->_getParam("email");
+        $name = $this->_getParam("name");
+        
+        $status = 0;
+        try {
+            $explodedEmail = explode("@", $email);
+            if (count($explodedEmail) != 2) {
+                throw new Exception();
+            }
+            $checkAuthToken = hash("sha256", $explodedEmail[0] . self::FB_REGISTRATION_AUTH_SALT . "@" . $explodedEmail[1]);
+            if ($authToken != $checkAuthToken) {
+                throw new Exception();
+            }
+            
+            // TODO: Registrace FB uživatele pokud ještě neexistuje (zjistitelné podle $fbId)
+            
+            $status = 1;
+        } catch (Exception $ex) {
+            $status = 0;
+        }
+        
+        $this->template->status = $status;
     }
 }
 
