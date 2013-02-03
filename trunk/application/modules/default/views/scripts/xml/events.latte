@@ -11,7 +11,7 @@
         <url>{$event["url"]}</url>
         <fbLink>{$event["fburl"]}</fbLink>
         <image>
-            <url>http://<?php echo $_SERVER["SERVER_NAME"] ?>/img/picture/{$event["picture"]}</url>
+            <url>{if $event["picture"] != null}http://<?php echo $_SERVER["SERVER_NAME"] ?>/img/picture/{$event["picture"]}{/if}</url>
             <crc><?php echo crc32(file_get_contents("./img/picture/{$event["picture"]}")) ?></crc>
         </image>
     </event>
