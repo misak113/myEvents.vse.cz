@@ -47,6 +47,8 @@ class FilterDispatcher
 		$select = $this->eventTable->select()->from(array('e'=>'event'))
                         ->where('active = 1')
                         ->where('public = 1')
+						->where('approved IS NOT NULL')
+						->where('controlled IS NOT NULL')
 						->where('timestart >= ?', date('Y-m-d'))
                                                 ->order('timestart ASC')
                         ;

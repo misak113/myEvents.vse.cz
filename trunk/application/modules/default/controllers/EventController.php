@@ -50,7 +50,7 @@ class EventController extends BaseController {
 
 	public function detailAction() {
                 $id = $this->_getParam('id');
-                $eventRow = $this->eventTable->getById((int)$id);
+                $eventRow = $this->eventTable->getEvent((int)$id);
                 if (!$eventRow)
                     throw new Zend_Controller_Action_Exception('Akce neexistuje', 404);
                 
