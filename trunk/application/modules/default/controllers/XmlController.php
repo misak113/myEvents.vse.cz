@@ -134,7 +134,7 @@ class XmlController extends BaseController {
     }
     
     public function eventtypesAction() {
-        $this->template->eventTypes = $this->categoryTable->fetchAll($this->categoryTable->fetchAll->select());
+        $this->template->eventTypes = $this->categoryTable->fetchAll($this->categoryTable->select());
     }
     
     public function eventtagsAction() {
