@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eventTypes>
+    {foreach $eventTypes as $type}
+    <type id="{$type->category_id}">
+        <name>{$type->name}</name>
+    </type>
+    {/foreach}
+</eventTypes>

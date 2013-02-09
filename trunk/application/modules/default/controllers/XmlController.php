@@ -13,6 +13,8 @@ class XmlController extends BaseController {
     protected $eventTable;
     protected $organizationTable;
     protected $authenticateTable;
+    protected $categoryTable;
+    protected $tagTable;
     
     const TOKEN_SALT = "9HA7Ekef";
     
@@ -31,11 +33,15 @@ class XmlController extends BaseController {
     public function setContext(
             app\models\authentication\AuthenticateTable $authenticateTable,
             app\models\organizations\OrganizationTable $organizationTable,
-            app\models\events\EventTable $eventTable) {
+            app\models\events\EventTable $eventTable,
+            app\models\events\CategoryTable $categoryTable,
+            app\models\events\TagTable $tagTable) {
         
         $this->organizationTable = $organizationTable;
         $this->authenticateTable = $authenticateTable;
         $this->eventTable = $eventTable;
+        $this->categoryTable = $categoryTable;
+        $this->tagTable = $tagTable;
     }
 
     public function userdataAction() {
@@ -125,6 +131,14 @@ class XmlController extends BaseController {
     
     public function organizationsAction() {
         $this->template->organizations = $this->organizationTable->fetchAll($this->organizationTable->select());
+    }
+    
+    public function eventtypesAction() {
+        $this->template->eventTypes = $this->categoryTable->fetchAll($this->categoryTable->fetchAll->select());
+    }
+    
+    public function eventtagsAction() {
+        $this->template->eventTags = $this->tagTable->fetchAll($this->tagTable->select());
     }
 }
 
