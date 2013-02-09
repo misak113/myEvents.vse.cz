@@ -195,8 +195,8 @@ class Admin_EventController extends BaseController {
             // TODO: Umožnit správu více organizací
             $this->template->events = $organizations[0]->getEvents();
             $this->template->nazevOrganizace = $organizations[0]->name;
-            // Uživatel není členem organizace, dummy výpis
         } else {
+            // Uživatel není členem organizace, dummy výpis
             $this->template->nazevOrganizace = "Nejste členem žádné organizace";
             $this->template->events = "";
         }
