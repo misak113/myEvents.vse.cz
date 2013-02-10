@@ -155,8 +155,8 @@ class XmlController extends BaseController {
         $select = My_Model::get('app\models\events\EventTable')->select();
         $select->setIntegrityCheck(false);
         $select->from("event");
-        $select->join(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
-        $select->join(array('et' => 'event_has_tag'), 'et.event_id = event.event_id');
+        $select->leftJoin(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
+        $select->leftJoin(array('et' => 'event_has_tag'), 'et.event_id = event.event_id');
         if ($iOrgs != 0) {
             $select->where("oe.organization_id IN " . $orgsInCond);
         }
