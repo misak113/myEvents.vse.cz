@@ -139,7 +139,7 @@ class XmlController extends BaseController {
         $eTagsInCond = "(";
         $iETags = 0;
         foreach ($tags as $eTagId) {
-            if ($eTypeId == "0") {
+            if ($eTagId == "0") {
                 continue;
             }
             
