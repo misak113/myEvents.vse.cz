@@ -98,29 +98,52 @@ class XmlController extends BaseController {
     
     public function eventsAction() {
         $organizations = explode(",", $this->_getParam("organizations"));
+        $types = explode(",", $this->_getParam("types"));
+        $tags = explode(",", $this->_getParam("tags"));
         
-        $inCond = "(";
-        $i = 0;
+        // Create organizations condition
+        $orgsInCond = "(";
+        $iOrgs = 0;
         foreach ($organizations as $orgId) {
             if ($orgId == "0") {
                 continue;
             }
             
-            if ($i != 0) {
-                $inCond .= ",";
+            if ($iOrgs != 0) {
+                $orgsInCond .= ",";
             }
-            $inCond .= (int) $orgId;
+            $orgsInCond .= (int) $orgId;
             
-            $i++;
+            $iOrgs++;
         }
-        $inCond .= ")";
+        $orgsInCond .= ")";
+        
+        // Create event types condition
+        $eTypesInCond = "(";
+        $iETypes = 0;
+        foreach ($types as $eTypeId) {
+            if ($eTypeId == "0") {
+                continue;
+            }
+            
+            if ($iETypes != 0) {
+                $eTypesInCond .= ",";
+            }
+            $eTypesInCond .= (int) $eTypeId;
+            
+            $iETypes++;
+        }
+        $eTypesInCond .= ")";
 
         $select = My_Model::get('app\models\events\EventTable')->select();
         $select->setIntegrityCheck(false);
         $select->from("event");
         $select->join(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
-        if ($i != 0) {
-            $select->where("oe.organization_id IN " . $inCond);
+        if ($iOrgs != 0) {
+            $select->where("oe.organization_id IN " . $orgsInCond);
+        }
+        if ($iETypes != 0) {
+            $select->where("event.category_id IN " . $eTypesInCond);
         }
         $select->where("timeend > NOW()");
         $select->where("active = 1 AND public = 1");
