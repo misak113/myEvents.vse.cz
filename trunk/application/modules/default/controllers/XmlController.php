@@ -12,6 +12,7 @@ class XmlController extends BaseController {
     /** @var TitleLoader */
     protected $eventTable;
     protected $organizationTable;
+    protected $organizationOwnEventTable;
     protected $authenticateTable;
     protected $categoryTable;
     protected $tagTable;
@@ -33,11 +34,13 @@ class XmlController extends BaseController {
     public function setContext(
             app\models\authentication\AuthenticateTable $authenticateTable,
             app\models\organizations\OrganizationTable $organizationTable,
+            app\models\organizations\OrganizationOwnEventTable $organizationOwnEventTable,
             app\models\events\EventTable $eventTable,
             app\models\events\CategoryTable $categoryTable,
             app\models\events\TagTable $tagTable) {
         
         $this->organizationTable = $organizationTable;
+        $this->organizationOwnEventTable = $organizationOwnEventTable;
         $this->authenticateTable = $authenticateTable;
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
@@ -169,9 +172,20 @@ class XmlController extends BaseController {
         $select->where("event.timeend > NOW()");
         $select->where("event.active = 1 AND event.public = 1");
         $select->group("event.event_id");
+        
+        $events = $select->query()->fetchAll();
+        
+        // Orgnaizátoři
+        // (tady možná bude časem potřeba trochu optimalizace...protože
+        // tenhle způsob práce s DB je dost podivnej a než bych vymyslel,
+        // jak se s timhle Netto-Zendím nesmyslem správně pracuje, tak u toho zestárnu...)
+        foreach ($events as $event) {
+            $select = $this->organizationOwnEventTable->select();
+            $select->where("event_id = ?", $event["event_id"]);
+            $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);
+        }
 
-
-        $this->template->events = $select->query()->fetchAll();
+        $this->template->events = $events;
     }
     
     public function organizationsAction() {
