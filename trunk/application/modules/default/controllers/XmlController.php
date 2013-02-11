@@ -155,7 +155,7 @@ class XmlController extends BaseController {
         }
         $eTagsInCond .= ")";
 
-        $select = My_Model::get('app\models\events\EventTable')->select("*");
+        $select = My_Model::get('app\models\events\EventTable')->select();
         $select->setIntegrityCheck(false);
         $select->from("event");
         $select->joinLeft(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
@@ -169,9 +169,9 @@ class XmlController extends BaseController {
         if ($iETags != 0) {
             $select->where("et.tag_id IN " . $eTagsInCond);
         }
-        $select->where("event.timeend > NOW()");
-        $select->where("event.active = 1 AND event.public = 1");
-        $select->group("event.event_id");
+        $select->where("timeend > NOW()");
+        $select->where("active = 1 AND public = 1");
+        $select->group("event_id");
         
         $events = $select->query()->fetchAll();
         
