@@ -1,8 +1,8 @@
 ALTER TABLE  `event`
-ADD `approver` datetime DEFAULT NULL,
-ADD `controller` datetime DEFAULT NULL,
+ADD `approved` datetime DEFAULT NULL,
+ADD `controlled` datetime DEFAULT NULL
 ADD `ready_to_approve` bool DEFAULT false NOT NULL;
 
 INSERT INTO `myevents`.`role` (`role_id`, `name`, `uri_code`, `description`, `level`) VALUES 
-(NULL, 'Kontrolor akcí', 'controller', 'Zamìstnanec VŠE provádìjící kontrolu akcí.', '70'), 
-(NULL, 'Schvalovaè akcí', 'approver', 'Zamìstnanec VŠE provádìjící schvalování akcí', '70') ;
+(NULL, 'Kontrolor akcï¿½', 'controller', 'Zamï¿½stnanec Vï¿½E provï¿½dï¿½jï¿½cï¿½ kontrolu akcï¿½.', '70'), 
+(NULL, 'Schvalovaï¿½ akcï¿½', 'approver', 'Zamï¿½stnanec Vï¿½E provï¿½dï¿½jï¿½cï¿½ schvalovï¿½nï¿½ akcï¿½', '70') ;
