@@ -179,12 +179,12 @@ class XmlController extends BaseController {
         // (tady možná bude časem potřeba trochu optimalizace...protože
         // tenhle způsob práce s DB je dost podivnej a než bych vymyslel,
         // jak se s timhle Netto-Zendím nesmyslem správně pracuje, tak u toho zestárnu...)
-        foreach ($events as $event) {
+        /*foreach ($events as $event) {
             /*$select = $this->organizationOwnEventTable->select();
             $select->where("event_id = ?", $event["event_id"]);
-            $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);*/
+            $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);
             echo $event["event_id"] . "\n";
-        }
+        }*/
 
         $this->template->events = $events;
     }
