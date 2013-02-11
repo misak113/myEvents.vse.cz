@@ -155,7 +155,7 @@ class XmlController extends BaseController {
         }
         $eTagsInCond .= ")";
 
-        $select = My_Model::get('app\models\events\EventTable')->select();
+        $select = My_Model::get('app\models\events\EventTable')->select("*");
         $select->setIntegrityCheck(false);
         $select->from("event");
         $select->joinLeft(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
@@ -183,7 +183,7 @@ class XmlController extends BaseController {
             /*$select = $this->organizationOwnEventTable->select();
             $select->where("event_id = ?", $event["event_id"]);
             $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);*/
-            echo $event["max(event_id)"] . "\n";
+            echo $event["event.event_id"] . "\n";
         }
 
         $this->template->events = $events;
