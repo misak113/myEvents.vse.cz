@@ -12,6 +12,7 @@ class XmlController extends BaseController {
     /** @var TitleLoader */
     protected $eventTable;
     protected $organizationTable;
+    protected $organizationOwnEventTable;
     protected $authenticateTable;
     protected $categoryTable;
     protected $tagTable;
@@ -33,12 +34,14 @@ class XmlController extends BaseController {
     public function setContext(
             app\models\authentication\AuthenticateTable $authenticateTable,
             app\models\organizations\OrganizationTable $organizationTable,
+            app\models\organizations\OrganizationOwnEventTable $organizationOwnEventTable,
             app\models\events\EventTable $eventTable,
             app\models\events\CategoryTable $categoryTable,
             app\models\events\TagTable $tagTable) {
         
         $this->organizationTable = $organizationTable;
         $this->authenticateTable = $authenticateTable;
+        $this->organizationOwnEventTable = $organizationOwnEventTable;
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
         $this->tagTable = $tagTable;
@@ -153,25 +156,33 @@ class XmlController extends BaseController {
         $eTagsInCond .= ")";
 
         $select = My_Model::get('app\models\events\EventTable')->select();
+        
         $select->setIntegrityCheck(false);
         $select->from("event");
         $select->joinLeft(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
-        $select->joinLeft(array('et' => 'event_has_tag'), 'et.event_id = event.event_id');
         if ($iOrgs != 0) {
             $select->where("oe.organization_id IN " . $orgsInCond);
         }
         if ($iETypes != 0) {
             $select->where("event.category_id IN " . $eTypesInCond);
         }
-        if ($iETags != 0) {
-            $select->where("et.tag_id IN " . $eTagsInCond);
-        }
         $select->where("timeend > NOW()");
         $select->where("active = 1 AND public = 1");
         $select->group("event.event_id");
 
+        $events = $select->query()->fetchAll();
+        
+        // Orgnaizátoři
+        // (tady možná bude časem potřeba trochu optimalizace...protože
+        // tenhle způsob práce s DB je dost podivnej a než bych vymyslel,
+        // jak se s timhle Netto-Zendím nesmyslem správně pracuje, tak u toho zestárnu...)
+        foreach ($events as $index => $event) {
+            $select = $this->organizationOwnEventTable->select();
+            $select->where("event_id = ?", $event["event_id"]);
+            $events[$index]["organizators"] = $this->organizationOwnEventTable->fetchAll($select);
+        }
 
-        $this->template->events = $select->query()->fetchAll();
+        $this->template->events = $events;
     }
     
     public function organizationsAction() {

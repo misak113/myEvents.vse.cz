@@ -10,9 +10,14 @@
         <capacity>{$event["capacity"]}</capacity>
         <url>{$event["url"]}</url>
         <fbLink>{$event["fburl"]}</fbLink>
+        <organizators>
+            {foreach $event["organizators"] as $organizator}
+            <organizator id="{$organizator->organization_id}" />
+            {/foreach}
+        </organizators>
         <image>
-            <url>{if $event["picture"] != null}http://<?php echo $_SERVER["SERVER_NAME"] ?>/img/picture/{$event["picture"]}{/if}</url>
-            <crc><?php echo crc32(file_get_contents("./img/picture/{$event["picture"]}")) ?></crc>
+            <url>{if $event["picture"] != null && file_exists("./img/picture/{$event["picture"]}")}http://<?php echo $_SERVER["SERVER_NAME"] ?>/img/picture/{$event["picture"]}{/if}</url>
+            <crc>{if $event["picture"] != null && file_exists("./img/picture/{$event["picture"]}")}<?php echo crc32(file_get_contents("./img/picture/{$event["picture"]}")) ?>{/if}</crc>
         </image>
     </event>
     {/foreach}
