@@ -1,6 +1,6 @@
 ALTER TABLE  `event`
 ADD `approver` datetime DEFAULT NULL,
-ADD `controller` datetime DEFAULT NULL
+ADD `controller` datetime DEFAULT NULL,
 ADD `ready_to_approve` bool DEFAULT false NOT NULL;
 
 INSERT INTO `myevents`.`role` (`role_id`, `name`, `uri_code`, `description`, `level`) VALUES 
