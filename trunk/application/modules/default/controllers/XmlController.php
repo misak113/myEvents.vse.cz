@@ -152,7 +152,7 @@ class XmlController extends BaseController {
         }
         $eTagsInCond .= ")";
 
-        $select = My_Model::get('app\models\events\EventTable')->select();
+        $select = My_Model::get('app\models\events\EventTable')->select("event_id");
         $select->setIntegrityCheck(false);
         $select->from("event");
         $select->joinLeft(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
