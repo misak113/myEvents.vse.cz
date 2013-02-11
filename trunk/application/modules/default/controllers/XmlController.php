@@ -167,7 +167,7 @@ class XmlController extends BaseController {
             $select->where("et.tag_id IN " . $eTagsInCond);
         }
         $select->where("event.timeend > NOW()");
-        $select->where("event.active = 1 AND public = 1");
+        $select->where("event.active = 1 AND event.public = 1");
         $select->group("event.event_id");
 
 
