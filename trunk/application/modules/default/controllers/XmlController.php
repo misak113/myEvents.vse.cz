@@ -183,7 +183,7 @@ class XmlController extends BaseController {
             /*$select = $this->organizationOwnEventTable->select();
             $select->where("event_id = ?", $event["event_id"]);
             $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);*/
-            echo $event["event_id"] . "\n";
+            echo $event["max(event_id)"] . "\n";
         }
 
         $this->template->events = $events;
