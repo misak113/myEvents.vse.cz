@@ -155,7 +155,7 @@ class XmlController extends BaseController {
         }
         $eTagsInCond .= ")";
 
-        $select = My_Model::get('app\models\events\EventTable')->select("event.event_id");
+        $select = My_Model::get('app\models\events\EventTable')->select();
         $select->setIntegrityCheck(false);
         $select->from("event");
         $select->joinLeft(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
@@ -180,9 +180,10 @@ class XmlController extends BaseController {
         // tenhle způsob práce s DB je dost podivnej a než bych vymyslel,
         // jak se s timhle Netto-Zendím nesmyslem správně pracuje, tak u toho zestárnu...)
         foreach ($events as $event) {
-            $select = $this->organizationOwnEventTable->select();
-            $select->where("event_id = " . $event["event_id"]);
-            $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);
+            /*$select = $this->organizationOwnEventTable->select();
+            $select->where("event_id = ?", $event["event_id"]);
+            $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);*/
+            echo $event["event_id"] . "\n";
         }
 
         $this->template->events = $events;
