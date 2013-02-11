@@ -181,7 +181,7 @@ class XmlController extends BaseController {
         // jak se s timhle Netto-Zendím nesmyslem správně pracuje, tak u toho zestárnu...)
         foreach ($events as $event) {
             $select = $this->organizationOwnEventTable->select();
-            $select->where("event_id = ?", $event["event_id"]);
+            $select->where("event_id = " . $event["event_id"]);
             $event["organizators"] = $this->organizationOwnEventTable->fetchRow($select);
         }
 
