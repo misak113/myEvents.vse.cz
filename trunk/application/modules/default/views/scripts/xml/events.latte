@@ -2,6 +2,7 @@
 <events>
     {foreach $events as $event}
     <event id="{$event["event_id"]}">
+        <crc>{$event["crc"]}</crc>
         <name>{$event["name"]}</name>
         <location>{$event["location"]}</location>
         <start>{$event["timestart"]}</start>

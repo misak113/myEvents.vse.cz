@@ -180,6 +180,21 @@ class XmlController extends BaseController {
             $select = $this->organizationOwnEventTable->select();
             $select->where("event_id = ?", $event["event_id"]);
             $events[$index]["organizators"] = $this->organizationOwnEventTable->fetchAll($select);
+            
+            // CRC
+            $crcText = $event["name"];
+            $crcText .= $event["location"];
+            $crcText .= $event["timestart"];
+            $crcText .= $event["timeend"];
+            $crcText .= $event["longinfo"];
+            $crcText .= $event["capacity"];
+            $crcText .= $event["url"];
+            $crcText .= $event["fburl"];
+            foreach ($events[$index]["organizators"] as $organizator) {
+                $crcText .= $organizator->organization_id;
+            }
+            
+            $events[$index]["crc"] = crc32($crcText);
         }
 
         $this->template->events = $events;
