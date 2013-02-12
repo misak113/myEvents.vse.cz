@@ -102,7 +102,6 @@ class XmlController extends BaseController {
     public function eventsAction() {
         $organizations = explode(",", $this->_getParam("organizations"));
         $types = explode(",", $this->_getParam("types"));
-        $tags = explode(",", $this->_getParam("tags"));
         
         // Create organizations condition
         $orgsInCond = "(";
@@ -137,29 +136,12 @@ class XmlController extends BaseController {
             $iETypes++;
         }
         $eTypesInCond .= ")";
-        
-        // Create event tags condition
-        $eTagsInCond = "(";
-        $iETags = 0;
-        foreach ($tags as $eTagId) {
-            if ($eTagId == "0") {
-                continue;
-            }
-            
-            if ($iETags != 0) {
-                $eTagsInCond .= ",";
-            }
-            $eTagsInCond .= (int) $eTagId;
-            
-            $iETags++;
-        }
-        $eTagsInCond .= ")";
 
         $select = My_Model::get('app\models\events\EventTable')->select();
         
         $select->setIntegrityCheck(false);
         $select->from("event");
-        $select->joinLeft(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
+        $select->join(array('oe' => 'organization_own_event'), 'oe.event_id = event.event_id');
         if ($iOrgs != 0) {
             $select->where("oe.organization_id IN " . $orgsInCond);
         }
