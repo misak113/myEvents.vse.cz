@@ -94,7 +94,7 @@ class My_GcmMessanger {
 
         // Close connection
         curl_close($ch);
-print_r($result);
+
         // Parse result
         $replacedResult = preg_replace("/^.*\"results\":\[(.+)\].*$/i", "$1", $result);
 
@@ -109,6 +109,12 @@ print_r($result);
                 "\"" => ""
             ));
             $partExploded = explode(":", $part, 2);
+            
+            // Canoical ID created, skip
+            if ($partExploded[1] == "registration_id") {
+                continue;
+            }
+            
             $partArray = array(
                 "type" => $partExploded[0],
                 "content" => $partExploded[1],
