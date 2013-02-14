@@ -73,7 +73,7 @@ class My_GcmMessanger {
 
         print_r($result);
         echo "\n\n\n";
-        $replacedResult = preg_replace("^.*\"results\":\[(.+)\].*$", "$1", $result);
+        $replacedResult = preg_replace("/^.*\"results\":\[(.+)\].*$/i", "$1", $result);
         print_r($replacedResult);
     }
 
