@@ -97,7 +97,7 @@ class My_GcmMessanger {
 
         // Parse result
         $replacedResult = preg_replace("/^.*\"results\":\[(.+)\].*$/i", "$1", $result);
-        
+        print_r($replacedResult);
         $replacedResultExploded = explode(",", $replacedResult);
         
         $results = array();
