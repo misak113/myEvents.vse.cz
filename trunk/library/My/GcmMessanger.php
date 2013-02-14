@@ -28,8 +28,13 @@ class My_GcmMessanger {
         $registrations = $this->gcmRegistrationTable->fetchAll($select);
         
         $registrationIDs = array();
+        $dbRegistratons = array();
+        $i = 0;
         foreach ($registrations as $registration) {
             $registrationIDs[] = $registration->reg_id;
+            $dbRegistratons[$i] = $registrations->gcm_registration_id;
+            
+            $i++;
         }
 
         // Message to be sent
@@ -67,10 +72,9 @@ class My_GcmMessanger {
         curl_close($ch);
 
         print_r($result);
-        
-        $txArr = array();
-        parse_str($result, $txArr);
-        var_dump($txArr);
+        echo "\n\n\n";
+        $replacedResult = preg_replace("^.*\"results\":\[(.+)\].*$", "$1", $result);
+        print_r($replacedResult);
     }
 
 }
