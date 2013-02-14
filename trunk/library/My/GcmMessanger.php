@@ -111,7 +111,7 @@ class My_GcmMessanger {
             $partExploded = explode(":", $part, 2);
             
             // Canoical ID created, skip
-            if ($partExploded[1] == "registration_id") {
+            if ($partExploded[0] == "registration_id") {
                 continue;
             }
             
