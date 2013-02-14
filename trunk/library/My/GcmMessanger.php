@@ -74,7 +74,23 @@ class My_GcmMessanger {
         print_r($result);
         echo "\n\n\n";
         $replacedResult = preg_replace("/^.*\"results\":\[(.+)\].*$/i", "$1", $result);
-        print_r($replacedResult);
+        
+        $replacedResultExploded = explode(",", $replacedResult);
+        
+        $results = array();
+        $i = 0;
+        foreach ($replacedResultExploded as $part) {
+            $part = str_replace("{\"", "", str_replace("\"}", "", $part));
+            $partExploded = explode(":", $part);
+            $partArray = array(
+                "type" => $partExploded[0],
+                "content" => $partExploded[1]
+            );
+            $results[$i] = $partArray;
+            
+            $i++;
+        }
+        print_r($results);
     }
 
 }
