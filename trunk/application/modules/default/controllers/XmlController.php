@@ -83,7 +83,7 @@ class XmlController extends BaseController {
 
     public function usersaltAction() {
         $msger = new My_GcmMessanger($this->gcmRegistrationTable);
-        $msger->sendMessage();
+        $msger->sendDataSyncMessage();
         return;
         
         $email = $this->_getParam("email");

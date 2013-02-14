@@ -8,20 +8,24 @@
 class My_GcmMessanger {
 
     protected $gcmRegistrationTable;
+    
+    const MSG_TYPE_SYNC_EVENTS = 1;
+    const MSG_TYPE_SYNC_DATA = 2;
+    const MSG_TYPE_SYNC_ALL = 3;
 
     public function __construct(app\models\authentication\GcmRegistrationTable $gcmRegistrationTable) {
         $this->gcmRegistrationTable = $gcmRegistrationTable;
     }
 
-    public function sendDataSyncMessage() {
-        
-    }
-
     public function sendEventsSyncMessage() {
-        
+        $this->sendMessage(self::MSG_TYPE_SYNC_EVENTS);
     }
 
-    public function sendMessage() {
+    public function sendDataSyncMessage() {
+        $this->sendMessage(self::MSG_TYPE_SYNC_DATA);
+    }
+
+    private function sendMessage($type) {
         $apiKey = "AIzaSyBH0LuBGLRP7r8tsJCBcYh1pN74rI9q6zU";
 
         $select = $this->gcmRegistrationTable->select();
@@ -38,14 +42,30 @@ class My_GcmMessanger {
         }
 
         // Message to be sent
-        $message = "testMessage";
+        switch ($type) {
+            case self::MSG_TYPE_SYNC_EVENTS:
+                $syncEvents = true;
+                $syncData = false;
+                break;
+            case self::MSG_TYPE_SYNC_DATA:
+                $syncEvents = false;
+                $syncData = true;
+                break;
+            case self::MSG_TYPE_SYNC_ALL:
+                $syncEvents = true;
+                $syncData = true;
+                break;
+        }
 
         // Set POST variables
         $url = 'https://android.googleapis.com/gcm/send';
 
         $fields = array(
             'registration_ids' => $registrationIDs,
-            'data' => array("message" => $message),
+            'data' => array(
+                "syncEvents" => $syncEvents,
+                "syncData" => $syncData,
+            ),
         );
 
         $headers = array(
@@ -94,7 +114,7 @@ class My_GcmMessanger {
             
             $i++;
         }
-print_r($results);
+
         // Work out results
         foreach ($results as $res) {
             if ($res["type"] == "error" && ($res["content"] == "NotRegistered" || $res["content"] == "InvalidRegistration")) {
