@@ -98,7 +98,7 @@ class My_GcmMessanger {
         // Work out results
         foreach ($results as $res) {
             if ($res["type"] == "error" && ($res["content"] == "NotRegistered" || $res["content"] == "InvalidRegistration")) {
-                
+                $this->gcmRegistrationTable->getById($res["dbRegistrationId"])->delete();
             }
         }
     }
