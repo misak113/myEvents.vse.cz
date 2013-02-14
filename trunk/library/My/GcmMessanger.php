@@ -67,6 +67,10 @@ class My_GcmMessanger {
         curl_close($ch);
 
         print_r($result);
+        
+        $txArr = array();
+        parse_str($result, $txArr);
+        var_dump($txArr);
     }
 
 }
