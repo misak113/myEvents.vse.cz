@@ -57,6 +57,7 @@ common:
 		organizationOwnEventTable: app\models\organizations\OrganizationOwnEventTable
 		userTable: app\models\authentication\UserTable()
 		authenticateTable: app\models\authentication\AuthenticateTable
+		gcmRegistrationTable: app\models\authentication\GcmRegistrationTable
 		roleTable: app\models\authorization\RoleTable
 		organizationHasUserTable: app\models\organizations\OrganizationHasUserTable
 		resourceTable: app\models\authorization\ResourceTable

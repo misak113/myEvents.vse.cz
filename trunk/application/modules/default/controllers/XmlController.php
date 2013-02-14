@@ -14,10 +14,12 @@ class XmlController extends BaseController {
     protected $organizationTable;
     protected $organizationOwnEventTable;
     protected $authenticateTable;
+    protected $gcmRegistrationTable;
     protected $categoryTable;
     protected $tagTable;
     
-    const TOKEN_SALT = "9HA7Ekef";
+    const SALT_TOKEN_SALT = "9HA7Ekef";
+    const GCM_TOKEN_SALT = "s8atUbru";
     
     public function init() {
         $this->_helper->layout->disableLayout();
@@ -33,6 +35,7 @@ class XmlController extends BaseController {
      */
     public function setContext(
             app\models\authentication\AuthenticateTable $authenticateTable,
+            app\models\authentication\GcmRegistrationTable $gcmRegistrationTable,
             app\models\organizations\OrganizationTable $organizationTable,
             app\models\organizations\OrganizationOwnEventTable $organizationOwnEventTable,
             app\models\events\EventTable $eventTable,
@@ -41,6 +44,7 @@ class XmlController extends BaseController {
         
         $this->organizationTable = $organizationTable;
         $this->authenticateTable = $authenticateTable;
+        $this->gcmRegistrationTable = $gcmRegistrationTable;
         $this->organizationOwnEventTable = $organizationOwnEventTable;
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
@@ -92,7 +96,7 @@ class XmlController extends BaseController {
         }
         
         $explodedEmail = explode("@", $auth->identity);
-        $authToken = hash("sha256", $explodedEmail[0] . self::TOKEN_SALT . "@" . $explodedEmail[1]);
+        $authToken = hash("sha256", $explodedEmail[0] . self::SALT_TOKEN_SALT . "@" . $explodedEmail[1]);
         
         if ($token == $authToken) {
             $this->template->salt = My_Password::extractSalt($auth->verification);
@@ -192,6 +196,43 @@ class XmlController extends BaseController {
     
     public function eventtagsAction() {
         $this->template->eventTags = $this->tagTable->fetchAll($this->tagTable->select());
+    }
+    
+    public function registergcmAction() {
+        $authToken = $this->_getParam("authToken");
+        $regId = $this->_getParam("regId");
+        $status = 1;
+        
+        // Check auth token
+        $checkAuthToken = hash("sha256", self::GCM_TOKEN_SALT . $regId);
+        
+        if ($checkAuthToken != $authToken) {
+            $status = 0;
+        } else {
+            $gcmRegistration = $this->gcmRegistrationTable->createRow();
+            $gcmRegistration->reg_id = $regId;
+            $gcmRegistration->save();
+        }
+        
+        $this->template->status = $status;
+    }
+    
+    public function unregistergcmAction() {
+        $authToken = $this->_getParam("authToken");
+        $regId = $this->_getParam("regId");
+        $status = 1;
+        
+        // Check auth token
+        $checkAuthToken = hash("sha256", self::GCM_TOKEN_SALT . $regId);
+        
+        if ($checkAuthToken != $authToken) {
+            $status = 0;
+        } else {
+            $gcmRegistration = $this->gcmRegistrationTable->getByRegId($regId);
+            $gcmRegistration->delete();
+        }
+        
+        $this->template->status = $status;
     }
 }
 
