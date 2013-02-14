@@ -14,7 +14,6 @@ class XmlController extends BaseController {
     protected $organizationTable;
     protected $organizationOwnEventTable;
     protected $authenticateTable;
-    protected $gcmRegistrationTable;
     protected $categoryTable;
     protected $tagTable;
     
@@ -35,7 +34,6 @@ class XmlController extends BaseController {
      */
     public function setContext(
             app\models\authentication\AuthenticateTable $authenticateTable,
-            app\models\authentication\GcmRegistrationTable $gcmRegistrationTable,
             app\models\organizations\OrganizationTable $organizationTable,
             app\models\organizations\OrganizationOwnEventTable $organizationOwnEventTable,
             app\models\events\EventTable $eventTable,
@@ -44,7 +42,6 @@ class XmlController extends BaseController {
         
         $this->organizationTable = $organizationTable;
         $this->authenticateTable = $authenticateTable;
-        $this->gcmRegistrationTable = $gcmRegistrationTable;
         $this->organizationOwnEventTable = $organizationOwnEventTable;
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
