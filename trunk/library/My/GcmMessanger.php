@@ -84,7 +84,7 @@ class My_GcmMessanger {
                 "}" => "",
                 "\"" => ""
             ));
-            $partExploded = explode(":", $part);
+            $partExploded = explode(":", $part, 2);
             $partArray = array(
                 "type" => $partExploded[0],
                 "content" => $partExploded[1],
@@ -94,7 +94,7 @@ class My_GcmMessanger {
             
             $i++;
         }
-        print_r($results);
+
         // Work out results
         foreach ($results as $res) {
             if ($res["type"] == "error" && ($res["content"] == "NotRegistered" || $res["content"] == "InvalidRegistration")) {
