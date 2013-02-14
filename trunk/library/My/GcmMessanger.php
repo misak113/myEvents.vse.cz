@@ -71,8 +71,7 @@ class My_GcmMessanger {
         // Close connection
         curl_close($ch);
 
-        print_r($result);
-        echo "\n\n\n";
+        // Parse result
         $replacedResult = preg_replace("/^.*\"results\":\[(.+)\].*$/i", "$1", $result);
         
         $replacedResultExploded = explode(",", $replacedResult);
@@ -88,13 +87,20 @@ class My_GcmMessanger {
             $partExploded = explode(":", $part);
             $partArray = array(
                 "type" => $partExploded[0],
-                "content" => $partExploded[1]
+                "content" => $partExploded[1],
+                "dbRegistrationId" => $dbRegistratons[$i]
             );
             $results[$i] = $partArray;
             
             $i++;
         }
         print_r($results);
+        // Work out results
+        foreach ($results as $res) {
+            if ($res["type"] == "error" && ($res["content"] == "NotRegistered" || $res["content"] == "InvalidRegistration")) {
+                
+            }
+        }
     }
 
 }
