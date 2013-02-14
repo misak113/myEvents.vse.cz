@@ -94,10 +94,10 @@ class My_GcmMessanger {
 
         // Close connection
         curl_close($ch);
-
+print_r($result);
         // Parse result
         $replacedResult = preg_replace("/^.*\"results\":\[(.+)\].*$/i", "$1", $result);
-        print_r($replacedResult);
+
         $replacedResultExploded = explode(",", $replacedResult);
         
         $results = array();
