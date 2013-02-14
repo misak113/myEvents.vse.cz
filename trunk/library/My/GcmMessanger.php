@@ -17,12 +17,16 @@ class My_GcmMessanger {
         $this->gcmRegistrationTable = $gcmRegistrationTable;
     }
 
-    public function sendEventsSyncMessage() {
+    public function sendSyncEventsMessage() {
         $this->sendMessage(self::MSG_TYPE_SYNC_EVENTS);
     }
 
-    public function sendDataSyncMessage() {
+    public function sendSyncDataMessage() {
         $this->sendMessage(self::MSG_TYPE_SYNC_DATA);
+    }
+
+    public function sendSyncAllMessage() {
+        $this->sendMessage(self::MSG_TYPE_SYNC_ALL);
     }
 
     private function sendMessage($type) {
