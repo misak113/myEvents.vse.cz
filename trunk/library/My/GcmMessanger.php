@@ -32,7 +32,7 @@ class My_GcmMessanger {
         $i = 0;
         foreach ($registrations as $registration) {
             $registrationIDs[] = $registration->reg_id;
-            $dbRegistratons[$i] = $registrations->gcm_registration_id;
+            $dbRegistratons[$i] = $registration->gcm_registration_id;
             
             $i++;
         }
