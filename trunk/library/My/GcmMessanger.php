@@ -66,7 +66,7 @@ class My_GcmMessanger {
         // Close connection
         curl_close($ch);
 
-        echo $result;
+        print_r($result);
     }
 
 }
