@@ -5,7 +5,7 @@
  *
  * @author Jakub Macoun
  */
-class GcmMessanger {
+class My_GcmMessanger {
 
     protected $gcmRegistrationTable;
 
