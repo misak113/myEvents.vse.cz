@@ -1,4 +1,5 @@
 <?php
+namespace app\services;
 
 /**
  * Slouží k odesílání GCM zpráv na Android klienty
