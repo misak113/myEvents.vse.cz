@@ -46,6 +46,9 @@ common:
 		fbExportDispatcher:
 			class: app\services\facebook\FbExportDispatcher
 			tags: [inject]
+		gcmMessanger:
+			class: app\services\GcmMessanger
+			tags: [inject]
 
 		# Models
 		eventTable: app\models\events\EventTable

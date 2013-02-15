@@ -16,6 +16,7 @@ class XmlController extends BaseController {
     protected $authenticateTable;
     protected $categoryTable;
     protected $tagTable;
+    protected $gcmMessanger;
     
     const SALT_TOKEN_SALT = "9HA7Ekef";
     const GCM_TOKEN_SALT = "s8atUbru";
@@ -38,7 +39,8 @@ class XmlController extends BaseController {
             app\models\organizations\OrganizationOwnEventTable $organizationOwnEventTable,
             app\models\events\EventTable $eventTable,
             app\models\events\CategoryTable $categoryTable,
-            app\models\events\TagTable $tagTable) {
+            app\models\events\TagTable $tagTable,
+            app\services\GcmMessanger $gcmMessanger) {
         
         $this->organizationTable = $organizationTable;
         $this->authenticateTable = $authenticateTable;
@@ -46,6 +48,7 @@ class XmlController extends BaseController {
         $this->eventTable = $eventTable;
         $this->categoryTable = $categoryTable;
         $this->tagTable = $tagTable;
+        $this->gcmMessanger = $gcmMessanger;
     }
 
     public function userdataAction() {
@@ -101,6 +104,9 @@ class XmlController extends BaseController {
     }
     
     public function eventsAction() {
+        $this->gcmMessanger->sendSyncAllMessage();
+        return;
+        
         $organizations = explode(",", $this->_getParam("organizations"));
         $types = explode(",", $this->_getParam("types"));
         

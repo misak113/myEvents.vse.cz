@@ -5,7 +5,7 @@
  *
  * @author Jakub Macoun
  */
-class My_GcmMessanger {
+class GcmMessanger {
 
     protected $gcmRegistrationTable;
     
@@ -125,7 +125,7 @@ class My_GcmMessanger {
             
             $i++;
         }
-
+print_r($results);
         // Work out results
         foreach ($results as $res) {
             if ($res["type"] == "error" && ($res["content"] == "NotRegistered" || $res["content"] == "InvalidRegistration")) {
@@ -134,6 +134,9 @@ class My_GcmMessanger {
         }
     }
 
+    public function injectGcmRegistrationTable(GcmRegistrationTable $gcmRegistrationTable) {
+        $this->gcmRegistrationTable = $gcmRegistrationTable;
+    }
 }
 
 ?>
