@@ -1,5 +1,6 @@
 <?php
 namespace app\services;
+use app\models\authentication\GcmRegistrationTable;
 
 /**
  * Slouží k odesílání GCM zpráv na Android klienty
