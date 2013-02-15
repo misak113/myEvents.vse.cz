@@ -39,6 +39,8 @@ class Admin_EventController extends BaseController {
     /** @var Classroomtable */
     protected $classroomtable;
     
+    protected $gcmRegistrationTable;
+    
     public function init() {
         $this->_helper->layout->setLayout('admin_org');
     }
@@ -46,8 +48,16 @@ class Admin_EventController extends BaseController {
     /**
      * @param TitleLoader $titleLoader 
      */
-    public function setContext(TitleLoader $titleLoader, app\models\events\EventTable $eventTable, app\models\events\CategoryTable $categoryTable, app\models\events\TagTable $tagTable, UserTable $userTable, FbImportDispatcher $fbImportDispatcher, app\models\events\ClassroomTable $classroomtable
-    	, FbExportDispatcher $fbExportDispatcher
+    public function setContext(
+            TitleLoader $titleLoader,
+            app\models\events\EventTable $eventTable,
+            app\models\events\CategoryTable $categoryTable,
+            app\models\events\TagTable $tagTable,
+            UserTable $userTable,
+            FbImportDispatcher $fbImportDispatcher,
+            app\models\events\ClassroomTable $classroomtable,
+            FbExportDispatcher $fbExportDispatcher,
+            app\models\authentication\GcmRegistrationTable $gcmRegistrationTable
 	) {
 
         $this->titleLoader = $titleLoader;
@@ -56,8 +66,9 @@ class Admin_EventController extends BaseController {
         $this->tagTable = $tagTable;
         $this->userTable = $userTable;
         $this->fbImportDispatcher = $fbImportDispatcher;
-		$this->fbExportDispatcher = $fbExportDispatcher;
+        $this->fbExportDispatcher = $fbExportDispatcher;
         $this->classroomtable = $classroomtable;
+        $this->gcmRegistrationTable = $gcmRegistrationTable;
     }
     
     public function autocompleteclassroomsAction() {
@@ -146,6 +157,10 @@ class Admin_EventController extends BaseController {
                 $formValues["organization_id"] = $organizations[0]->organization_id;
 
                 $record->updateFromArray($formValues);
+                
+                // GCM
+                $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
+                $gcmMessanger->sendSyncEventsMessage();
 
                 $this->flashMessage("Změny v události uloženy.");
                 
@@ -237,10 +252,14 @@ class Admin_EventController extends BaseController {
         if (!$events) {
             $this->flashMessage('Žádná akce nebyla importována', self::FLASH_INFO);
             $this->redirect('adminEvents');
-        }
+        } else {
+            // GCM
+            $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
+            $gcmMessanger->sendSyncEventsMessage();
 
-        $this->flashMessage('Byly přidány ' . count($events) . ' akce z Facebooku.');
-        $this->redirect('adminEvents');
+            $this->flashMessage('Byly přidány ' . count($events) . ' akce z Facebooku.');
+            $this->redirect('adminEvents');
+        }
     }
 	public function fbExportAction() {
 		$this->template->title = $this->titleLoader->getTitle('Admin:Event:fbExport');
@@ -289,6 +308,10 @@ class Admin_EventController extends BaseController {
                     $record->active = 0;
                     $record->save();
                     $this->flashMessage("Událost " . $record->name. " byla odstraněna.", self::FLASH_INFO);
+                    
+                    // GCM
+                    $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
+                    $gcmMessanger->sendSyncEventsMessage();
                 }
             }
         }
@@ -307,6 +330,10 @@ class Admin_EventController extends BaseController {
             if(!empty($eventId) && isset($public)){
                 $record = $this->eventTable->getById($eventId);
                 $this->setPublic($record, $public);
+                
+                // GCM
+                $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
+                $gcmMessanger->sendSyncEventsMessage();
             }
         }
         

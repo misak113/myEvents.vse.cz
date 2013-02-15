@@ -17,19 +17,19 @@ class My_GcmMessanger {
         $this->gcmRegistrationTable = $gcmRegistrationTable;
     }
 
-    public function sendSyncEventsMessage() {
-        $this->sendMessage(self::MSG_TYPE_SYNC_EVENTS);
+    public function sendSyncEventsMessage($forced = false) {
+        $this->sendMessage(self::MSG_TYPE_SYNC_EVENTS, $forced);
     }
 
-    public function sendSyncDataMessage() {
-        $this->sendMessage(self::MSG_TYPE_SYNC_DATA);
+    public function sendSyncDataMessage($forced = false) {
+        $this->sendMessage(self::MSG_TYPE_SYNC_DATA, $forced);
     }
 
-    public function sendSyncAllMessage() {
-        $this->sendMessage(self::MSG_TYPE_SYNC_ALL);
+    public function sendSyncAllMessage($forced = false) {
+        $this->sendMessage(self::MSG_TYPE_SYNC_ALL, $forced);
     }
 
-    private function sendMessage($type) {
+    private function sendMessage($type, $forced) {
         $apiKey = "AIzaSyBH0LuBGLRP7r8tsJCBcYh1pN74rI9q6zU";
 
         $select = $this->gcmRegistrationTable->select();
@@ -69,6 +69,7 @@ class My_GcmMessanger {
             'data' => array(
                 "syncEvents" => $syncEvents,
                 "syncData" => $syncData,
+                "forced" => $forced
             ),
         );
 
