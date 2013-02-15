@@ -14,10 +14,6 @@ class GcmMessanger {
     const MSG_TYPE_SYNC_DATA = 2;
     const MSG_TYPE_SYNC_ALL = 3;
 
-    public function __construct(app\models\authentication\GcmRegistrationTable $gcmRegistrationTable) {
-        $this->gcmRegistrationTable = $gcmRegistrationTable;
-    }
-
     public function sendSyncEventsMessage($forced = false) {
         $this->sendMessage(self::MSG_TYPE_SYNC_EVENTS, $forced);
     }
