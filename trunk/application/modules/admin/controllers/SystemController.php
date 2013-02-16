@@ -86,7 +86,7 @@ class Admin_SystemController extends BaseController {
     
     public function androidAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:System:android');
-        
+        print_r($_POST);
         if (isset($_POST["forceAndroidSync"]) && !empty($_POST["forceAndroidSync"])) {
             $this->gcmMessanger->sendSyncAllMessage(true);
             $this->flashMessage("Příkaz k vynucené synchronizaci byl rozeslán");
