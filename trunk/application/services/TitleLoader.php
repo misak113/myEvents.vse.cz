@@ -21,7 +21,8 @@ class TitleLoader
                 'Organization:list' => 'Přehled organizací',
                 'Organization:detail' => 'Podrobnosti organizace',
 		'Landing:Index:index' => 'myEvents VŠE - studentské akce pro studenty',
-                'Admin:Organization:edit' => 'Úprava informací o organizaci'
+                'Admin:Organization:edit' => 'Úprava informací o organizaci',
+                'Admin:System:android' => 'Práce s Android klienty',
 	);
 
 	/**
