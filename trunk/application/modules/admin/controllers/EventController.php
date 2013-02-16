@@ -39,8 +39,6 @@ class Admin_EventController extends BaseController {
     /** @var Classroomtable */
     protected $classroomtable;
     
-    protected $gcmRegistrationTable;
-    
     public function init() {
         $this->_helper->layout->setLayout('admin_org');
     }
@@ -56,8 +54,7 @@ class Admin_EventController extends BaseController {
             UserTable $userTable,
             FbImportDispatcher $fbImportDispatcher,
             app\models\events\ClassroomTable $classroomtable,
-            FbExportDispatcher $fbExportDispatcher,
-            app\models\authentication\GcmRegistrationTable $gcmRegistrationTable
+            FbExportDispatcher $fbExportDispatcher
 	) {
 
         $this->titleLoader = $titleLoader;
@@ -68,7 +65,6 @@ class Admin_EventController extends BaseController {
         $this->fbImportDispatcher = $fbImportDispatcher;
         $this->fbExportDispatcher = $fbExportDispatcher;
         $this->classroomtable = $classroomtable;
-        $this->gcmRegistrationTable = $gcmRegistrationTable;
     }
     
     public function autocompleteclassroomsAction() {
@@ -157,10 +153,6 @@ class Admin_EventController extends BaseController {
                 $formValues["organization_id"] = $organizations[0]->organization_id;
 
                 $record->updateFromArray($formValues);
-                
-                // GCM
-                $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
-                $gcmMessanger->sendSyncEventsMessage();
 
                 $this->flashMessage("Změny v události uloženy.");
                 
@@ -253,10 +245,6 @@ class Admin_EventController extends BaseController {
             $this->flashMessage('Žádná akce nebyla importována', self::FLASH_INFO);
             $this->redirect('adminEvents');
         } else {
-            // GCM
-            $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
-            $gcmMessanger->sendSyncEventsMessage();
-
             $this->flashMessage('Byly přidány ' . count($events) . ' akce z Facebooku.');
             $this->redirect('adminEvents');
         }
@@ -308,10 +296,6 @@ class Admin_EventController extends BaseController {
                     $record->active = 0;
                     $record->save();
                     $this->flashMessage("Událost " . $record->name. " byla odstraněna.", self::FLASH_INFO);
-                    
-                    // GCM
-                    $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
-                    $gcmMessanger->sendSyncEventsMessage();
                 }
             }
         }
@@ -330,10 +314,6 @@ class Admin_EventController extends BaseController {
             if(!empty($eventId) && isset($public)){
                 $record = $this->eventTable->getById($eventId);
                 $this->setPublic($record, $public);
-                
-                // GCM
-                $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
-                $gcmMessanger->sendSyncEventsMessage();
             }
         }
         
@@ -347,6 +327,7 @@ class Admin_EventController extends BaseController {
     protected function setPublic($record, $public) {
         if($record){
             $record->public = $public;
+            $record->setPublicityChanged(true);
             $record->save();
             if($public){
                 $this->flashMessage("Událost " . $record->name. " byla publikována.", self::FLASH_INFO);

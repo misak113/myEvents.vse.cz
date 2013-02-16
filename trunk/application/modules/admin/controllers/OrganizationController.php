@@ -19,8 +19,6 @@ class Admin_OrganizationController extends BaseController {
 
     /** @var \app\models\authentication\UserTable */
     protected $userTable;
-    
-    protected $gcmRegistrationTable;
 
     public function init() {
         $this->_helper->layout->setLayout('admin_org');
@@ -31,13 +29,11 @@ class Admin_OrganizationController extends BaseController {
      */
     public function setContext(
             TitleLoader $titleLoader,
-            UserTable $userTable,
-            app\models\authentication\GcmRegistrationTable $gcmRegistrationTable
+            UserTable $userTable
     ) {
 
         $this->titleLoader = $titleLoader;
         $this->userTable = $userTable;
-        $this->gcmRegistrationTable = $gcmRegistrationTable;
     }
 
     public function editAction() {
@@ -61,10 +57,6 @@ class Admin_OrganizationController extends BaseController {
                 $this->template->formvalues = $formValues;
 
                 $record->updateFromArray($formValues);
-                
-                // GCM
-                $gcmMessanger = new My_GcmMessanger($this->gcmRegistrationTable);
-                $gcmMessanger->sendSyncDataMessage();
 
 
                 //TODO flashmessage zmeny ulozeny

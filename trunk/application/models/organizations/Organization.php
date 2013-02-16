@@ -6,17 +6,15 @@ use My\Db\Table\Row;
 
 class Organization extends Row {
 
+    protected $gcmMessanger;
+    
     /**
      * 
      * @return \Zend_Db_Table_Rowset_Abstract
      */
     public function getEvents() {
         $select = $this->select()->where('active = ?', 1);
-        return $this->findManyToManyRowset('app\models\events\EventTable',
-                'app\models\organizations\OrganizationOwnEventTable',
-                null,
-                null,
-                $select);
+        return $this->findManyToManyRowset('app\models\events\EventTable', 'app\models\organizations\OrganizationOwnEventTable', null, null, $select);
     }
 
     public function getContactUser() {
@@ -24,7 +22,6 @@ class Organization extends Row {
         $select = $userTable->select()->where("i.member = 2");
         $rowset = $this->findManyToManyRowset('app\models\authentication\UserTable', "app\models\organizations\OrganizationHasUserTable", null, null, $select);
         return $rowset->current();
-        
     }
 
     /**
@@ -38,6 +35,24 @@ class Organization extends Row {
         $this->save();
 
         return $this;
+    }
+
+    public function save() {
+        parent::save();
+
+        // GCM
+        $this->gcmMessanger->sendSyncEventsMessage();
+    }
+
+    public function delete() {
+        parent::delete();
+
+        // GCM
+        $this->gcmMessanger->sendSyncEventsMessage();
+    }
+
+    public function injectGcmMessanger(app\services\GcmMessanger $gcmMessanger) {
+        $this->gcmMessanger = $gcmMessanger;
     }
 
 }
