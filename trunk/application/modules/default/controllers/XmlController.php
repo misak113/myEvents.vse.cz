@@ -104,10 +104,6 @@ class XmlController extends BaseController {
     }
     
     public function eventsAction() {
-        $this->gcmMessanger->sendSyncAllMessage();
-        $this->template->events = array();
-        return;
-        
         $organizations = explode(",", $this->_getParam("organizations"));
         $types = explode(",", $this->_getParam("types"));
         
