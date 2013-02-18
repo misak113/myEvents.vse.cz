@@ -25,7 +25,6 @@ class Admin_SystemController extends BaseController {
 
     /** @var \app\models\authorization\RoleTable */
     protected $roleTable;
-    
     protected $gcmMessanger;
 
     public function init() {
@@ -83,7 +82,7 @@ class Admin_SystemController extends BaseController {
             }
         }
     }
-    
+
     public function androidAction() {
         $this->template->title = $this->titleLoader->getTitle('Admin:System:android');
 
@@ -93,11 +92,19 @@ class Admin_SystemController extends BaseController {
         }
     }
 
+    public function forcesnycAction() {
+        if ($this->_request->isPost()) {
+            $this->gcmMessanger->sendSyncAllMessage(true);
+            $this->flashMessage("Příkaz k vynucené synchronizaci byl rozeslán");
+        }
+
+        $this->_helper->redirector->gotoRoute(array('module' => 'admin',
+            'controller' => 'system',
+            'action' => 'android'), 'default', true);
+    }
+
     public function injectTables(
-            OrganizationTable $organizationTable,
-            \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable,
-            app\models\authorization\RoleTable $roleTable,
-            app\services\GcmMessanger $gcmMessanger) {
+    OrganizationTable $organizationTable, \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable, app\models\authorization\RoleTable $roleTable, app\services\GcmMessanger $gcmMessanger) {
         $this->organizationTable = $organizationTable;
         $this->organizationHasUserTable = $organizationHasUserTable;
         $this->roleTable = $roleTable;

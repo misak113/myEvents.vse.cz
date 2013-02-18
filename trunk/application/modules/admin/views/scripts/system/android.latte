@@ -1,3 +1,8 @@
-<form action="" method="post">
+<form action="<?php echo $view->url(
+                      array('module' => 'admin',
+                      'controller' => 'system',
+                      'action' => 'forcesync'),
+                      'default',
+                      true); ?>" method="post">
     <input type="submit" name="forceAndroidSync" value="Spustit vynucenou synchronizaci" />
 </form>
