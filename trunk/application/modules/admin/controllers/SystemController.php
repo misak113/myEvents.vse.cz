@@ -92,7 +92,7 @@ class Admin_SystemController extends BaseController {
         }
     }
 
-    public function forcesnycAction() {
+    public function forcesyncAction() {
         if ($this->_request->isPost()) {
             $this->gcmMessanger->sendSyncAllMessage(true);
             $this->flashMessage("Příkaz k vynucené synchronizaci byl rozeslán");
