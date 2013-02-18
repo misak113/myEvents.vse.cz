@@ -3,6 +3,7 @@
 namespace app\models\organizations;
 
 use My\Db\Table\Row;
+use app\services\GcmMessanger;
 
 class Organization extends Row {
 
@@ -51,7 +52,7 @@ class Organization extends Row {
         $this->gcmMessanger->sendSyncEventsMessage();
     }
 
-    public function injectGcmMessanger(app\services\GcmMessanger $gcmMessanger) {
+    public function injectGcmMessanger(GcmMessanger $gcmMessanger) {
         $this->gcmMessanger = $gcmMessanger;
     }
 

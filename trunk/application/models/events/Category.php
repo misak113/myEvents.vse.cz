@@ -3,6 +3,7 @@
 namespace app\models\events;
 
 use My\Db\Table\Row;
+use app\services\GcmMessanger;
 
 class Category extends Row {
 
@@ -22,7 +23,7 @@ class Category extends Row {
         $this->gcmMessanger->sendSyncEventsMessage();
     }
 
-    public function injectGcmMessanger(app\services\GcmMessanger $gcmMessanger) {
+    public function injectGcmMessanger($gcmMessanger) {
         $this->gcmMessanger = $gcmMessanger;
     }
 
