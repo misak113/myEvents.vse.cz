@@ -4,6 +4,7 @@ use Zette\UI\BaseController;
 use app\services\TitleLoader;
 use app\components\Filter\FilterDispatcher;
 use app\models\events\EventTable;
+use Zette\Diagnostics\TimerPanel;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -70,6 +71,7 @@ class EventController extends BaseController {
 	 *
 	 */
 	public function listAction() {
+		TimerPanel::start('listEvents');
                 $this->template->dayOfWeek = $this->dayOfWeek;
                 
 		$this->template->title = $this->t($this->titleLoader->getTitle('Event:list'));
@@ -83,6 +85,7 @@ class EventController extends BaseController {
 		//}
 
 		$this->template->eventDates = $eventDates;
+		TimerPanel::stop('listEvents');
 	}
         
         /**

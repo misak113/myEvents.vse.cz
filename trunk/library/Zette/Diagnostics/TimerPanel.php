@@ -23,6 +23,7 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	/** @var array */
 	private static $times = array();
 	private static $duration = array();
+	private static $memory = array();
 
 	protected static $style = "<style type=\"text/css\">/* Zette debuger */
 	#nette-debug {z-index: 50000;}
@@ -45,6 +46,7 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	public static function start($name)
 	{
 		Debugger::timer($name);
+		self::startMemory($name);
 	}
 
 	/**
@@ -54,7 +56,8 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	 */
 	public static function stop($name)
 	{
-		$last = self::$duration[] = array('name' => $name, 'time' => Debugger::timer($name));
+		$memoryDiff = self::stopMemory($name);
+		$last = self::$duration[] = array('name' => $name, 'time' => Debugger::timer($name), 'memory' => $memoryDiff);
 		return $last['time'];
 	}
 	/**
@@ -77,7 +80,19 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	 */
 	public static function timeLeft($name)
 	{
-		self::$times[] = array('name' => $name, 'time' => (microtime(TRUE) - \Nette\Diagnostics\Debugger::$time));
+		self::$times[] = array('name' => $name, 'time' => (microtime(TRUE) - \Nette\Diagnostics\Debugger::$time), 'memory' => self::startMemory($name));
+	}
+
+	protected static function startMemory($name) {
+		return self::$memory[$name] = memory_get_usage(true);
+	}
+	protected static function stopMemory($name) {
+		if (isset(self::$memory[$name])) {
+			$diff = memory_get_usage(true) - self::$memory[$name];
+			unset(self::$memory[$name]);
+			return $diff;
+		}
+		return false;
 	}
 
 
@@ -105,7 +120,7 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 		}
 		$name = $caller['class'] ? "{$caller['class']}->{$caller['function']}" : '';
 		if($description) $name .= ($name ? ' - ' : '') . $description;
-		self::$times[] = array('name' => $name, 'time' => (microtime(TRUE) - \Nette\Diagnostics\Debugger::$time));
+		self::$times[] = array('name' => $name, 'time' => (microtime(TRUE) - \Nette\Diagnostics\Debugger::$time), 'memory' => self::startMemory($name));
 	}
 
 	/**
@@ -127,24 +142,41 @@ class TimerPanel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	{
 		if(!self::$times && !self::$duration) return '';
 		$render = function(&$times) {
+			$totalTime = (microtime(TRUE) - Debugger::$time);
 			$return = '';
 			foreach ($times as $value) {
 				$name = $value['name'];
-				$return .= "<tr><th>$name</th><td style='text-align: right;'>" . number_format(round($value['time'] * 1000, 1), 1) . " ms</td></tr>";
+				$return .= "<tr><th>$name</th><td style='text-align: right;'>" . number_format(round($value['time'] * 1000, 1), 1) . " ms (".round($value['time']/$totalTime*100, 2)."%)</td>
+				<td>".(isset($value['memory']) && $value['memory'] ?TimerPanel::formatMemory($value['memory']) :'')."</td>
+				</tr>";
 			}
 			return $return;
 		};
 		$return = '<h1>Timers</h1>';
 		$return .= '<div class="nette-inner" style="width: 500px;"><table width="100%">';
 		if(self::$times) {
-			$return .= '<thead><tr><td colspan=2>Time Left trace</td></tr></thead>';
+			$return .= '<thead><tr><td colspan=3>Time Left trace</td></tr></thead>';
 			$return .= '<tbody>'.$render(self::$times).'</tbody>';
 		}
 		if(self::$duration) {
-			$return .= '<thead><tr><td colspan=2>Durations</td></tr></thead>';
+			$return .= '<thead><tr><td colspan=3>Durations</td></tr></thead>';
 			$return .= '<tbody>'.$render(self::$duration).'</tbody>';
 		}
 		$return .= '</table></div>'.self::$style;
 		return $return;
+	}
+
+	public static function formatMemory($memory) {
+		$max = 1024;
+		$mem = $memory;
+		$ui = 0;
+		$units = array('', 'K', 'M', 'G', 'T', 'P');
+		while ($mem > $max) {
+			$mem = $mem / $max;
+			$ui++;
+		}
+		$unit = isset($units[$ui]) ?' '.$units[$ui] :'×10^'.($ui*3).' ';
+
+		return $mem.$unit.'B';
 	}
 }
