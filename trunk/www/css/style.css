@@ -328,7 +328,7 @@ width: 100%;
 
 
 .logo {display: block; float: left; margin: 2em; border: 0; width: 30%;}
-.logo img {border: 0;}
+.logo img {border: 0; max-width: 100%;}
 
 .nav { 
     border-bottom: 1px solid #CCCCCC;
@@ -594,7 +594,7 @@ background: rgba(141,175,62,0.05);
 .dayBox .day{border-radius: 0 5px 5px 0;}
 .btn, .item .social a, .nav li a {border-radius: 3px;}
 #filter .head, .dayBox, .item, #main, #top{
-    content:"";
+    /*content:"";*/
     clear:both;
     display:table;
 }
@@ -711,7 +711,7 @@ width: 250px;
 @media (max-width: 640px) {
 
 #top { padding-bottom: 2em; }
-.logo {width: 55%; float: none;}
+.logo {width: 80%; float: none;}
 
 
 
@@ -730,15 +730,35 @@ border: 0;
 padding: 0;
 }
 
-
-
+.other {
+	overflow: hidden;
+	max-width: 300px;
+}
+.item {
+	padding: 0;
+}
 .item .img {
- display: none;
+	padding: 0;
+	margin: 5px;
+	width: auto;
+	float: none;
+}
+.item .img img {
+	width: 100%;
 }
 
 .item .info {
+	padding: 8px;
 width: 100%; float: none;
-} 
+}
+#wrap {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+body {
+	overflow-x: hidden;
+}
 }
 
 @media (max-width: 320px) {
