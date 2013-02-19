@@ -1,5 +1,7 @@
 <?php
+
 namespace app\services;
+
 use app\models\authentication\GcmRegistrationTable;
 
 /**
@@ -11,7 +13,8 @@ class GcmMessanger {
 
 	/** @var GcmRegistrationTable */
     protected $gcmRegistrationTable;
-    
+
+    const API_KEY = "AIzaSyBH0LuBGLRP7r8tsJCBcYh1pN74rI9q6zU";
     const MSG_TYPE_SYNC_EVENTS = 1;
     const MSG_TYPE_SYNC_DATA = 2;
     const MSG_TYPE_SYNC_ALL = 3;
@@ -29,21 +32,6 @@ class GcmMessanger {
     }
 
     private function sendMessage($type, $forced) {
-        $apiKey = "AIzaSyBH0LuBGLRP7r8tsJCBcYh1pN74rI9q6zU";
-
-        $select = $this->gcmRegistrationTable->select();
-        $registrations = $this->gcmRegistrationTable->fetchAll($select);
-        
-        $registrationIDs = array();
-        $dbRegistratons = array();
-        $i = 0;
-        foreach ($registrations as $registration) {
-            $registrationIDs[] = $registration->reg_id;
-            $dbRegistratons[$i] = $registration->gcm_registration_id;
-            
-            $i++;
-        }
-
         // Message to be sent
         switch ($type) {
             case self::MSG_TYPE_SYNC_EVENTS:
@@ -63,44 +51,64 @@ class GcmMessanger {
 				$syncData = false;
 		}
 
-        // Set POST variables
-        $url = 'https://android.googleapis.com/gcm/send';
+        // Registrations
+        $select = $this->gcmRegistrationTable->select();
+        $registrations = $this->gcmRegistrationTable->fetchAll($select);
 
-        $fields = array(
-            'registration_ids' => $registrationIDs,
-            'data' => array(
-                "syncEvents" => $syncEvents,
-                "syncData" => $syncData,
-                "forced" => $forced
-            ),
-        );
+        // Create message
+        $message = new Zend_Mobile_Push_Message_Gcm();
 
-        $headers = array(
-            'Authorization: key=' . $apiKey,
-            'Content-Type: application/json'
-        );
+        foreach ($registrations as $registration) {
+            $message->addToken($registration->reg_id);
+        }
 
-        // Open connection
-        $ch = curl_init();
+        $message->setData(array(
+            "syncEvents" => $syncEvents,
+            "syncData" => $syncData,
+            "forced" => $forced
+        ));
 
-        // Set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $url);
+        // Send
+        $gcm = new Zend_Mobile_Push_Gcm();
+        $gcm->setApiKey(self::API_KEY);
 
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = false;
+        try {
+            $response = $gcm->send($message);
+        } catch (Zend_Mobile_Push_Exception $e) {
+            // all other exceptions only require action to be sent or implementation of exponential backoff.
+            die($e->getMessage());
+        }
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        foreach ($response->getResults() as $k => $v) {
+            if ($v['registration_id']) {
+                printf("%s has a new registration id of: %s\r\n", $k, $v['registration_id']);
+            }
+            if ($v['error']) {
+                printf("%s had an error of: %s\r\n", $k, $v['error']);
+            }
+            if ($v['message_id']) {
+                printf("%s was successfully sent the message, message id is: %s", $k, $v['message_id']);
+            }
+        }
 
-        // Execute post
-        $result = curl_exec($ch);
+        /*
+          $apiKey = "AIzaSyBH0LuBGLRP7r8tsJCBcYh1pN74rI9q6zU";
 
-        // Close connection
-        curl_close($ch);
+          $select = $this->gcmRegistrationTable->select();
+          $registrations = $this->gcmRegistrationTable->fetchAll($select);
 
-        // Parse result
-        $replacedResult = preg_replace("/^.*\"results\":\[(.+)\].*$/i", "$1", $result);
+          $registrationIDs = array();
+          $dbRegistratons = array();
+          $i = 0;
+          foreach ($registrations as $registration) {
+          $registrationIDs[] = $registration->reg_id;
+          $dbRegistratons[$i] = $registration->gcm_registration_id;
 
+<<<<<<< .mine
+          $i++;
+          }
+=======
         $replacedResultExploded = explode(",", $replacedResult);
         
         $results = array();
@@ -131,19 +139,13 @@ class GcmMessanger {
             $results[$i] = $partArray;
             
             $i++;
-        }
-
-        // Work out results
-        foreach ($results as $res) {
-            if ($res["type"] == "error" && ($res["content"] == "NotRegistered" || $res["content"] == "InvalidRegistration")) {
-                $this->gcmRegistrationTable->getById($res["dbRegistrationId"])->delete();
-            }
-        }
+        } */
     }
 
     public function injectGcmRegistrationTable(GcmRegistrationTable $gcmRegistrationTable) {
         $this->gcmRegistrationTable = $gcmRegistrationTable;
     }
+
 }
 
 ?>

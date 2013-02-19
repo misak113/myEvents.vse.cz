@@ -17,6 +17,7 @@ class UserController extends BaseController {
     protected $titleLoader;
     protected $userTable;
     protected $authenticateTable;
+    protected $gcmMessanger;
 
     /**
      * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
@@ -25,11 +26,13 @@ class UserController extends BaseController {
      * @param app\services\TitleLoader $titleLoader
      */
     public function setContext(
-    TitleLoader $titleLoader, app\models\authentication\AuthenticateTable $authenticateTable, app\models\authentication\UserTable $userTable) {
+    TitleLoader $titleLoader, app\models\authentication\AuthenticateTable $authenticateTable, app\models\authentication\UserTable $userTable,
+            app\services\GcmMessanger $gcmMessanger) {
 
         $this->titleLoader = $titleLoader;
         $this->authenticateTable = $authenticateTable;
         $this->userTable = $userTable;
+        $this->gcmMessanger = $gcmMessanger;
     }
 
     public function loginAction() {
@@ -82,7 +85,11 @@ class UserController extends BaseController {
     }
     
     public function registerbygetAction() {
-        $this->_helper->layout->disableLayout();
+       $this->template->status = 0;
+       
+       $this->gcmMessanger->sendSyncDataMessage();
+       
+        /* $this->_helper->layout->disableLayout();
         Nette\Diagnostics\Debugger::$bar = FALSE;
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
         
@@ -128,7 +135,7 @@ class UserController extends BaseController {
             $status = 0;
         }
         
-        $this->template->status = $status;
+        $this->template->status = $status;*/
     }
     
     private function doRegistration($email, $password, $name, $surname, $activationRequired = true, $isFinalPassword = false) {
