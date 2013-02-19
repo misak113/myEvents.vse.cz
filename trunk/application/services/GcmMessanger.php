@@ -56,7 +56,7 @@ class GcmMessanger {
         $registrations = $this->gcmRegistrationTable->fetchAll($select);
 
         // Create message
-        $message = new Zend_Mobile_Push_Message_Gcm();
+        $message = new \Zend_Mobile_Push_Message_Gcm();
 
         foreach ($registrations as $registration) {
             $message->addToken($registration->reg_id);
@@ -69,13 +69,13 @@ class GcmMessanger {
         ));
 
         // Send
-        $gcm = new Zend_Mobile_Push_Gcm();
+        $gcm = new \Zend_Mobile_Push_Gcm();
         $gcm->setApiKey(self::API_KEY);
 
         $response = false;
         try {
             $response = $gcm->send($message);
-        } catch (Zend_Mobile_Push_Exception $e) {
+        } catch (\Zend_Mobile_Push_Exception $e) {
             // all other exceptions only require action to be sent or implementation of exponential backoff.
             die($e->getMessage());
         }
