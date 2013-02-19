@@ -30,6 +30,14 @@ class OrganizationTable extends Table
 		return $res->toArray();
 	}
 
+	/**
+	 * @param int $id
+	 * @return Organization
+	 */
+	public function getOrganization($id) {
+		return $this->getById($id);
+	}
+
 }
 
 ?>

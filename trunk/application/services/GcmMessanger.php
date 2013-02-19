@@ -9,6 +9,7 @@ use app\models\authentication\GcmRegistrationTable;
  */
 class GcmMessanger {
 
+	/** @var GcmRegistrationTable */
     protected $gcmRegistrationTable;
     
     const MSG_TYPE_SYNC_EVENTS = 1;
@@ -57,7 +58,10 @@ class GcmMessanger {
                 $syncEvents = true;
                 $syncData = true;
                 break;
-        }
+			default:
+				$syncEvents = false;
+				$syncData = false;
+		}
 
         // Set POST variables
         $url = 'https://android.googleapis.com/gcm/send';
@@ -113,10 +117,15 @@ class GcmMessanger {
             if ($partExploded[0] == "registration_id") {
                 continue;
             }
+
+			if (!isset($dbRegistratons[$i])) {
+				// Log and continue
+				continue;
+			}
             
             $partArray = array(
                 "type" => $partExploded[0],
-                "content" => $partExploded[1],
+                "content" => isset($partExploded[1]) ?$partExploded[1] :'',
                 "dbRegistrationId" => $dbRegistratons[$i]
             );
             $results[$i] = $partArray;

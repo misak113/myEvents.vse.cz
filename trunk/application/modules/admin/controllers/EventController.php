@@ -5,6 +5,7 @@ use app\services\TitleLoader;
 use app\models\authentication\UserTable;
 use app\services\facebook\FbImportDispatcher;
 use app\services\facebook\FbExportDispatcher;
+use app\models\authentication\User;
 
 /*
  * Created by JetBrains PhpStorm.
@@ -19,13 +20,13 @@ class Admin_EventController extends BaseController {
     /** @var TitleLoader */
     protected $titleLoader;
 
-    /** @var EventTable */
+    /** @var \app\models\events\EventTable */
     protected $eventTable;
 
-    /** @var CategoryTable */
+    /** @var \app\models\events\CategoryTable */
     protected $categoryTable;
 
-    /** @var CategoryTable */
+    /** @var \app\models\events\CategoryTable */
     protected $tagTable;
 
     /** @var \app\models\authentication\UserTable */
@@ -36,7 +37,7 @@ class Admin_EventController extends BaseController {
 	/** @var \app\services\facebook\FbExportDispatcher */
 	protected $fbExportDispatcher;
     
-    /** @var Classroomtable */
+    /** @var \app\models\events\ClassroomTable */
     protected $classroomtable;
     
     public function init() {
@@ -102,27 +103,32 @@ class Admin_EventController extends BaseController {
         $this->template->formHeader = "Nová akce";
         $record = null;
 
-        $eventId = $this->_getParam('id');
+		$organizationId = $this->_getParam('organization_id');
+		$eventId = $this->_getParam('id');
         if (!empty($eventId)) {
 
             $userId = $this->user->getId();
+			/** @var User $user  */
             $user = $this->userTable->getById($userId);
             $organizations = $user->getOrganizations();
-            $events = $organizations[0]->getEvents();
-            $record = $this->eventTable->getById($eventId);
+			$events = array();
+			foreach ($organizations as $organization) {
+				/** @var \app\models\organizations\Organization $organization  */
+            	$events = array_merge($organization->getAllEvents()->toArray(), $events);
+			}
+			/** @var \app\models\events\Event $record  */
+			$record = $this->eventTable->getById($eventId);
 
             if (!$record)
                 throw new Zend_Controller_Request_Exception('Event does not exist', 404);
 
-            $myEvent = false;
-            foreach ($events as $event) {
-                if ($event->event_id == $record->event_id) {
-                    $myEvent = true;
-                    break;
-                }
-            }
-            if (!$myEvent)
+			$eventIds = array_map(function ($e) {
+				return $e['event_id'];
+			}, $events);
+
+            if (!in_array($record->event_id, $eventIds)) {
                 throw new Zend_Controller_Request_Exception('Not authorized for this event', 404);
+			}
         }
 
         $form = new EventForm(array(
@@ -149,9 +155,19 @@ class Admin_EventController extends BaseController {
                 
                 $userId = $this->user->getId();
                 $user = $this->userTable->getById($userId);
-                $organizations = $user->getOrganizations();
-                $formValues["organization_id"] = $organizations[0]->organization_id;
-
+                $organizations = $user->getOrganizations()->toArray();
+				// Kontrola zda je správná organizace, do které přidává
+				if ($organizationId) {
+					$formValues["organization_id"] = $organizationId;
+				}
+				$organizationIds = array_map(function ($a) {
+					return $a['organization_id'];
+				}, $organizations);
+				if (isset($formValues["organization_id"]) && !in_array($formValues["organization_id"], $organizationIds)) {
+					$this->flashMessage('Do této organizace nesmíte přidávat události', self::FLASH_ERROR);
+					$this->redirect('adminEvents');
+					return;
+				}
                 $record->updateFromArray($formValues);
 
                 $this->flashMessage("Změny v události uloženy.");
@@ -196,17 +212,7 @@ class Admin_EventController extends BaseController {
         $organizations = $user->getOrganizations();
 
         // Pokud je uživatel členem nějaké organizace
-        if (count($organizations) > 0) {
-            // Pošleme do view akce první organizace, které je členem
-            // Systém tedy zatím umožňuje uživateli správu jen jedné organizace
-            // TODO: Umožnit správu více organizací
-            $this->template->events = $organizations[0]->getEvents();
-            $this->template->nazevOrganizace = $organizations[0]->name;
-        } else {
-            // Uživatel není členem organizace, dummy výpis
-            $this->template->nazevOrganizace = "Nejste členem žádné organizace";
-            $this->template->events = "";
-        }
+		$this->template->organizations = $organizations;
     }
 
     public function neareventsAction() {
@@ -230,15 +236,22 @@ class Admin_EventController extends BaseController {
             $this->flashMessage('Nejste správcem žádné z organizací', self::FLASH_ERROR);
             $this->redirect('adminEvents');
         }
-		try {
-        	$events = $this->fbImportDispatcher->importEventsByOrganization($organizations->current());
-		} catch (FacebookApiException $e) {
-			if (strstr($e->getMessage(), 'access token') !== false) { // Pokud je to chyba s access_tokenem
-				$this->flashMessage('Pro import z FB je třeba být přihlášen pomocí Facebooku', self::FLASH_ERROR);
-			} else {
-				$this->flashMessage('Při importování došlo k chybě', self::FLASH_ERROR);
+		$events = array();
+		foreach ($organizations as $organization) {
+			try {
+				$eventsOrg = $this->fbImportDispatcher->importEventsByOrganization($organization);
+				if (is_array($eventsOrg)) {
+					$events = array_merge($eventsOrg, $events);
+				}
+			} catch (FacebookApiException $e) {
+				if (strstr($e->getMessage(), 'access token') !== false) { // Pokud je to chyba s access_tokenem
+					$this->flashMessage('Pro import z FB je třeba být přihlášen pomocí Facebooku', self::FLASH_ERROR);
+				} else {
+					//_dBar($e);die(); // @todo logovat
+					$this->flashMessage('Při importování došlo k chybě', self::FLASH_ERROR);
+				}
+				//$this->redirect('adminEvents');
 			}
-			$this->redirect('adminEvents');
 		}
 
         if (!$events) {

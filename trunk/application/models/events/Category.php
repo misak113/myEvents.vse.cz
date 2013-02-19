@@ -23,7 +23,7 @@ class Category extends Row {
         $this->gcmMessanger->sendSyncEventsMessage();
     }
 
-    public function injectGcmMessanger($gcmMessanger) {
+    public function injectGcmMessanger(GcmMessanger $gcmMessanger) {
         $this->gcmMessanger = $gcmMessanger;
     }
 

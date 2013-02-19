@@ -8,6 +8,10 @@ use app\services\GcmMessanger;
 class Organization extends Row {
 
     protected $gcmMessanger;
+
+	public function getId() {
+		return $this->organization_id;
+	}
     
     /**
      * 
@@ -17,6 +21,13 @@ class Organization extends Row {
         $select = $this->select()->where('active = ?', 1);
         return $this->findManyToManyRowset('app\models\events\EventTable', 'app\models\organizations\OrganizationOwnEventTable', null, null, $select);
     }
+
+	/**
+	 * @return \Zend_Db_Table_Rowset_Abstract
+	 */
+	public function getAllEvents() {
+		return $this->findManyToManyRowset('app\models\events\EventTable', 'app\models\organizations\OrganizationOwnEventTable');
+	}
 
     public function getContactUser() {
         $userTable = \My_Model::get("app\models\organizations\OrganizationHasUserTable");
