@@ -11,7 +11,7 @@ class Admin_ApproveController extends BaseController {
     
     /** @var TitleLoader */
     protected $titleLoader;
-    /** @var EventTable */
+    /** @var \app\models\events\EventTable */
     protected $eventTable;
     
     /**
@@ -47,20 +47,21 @@ class Admin_ApproveController extends BaseController {
         barDump($this->user->getRoles());
         barDump($this->user);
         $this->template->title = $this->titleLoader->getTitle('Admin:Approve:list');
-        
+
         $where = $this->eventTable->select()
                 ->where('active = 1')
                 ->where('ready_to_approve = 1');
-                
-        if($this->user->isInRole('approver')){
-            $where->where('approved is null')
-                    ->where('controlled is null');
+
+			$where->where('(0');
+        if($this->user->isAllowed('admin.approve', 'approve')){
+            $where->orWhere('approved is null');
         }
-        if($this->user->isInRole('controller')){
-            $where->where('approved is not null')
-                   ->where('controlled is null');
+        if($this->user->isAllowed('admin.approve', 'control')){
+            $where->orWhere('controlled is null');
         }
-        barDump($where);
+		$where->orWhere('0)');
+
+		barDump($where);
         $events = $this->eventTable->fetchAll($where);
         
         $this->template->events = $events;
@@ -75,11 +76,7 @@ class Admin_ApproveController extends BaseController {
                 
                 if($record){
                     $date = date('Y-m-d H:i:s', time());
-                    if($this->user->isInRole('approver')){
-                        $record->approved = $date;
-                    } else if($this->user->isInRole('controller')){
-                        $record->controlled = $date;
-                    }
+                    $record->approved = $date;
                     $record->save();
                     $this->flashMessage("Událost " . $record->name. " byla schválena.", self::FLASH_INFO);
                 }
@@ -91,6 +88,27 @@ class Admin_ApproveController extends BaseController {
                                                         'default', 
                         true);
     }
+	public function controlAction() {
+		if($this->_request->isPost()){
+			$eventId = $this->_getParam('id');
+
+			if(!empty($eventId)){
+				$record = $this->eventTable->getById($eventId);
+
+				if($record){
+					$date = date('Y-m-d H:i:s', time());
+					$record->controlled = $date;
+					$record->save();
+					$this->flashMessage("Událost " . $record->name. " byla označena jako zkontrolována.", self::FLASH_INFO);
+				}
+			}
+		}
+		$this->_helper->redirector->gotoRoute(array('module' => 'admin',
+				'controller' => 'approve',
+				'action' => 'list'),
+			'default',
+			true);
+	}
     
 }
 
