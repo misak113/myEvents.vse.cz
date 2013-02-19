@@ -76,11 +76,14 @@ class GcmMessanger {
         try {
             $response = $gcm->send($message);
         } catch (\Zend_Mobile_Push_Exception $e) {
-            // all other exceptions only require action to be sent or implementation of exponential backoff.
-            die($e->getMessage());
+            return;
         }
 
         foreach ($response->getResults() as $k => $v) {
+            /*if (isset($v["error"]) && ($v["error"] == "NotRegistered" || $v["error"] == "InvalidRegistration")) {
+                $this->gcmRegistrationTable->getByRegId($res["dbRegistrationId"])->delete();
+            }
+            
             if (isset($v['registration_id']) && $v['registration_id']) {
                 printf("%s has a new registration id of: %s\r\n", $k, $v['registration_id']);
             }
@@ -89,7 +92,8 @@ class GcmMessanger {
             }
             if (isset($v['message_id']) && $v['message_id']) {
                 printf("%s was successfully sent the message, message id is: %s", $k, $v['message_id']);
-            }
+            }*/
+            echo $k . "\n";
         }
 
         /*
