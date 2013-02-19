@@ -81,13 +81,13 @@ class GcmMessanger {
         }
 
         foreach ($response->getResults() as $k => $v) {
-            if ($v['registration_id']) {
+            if (isset($v['registration_id']) && $v['registration_id']) {
                 printf("%s has a new registration id of: %s\r\n", $k, $v['registration_id']);
             }
-            if ($v['error']) {
+            if (isset($v['error']) && $v['error']) {
                 printf("%s had an error of: %s\r\n", $k, $v['error']);
             }
-            if ($v['message_id']) {
+            if (isset($v['message_id']) && $v['message_id']) {
                 printf("%s was successfully sent the message, message id is: %s", $k, $v['message_id']);
             }
         }
