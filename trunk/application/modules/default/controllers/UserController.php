@@ -8,7 +8,7 @@ use app\services\TitleLoader;
  *
  */
 class UserController extends BaseController {
-
+    
     const USER_REGISTRATION_AUTH_SALT = "CapHeC9a";
     const PASSWORD_RECOVERY_AUTH_SALT = "bEb7QuCh";
     const FB_REGISTRATION_AUTH_SALT = "Cefre9u8";
@@ -17,7 +17,6 @@ class UserController extends BaseController {
     protected $titleLoader;
     protected $userTable;
     protected $authenticateTable;
-    protected $gcmMessanger;
 
     /**
      * Nastaví kontext contrloleru, Zde se pomocí Dependency Injection vloží do třídy instance služeb, které budou potřeba
@@ -26,12 +25,11 @@ class UserController extends BaseController {
      * @param app\services\TitleLoader $titleLoader
      */
     public function setContext(
-    TitleLoader $titleLoader, app\models\authentication\AuthenticateTable $authenticateTable, app\models\authentication\UserTable $userTable, app\services\GcmMessanger $gcmMessanger) {
+    TitleLoader $titleLoader, app\models\authentication\AuthenticateTable $authenticateTable, app\models\authentication\UserTable $userTable) {
 
         $this->titleLoader = $titleLoader;
         $this->authenticateTable = $authenticateTable;
         $this->userTable = $userTable;
-        $this->gcmMessanger = $gcmMessanger;
     }
 
     public function loginAction() {
@@ -39,22 +37,22 @@ class UserController extends BaseController {
         if ($this->user->isLoggedIn()) {
             Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoRouteAndExit(array(), "eventList");
         }
-
+        
         $this->template->title = $this->titleLoader->getTitle('Admin:Index:login');
-
+        
         // Formulář
         $form = new LoginForm();
         $this->view->loginForm = $form;
     }
 
     public function fbLoginAction() {
-        $this->redirect('userLogin');
+            $this->redirect('userLogin');
     }
-
+    
     public function logoutAction() {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-
+        
         Zend_Auth::getInstance()->clearIdentity();
 
         $this->_helper->redirector->gotoRouteAndExit(array(), "userLogin");
@@ -82,71 +80,64 @@ class UserController extends BaseController {
             }
         }
     }
-
+    
     public function registerbygetAction() {
         $this->_helper->layout->disableLayout();
         Nette\Diagnostics\Debugger::$bar = FALSE;
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
-        $this->template->status = 0;
+        
+        $authToken = $this->_getParam("authToken");
+        $email = str_replace("&#47;", "/", $this->_getParam("email"));
+        $password = $this->_getParam("password");
+        $name = str_replace("&#47;", "/", $this->_getParam("name"));
+        $activationRequired = $this->_getParam("activationRequired") != "false";
+        
+        // Name and surname
+        $nameExploded = explode(" ", $name);
+        $finalName = $nameExploded[0];
+        
+        $nameExploded[0] = null;
+        $surname = trim(implode(" ", $nameExploded));
+        
+        try {
+            // Check email existence
+            $select = $this->authenticateTable->select();
+            $select->where("identity = ?", $email);
+            $select->where("authenticate_provides_id = 1");
+            $auth = $this->authenticateTable->fetchRow($select);
+            
+            if ($auth != null) {
+                $status = 2;
+            } else {
+                // Check token
+                $explodedEmail = explode("@", $email);
 
-        $this->gcmMessanger->sendSyncDataMessage();
+                if (count($explodedEmail) != 2) {
+                    throw new Exception();
+                }
 
-        /* $this->_helper->layout->disableLayout();
-          Nette\Diagnostics\Debugger::$bar = FALSE;
-          $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
+                $checkAuthToken = hash("sha256", $explodedEmail[0] . self::USER_REGISTRATION_AUTH_SALT . "@" . $explodedEmail[1]);
+                if ($authToken != $checkAuthToken) {
+                    throw new Exception();
+                }
 
-          $authToken = $this->_getParam("authToken");
-          $email = str_replace("&#47;", "/", $this->_getParam("email"));
-          $password = $this->_getParam("password");
-          $name = str_replace("&#47;", "/", $this->_getParam("name"));
-          $activationRequired = $this->_getParam("activationRequired") != "false";
-
-          // Name and surname
-          $nameExploded = explode(" ", $name);
-          $finalName = $nameExploded[0];
-
-          $nameExploded[0] = null;
-          $surname = trim(implode(" ", $nameExploded));
-
-          try {
-          // Check email existence
-          $select = $this->authenticateTable->select();
-          $select->where("identity = ?", $email);
-          $select->where("authenticate_provides_id = 1");
-          $auth = $this->authenticateTable->fetchRow($select);
-
-          if ($auth != null) {
-          $status = 2;
-          } else {
-          // Check token
-          $explodedEmail = explode("@", $email);
-
-          if (count($explodedEmail) != 2) {
-          throw new Exception();
-          }
-
-          $checkAuthToken = hash("sha256", $explodedEmail[0] . self::USER_REGISTRATION_AUTH_SALT . "@" . $explodedEmail[1]);
-          if ($authToken != $checkAuthToken) {
-          throw new Exception();
-          }
-
-          $this->doRegistration($email, $password, $finalName, $surname, $activationRequired, true);
-          $status = 1;
-          }
-          } catch (Exception $ex) {
-          $status = 0;
-          }
-
-          $this->template->status = $status; */
+                $this->doRegistration($email, $password, $finalName, $surname, $activationRequired, true);
+                $status = 1;
+            }
+        } catch (Exception $ex) {
+            $status = 0;
+        }
+        
+        $this->template->status = $status;
     }
-
+    
     private function doRegistration($email, $password, $name, $surname, $activationRequired = true, $isFinalPassword = false) {
-        $finalPassword = $isFinalPassword ? $password : new My_Password($password);
+        $finalPassword = $isFinalPassword ?$password : new My_Password($password);
 
         // Uložit záznam do tabulky user
         $user = $this->userTable->createRow();
         $user->email = $email;
-        $user->first_name = $name;
+        $user->first_name = $name ;
         $user->last_name = $surname;
         $user->last_login_date = new Zend_Db_Expr("NOW()");
         $user->last_login_ip = $this->getRequest()->getServer('REMOTE_ADDR');
@@ -217,15 +208,15 @@ class UserController extends BaseController {
         $this->flashMessage($messageText, $messageType);
         $this->_helper->redirector->gotoRouteAndExit(array(), "eventList");
     }
-
+    
     public function recoverpasswordbygetAction() {
         $this->_helper->layout->disableLayout();
         Nette\Diagnostics\Debugger::$bar = FALSE;
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
-
+        
         $authToken = $this->_getParam("authToken");
         $email = $this->_getParam("email");
-
+        
         // Check auth token
         try {
             $explodedEmail = explode("@", $email);
@@ -238,13 +229,13 @@ class UserController extends BaseController {
             if ($authToken != $checkAuthToken) {
                 throw new Exception();
             }
-
+            
             // Obnovit..
             $status = $this->recoverAuthentication($email);
         } catch (Exception $ex) {
             $status = 0;
         }
-
+        
         $this->template->status = $status;
     }
 
@@ -254,12 +245,12 @@ class UserController extends BaseController {
         $select->where("authenticate_provides_id = 1");
         $select->where("active = 1");
         $auth = $this->authenticateTable->fetchRow($select);
-
+        
         // Kontrola existence
         if ($auth == null) {
             return 2;
         }
-
+        
         // Vygenerovat nové heslo
         try {
             $password = new My_Password();
@@ -282,23 +273,23 @@ class UserController extends BaseController {
             $mail->setFrom("no-reply@vse.cz", "myEvents");
             $mail->setBodyText($text);
             $mail->send();
-
+            
             return 1;
         } catch (Exception $ex) {
             return 0;
         }
     }
-
+    
     public function registerfbuserbygetAction() {
         $this->_helper->layout->disableLayout();
         Nette\Diagnostics\Debugger::$bar = FALSE;
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=utf-8');
-
+        
         $authToken = $this->_getParam("authToken");
         $fbId = $this->_getParam("id");
         $email = $this->_getParam("email");
         $name = $this->_getParam("name");
-
+        
         $status = 0;
         try {
             $explodedEmail = explode("@", $email);
@@ -309,16 +300,15 @@ class UserController extends BaseController {
             if ($authToken != $checkAuthToken) {
                 throw new Exception();
             }
-
+            
             // TODO: Registrace FB uživatele pokud ještě neexistuje (zjistitelné podle $fbId)
-
+            
             $status = 1;
         } catch (Exception $ex) {
             $status = 0;
         }
-
+        
         $this->template->status = $status;
     }
-
 }
 
