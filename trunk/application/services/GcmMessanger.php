@@ -31,7 +31,7 @@ class GcmMessanger {
         $this->sendMessage(self::MSG_TYPE_SYNC_ALL, $forced);
     }
 
-    private function sendMessage($type, $forced) {
+    protected function sendMessage($type, $forced) {
         // Message to be sent
         switch ($type) {
             case self::MSG_TYPE_SYNC_EVENTS:
@@ -79,71 +79,11 @@ class GcmMessanger {
             return;
         }
 
-        foreach ($response->getResults() as $k => $v) {
-            /*if (isset($v["error"]) && ($v["error"] == "NotRegistered" || $v["error"] == "InvalidRegistration")) {
-                $this->gcmRegistrationTable->getByRegId($res["dbRegistrationId"])->delete();
+        foreach ($response->getResults() as $regId => $value) {
+            if (isset($value["error"]) && ($value["error"] == "NotRegistered" || $value["error"] == "InvalidRegistration")) {
+                $this->gcmRegistrationTable->getByRegId($regId)->delete();
             }
-            
-            if (isset($v['registration_id']) && $v['registration_id']) {
-                printf("%s has a new registration id of: %s\r\n", $k, $v['registration_id']);
-            }
-            if (isset($v['error']) && $v['error']) {
-                printf("%s had an error of: %s\r\n", $k, $v['error']);
-            }
-            if (isset($v['message_id']) && $v['message_id']) {
-                printf("%s was successfully sent the message, message id is: %s", $k, $v['message_id']);
-            }*/
-            echo $k . "\n";
         }
-
-        /*
-          $apiKey = "AIzaSyBH0LuBGLRP7r8tsJCBcYh1pN74rI9q6zU";
-
-          $select = $this->gcmRegistrationTable->select();
-          $registrations = $this->gcmRegistrationTable->fetchAll($select);
-
-          $registrationIDs = array();
-          $dbRegistratons = array();
-          $i = 0;
-          foreach ($registrations as $registration) {
-          $registrationIDs[] = $registration->reg_id;
-          $dbRegistratons[$i] = $registration->gcm_registration_id;
-
-<<<<<<< .mine
-          $i++;
-          }
-=======
-        $replacedResultExploded = explode(",", $replacedResult);
-        
-        $results = array();
-        $i = 0;
-        foreach ($replacedResultExploded as $part) {
-            $part = strtr($part, array(
-                "{" => "",
-                "}" => "",
-                "\"" => ""
-            ));
-            $partExploded = explode(":", $part, 2);
-            
-            // Canoical ID created, skip
-            if ($partExploded[0] == "registration_id") {
-                continue;
-            }
-
-			if (!isset($dbRegistratons[$i])) {
-				// Log and continue
-				continue;
-			}
-            
-            $partArray = array(
-                "type" => $partExploded[0],
-                "content" => isset($partExploded[1]) ?$partExploded[1] :'',
-                "dbRegistrationId" => $dbRegistratons[$i]
-            );
-            $results[$i] = $partArray;
-            
-            $i++;
-        } */
     }
 
     public function injectGcmRegistrationTable(GcmRegistrationTable $gcmRegistrationTable) {
