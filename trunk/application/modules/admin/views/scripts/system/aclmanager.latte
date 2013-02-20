@@ -2,8 +2,8 @@
 
 <div class="acl-manager">
 
-	<span class="label label-success hide" id="label-template">
-		<button type="button" class="close">&times;</button>
+	<span class="label privilege label-success hide" id="label-template">
+		<button type="button" class="close togglePrivilege">&times;</button>
 		<input type="hidden"
 			   class="privilege-input"
 			   name=""
@@ -35,9 +35,10 @@
 					<span title="{$role->description}">{$role->name}</span>
 				</td>
 				<td n:foreach="$resources as $resource" class="resource">
-					<span class="label privilege" n:foreach="$role->getPrivileges($resource) as $privilege">
-						<button type="button" class="close">&times;</button>
+					<span class="label privilege" n:foreach="$role->getPrivileges($resource) as $privilege" data-id="{$privilege->privilege_id}">
+						<button type="button" class="close togglePrivilege">&times;</button>
 						<input type="hidden"
+							   class="privilege-input"
 							   name="permission[{$role->role_id}][{$resource->resource_id}][{$privilege->privilege_id}]"
 							   value="1">
 						&nbsp;{$privilege->name}&nbsp;
@@ -69,6 +70,18 @@
 
 					var privileges = $('#privileges').clone(true);
 					privileges.removeClass('hide');
+
+					// odebrání toho, co už tam je
+					labelParent.find('.privilege').each(function () {
+						var activeId = $(this).attr('data-id');
+						privileges.find('.selected-privilege').each(function () {
+							var newId = $(this).attr('data-id');
+							if (newId == activeId) {
+								$(this).remove();
+							}
+						});
+					});
+
 					labelParent.append(privileges);
 					privileges.find('.selected-privilege').bind('click', function (e) {
 						e.preventDefault();
@@ -77,6 +90,7 @@
 						var privilegeName = name+'['+id+']';
 						var label = $('#label-template').clone(true);
 						label.attr('id', '');
+						label.attr('data-id', id);
 						var title = $(this).html();
 						label.removeClass('hide');
 						label.find('.name').html(title);
@@ -89,9 +103,25 @@
 
 				$
 
-				$('.close').live('click', function (e) {
+				$('#privileges .close').live('click', function (e) {
 					e.preventDefault();
 					$(this).parent().remove();
 				});
+				$('.togglePrivilege').live('click', function (e) {
+					e.preventDefault();
+
+					var input = $(this).parent().find('.privilege-input');
+					var val = input.val();
+					input.val(val=='1' ?'0' :'1');
+					$(this).parent().removeClass('label-success').removeClass('label-important');
+					if (val=='1') {
+						$(this).html('&laquo;');
+						$(this).parent().addClass('label-important');
+					} else {
+						$(this).html('&times;');
+						$(this).parent().addClass('label-success');
+					}
+				});
+
 			});
 		</script>

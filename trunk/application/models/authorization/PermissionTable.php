@@ -46,12 +46,14 @@ class PermissionTable extends Table {
 		foreach ($roles as $role_id => $resources) {
 			foreach ($resources as $resource_id => $privileges) {
 				foreach ($privileges as $privilege_id => $value) {
-					$permission = $this->createRow(array(
-						'role_id' => $role_id,
-						'resource_id' => $resource_id,
-						'privilege_id' => $privilege_id,
-					));
-					$permission->save();
+					if ($value) {
+						$permission = $this->createRow(array(
+							'role_id' => $role_id,
+							'resource_id' => $resource_id,
+							'privilege_id' => $privilege_id,
+						));
+						$permission->save();
+					}
 				}
 			}
 		}
