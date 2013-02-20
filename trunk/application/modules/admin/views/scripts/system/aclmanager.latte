@@ -1,0 +1,97 @@
+
+
+<div class="acl-manager">
+
+	<span class="label label-success hide" id="label-template">
+		<button type="button" class="close">&times;</button>
+		<input type="hidden"
+			   class="privilege-input"
+			   name=""
+			   value="1">
+		&nbsp;<span class="name"></span>&nbsp;
+	</span>
+
+	<div class="hide privileges alert" id="privileges">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<a n:foreach="$privileges as $privilege"
+		href="#" class="selected-privilege label label-inverse" data-id="{$privilege->privilege_id}">{$privilege->name}</a>
+	</div>
+
+
+	<form action="" method="post">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Název</th>
+				<th n:foreach="$resources as $resource"><small>{$resource->name}</small></th>
+			</tr>
+			{*<tr>
+				<th></th>
+			</tr>*}
+		</thead>
+		<tbody>
+			<tr n:foreach="$roles as $role">
+				<td>
+					<span title="{$role->description}">{$role->name}</span>
+				</td>
+				<td n:foreach="$resources as $resource" class="resource">
+					<span class="label privilege" n:foreach="$role->getPrivileges($resource) as $privilege">
+						<button type="button" class="close">&times;</button>
+						<input type="hidden"
+							   name="permission[{$role->role_id}][{$resource->resource_id}][{$privilege->privilege_id}]"
+							   value="1">
+						&nbsp;{$privilege->name}&nbsp;
+					</span>
+					<a href="#" class="btn btn-small add-privilege"
+					   data-name="permission[{$role->role_id}][{$resource->resource_id}]">
+						<i class="icon-plus"></i>&nbsp;přidat
+					</a>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td><input class="btn btn-large" type="submit" value="Uložit" name="save"></td>
+			</tr>
+		</tfoot>
+	</table>
+	</form>
+
+</div>
+
+		<script type="text/javascript">
+			jQuery(document).ready(function ($) {
+				$('.add-privilege').bind('click', function (e) {
+					e.preventDefault();
+
+					var name = $(this).attr('data-name');
+					var labelParent = $(this).closest('.resource');
+
+					var privileges = $('#privileges').clone(true);
+					privileges.removeClass('hide');
+					labelParent.append(privileges);
+					privileges.find('.selected-privilege').bind('click', function (e) {
+						e.preventDefault();
+
+						var id = $(this).attr('data-id');
+						var privilegeName = name+'['+id+']';
+						var label = $('#label-template').clone(true);
+						label.attr('id', '');
+						var title = $(this).html();
+						label.removeClass('hide');
+						label.find('.name').html(title);
+						label.find('.privilege-input').attr('name', privilegeName);
+
+						labelParent.append(label);
+						privileges.remove();
+					});
+				});
+
+				$
+
+				$('.close').live('click', function (e) {
+					e.preventDefault();
+					$(this).parent().remove();
+				});
+			});
+		</script>

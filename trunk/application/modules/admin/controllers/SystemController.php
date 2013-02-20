@@ -3,6 +3,10 @@
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
 use \app\models\organizations\OrganizationTable;
+use Nette\DI\Container;
+use app\models\authorization\ResourceTable;
+use app\models\authorization\PrivilegeTable;
+use app\models\authorization\PermissionTable;
 
 /*
  * Created by JetBrains PhpStorm.
@@ -25,7 +29,16 @@ class Admin_SystemController extends BaseController {
 
     /** @var \app\models\authorization\RoleTable */
     protected $roleTable;
-    protected $gcmMessanger;
+    /** @var \app\services\GcmMessanger */
+	protected $gcmMessanger;
+	/** @var Zend_Controller_Router_Rewrite */
+	protected $router;
+	/** @var \app\models\authorization\ResourceTable */
+	protected $resourceTable;
+	/** @var \app\models\authorization\PrivilegeTable */
+	protected $privilegeTable;
+	/** @var \app\models\authorization\PermissionTable */
+	protected $permissionTable;
 
     public function init() {
         $this->_helper->layout->setLayout('admin_sys');
@@ -103,12 +116,42 @@ class Admin_SystemController extends BaseController {
             'action' => 'android'), 'default', true);
     }
 
+	public function aclmanagerAction() {
+		$this->template->title = $this->titleLoader->getTitle('Admin:system:aclmanager');
+
+		if ($permission = $this->getRequest()->getPost('permission')) {
+			$status = $this->permissionTable->updatePermissions($permission);
+			if ($status) {
+				$this->flashMessage('Oprávnění byla uložena');
+				//$this->redirect('this'); // @todo redirection
+			} else {
+				$this->flashMessage('Při ukládání oprávnění došlo k chybě', self::FLASH_ERROR);
+			}
+		}
+
+		$roles = $this->roleTable->fetchAll(null, 'name');
+		$resources = $this->resourceTable->fetchAll(null, 'name');
+		$privileges = $this->privilegeTable->fetchAll(null, 'name');
+
+		$this->template->roles = $roles;
+		$this->template->resources = $resources;
+		$this->template->privileges = $privileges;
+	}
+
     public function injectTables(
-    OrganizationTable $organizationTable, \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable, app\models\authorization\RoleTable $roleTable, app\services\GcmMessanger $gcmMessanger) {
+    OrganizationTable $organizationTable, \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable, app\models\authorization\RoleTable $roleTable, app\services\GcmMessanger $gcmMessanger
+	,ResourceTable $resourceTable, PrivilegeTable $privilegeTable, PermissionTable $permissionTable) {
         $this->organizationTable = $organizationTable;
         $this->organizationHasUserTable = $organizationHasUserTable;
         $this->roleTable = $roleTable;
+		$this->resourceTable = $resourceTable;
+		$this->privilegeTable = $privilegeTable;
         $this->gcmMessanger = $gcmMessanger;
+		$this->permissionTable = $permissionTable;
     }
+
+	public function injectRouter(Container $context ) {
+		$this->router = $this->context;
+	}
 
 }

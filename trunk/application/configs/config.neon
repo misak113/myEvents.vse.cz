@@ -62,6 +62,7 @@ common:
 		authenticateTable: app\models\authentication\AuthenticateTable
 		gcmRegistrationTable: app\models\authentication\GcmRegistrationTable
 		roleTable: app\models\authorization\RoleTable
+		permissionTable: app\models\authorization\PermissionTable
 		organizationHasUserTable: app\models\organizations\OrganizationHasUserTable
 		resourceTable: app\models\authorization\ResourceTable
 		privilegeTable: app\models\authorization\PrivilegeTable

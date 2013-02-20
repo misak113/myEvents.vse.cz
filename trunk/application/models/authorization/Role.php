@@ -19,8 +19,13 @@ class Role extends Row
 		return $this->findManyToManyRowset(new ResourceTable(), new PermissionTable());
 	}
 
-	public function getPrivileges() {
-		return $this->findManyToManyRowset(new PrivilegeTable(), new PermissionTable());
+	public function getPrivileges(Resource $resource = null) {
+		if ($resource === null) {
+			return $this->findManyToManyRowset(new PrivilegeTable(), new PermissionTable());
+		} else {
+			$select = $this->getTable()->select()->where('resource_id = ?', array($resource->resource_id));
+			return $this->findManyToManyRowset(new PrivilegeTable(), new PermissionTable(), null, null, $select);
+		}
 	}
 
 }
