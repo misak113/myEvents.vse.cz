@@ -7,6 +7,7 @@ use Nette\DI\Container;
 use app\models\authorization\ResourceTable;
 use app\models\authorization\PrivilegeTable;
 use app\models\authorization\PermissionTable;
+use app\services\CodeParser;
 
 /*
  * Created by JetBrains PhpStorm.
@@ -39,6 +40,9 @@ class Admin_SystemController extends BaseController {
 	protected $privilegeTable;
 	/** @var \app\models\authorization\PermissionTable */
 	protected $permissionTable;
+	/** @var \app\services\CodeParser */
+	protected $codeParser;
+
 
     public function init() {
         $this->_helper->layout->setLayout('admin_sys');
@@ -136,11 +140,13 @@ class Admin_SystemController extends BaseController {
 		$this->template->roles = $roles;
 		$this->template->resources = $resources;
 		$this->template->privileges = $privileges;
+		$this->template->acceptablePrivileges = $this->codeParser->findAcceptablePrivileges();
 	}
 
+
     public function injectTables(
-    OrganizationTable $organizationTable, \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable, app\models\authorization\RoleTable $roleTable, app\services\GcmMessanger $gcmMessanger
-	,ResourceTable $resourceTable, PrivilegeTable $privilegeTable, PermissionTable $permissionTable) {
+		OrganizationTable $organizationTable, \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable, app\models\authorization\RoleTable $roleTable, app\services\GcmMessanger $gcmMessanger
+		,ResourceTable $resourceTable, PrivilegeTable $privilegeTable, PermissionTable $permissionTable) {
         $this->organizationTable = $organizationTable;
         $this->organizationHasUserTable = $organizationHasUserTable;
         $this->roleTable = $roleTable;
@@ -150,8 +156,8 @@ class Admin_SystemController extends BaseController {
 		$this->permissionTable = $permissionTable;
     }
 
-	public function injectRouter(Container $context ) {
-		$this->router = $this->context;
+	public function injectCodeParser(CodeParser $codeParser) {
+		$this->codeParser = $codeParser;
 	}
 
 }

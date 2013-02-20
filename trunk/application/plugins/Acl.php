@@ -8,6 +8,7 @@ use app\models\authorization\RoleTable;
 use app\models\authorization\ResourceTable;
 use app\models\authorization\PrivilegeTable;
 use Nette\Reflection\ClassType;
+use app\services\CodeParser;
 
 /**
  * Plugin resi autorizaci uzivatele
@@ -27,6 +28,8 @@ class Application_Plugin_Acl extends PluginController {
 	protected $resourceTable;
 	/** @var \app\models\authorization\PrivilegeTable */
 	protected $privilegeTable;
+	/** @var CodeParser */
+	protected $codeParser;
 
 	public function injectUserTable(UserTable $userTable) {
 		$this->userTable = $userTable;
@@ -42,6 +45,9 @@ class Application_Plugin_Acl extends PluginController {
 	}
 	public function injectPrivilegeTable(PrivilegeTable $privilegeTable) {
 		$this->privilegeTable = $privilegeTable;
+	}
+	public function injectCodeParser(CodeParser $codeParser) {
+		$this->codeParser = $codeParser;
 	}
 
     /**
@@ -91,11 +97,11 @@ class Application_Plugin_Acl extends PluginController {
 
 
 		// Vytvoření resources a privileges
-		$resources = $this->findResources();
+		$resources = $this->codeParser->findResources();
 		foreach ($resources as $resource) {
 			$this->resourceTable->cache()->getOrCreateResource($resource);
 		}
-		$privileges = $this->findPrivileges();
+		$privileges = $this->codeParser->findPrivileges();
 		foreach ($privileges as $privilege) {
 			$this->privilegeTable->cache()->getOrCreatePrivilege($privilege);
 		}
@@ -135,51 +141,6 @@ class Application_Plugin_Acl extends PluginController {
 		$this->authorizator->allow($sysAdminRole->getUriCode(), Permission::ALL, Permission::ALL);
 
 
-	}
-
-
-	protected function findResources() {
-		$resources = array();
-
-		$modulesDir = APP_DIR.'/modules';
-		$modules = scandir($modulesDir);
-		foreach ($modules as $module) {
-			$controllersDir = $modulesDir.'/'.$module.'/controllers';
-			if (!is_dir($controllersDir)) continue;
-			$controllers = scandir($controllersDir);
-			foreach ($controllers as $controller) {
-				if (strstr($controller, 'Controller.php') === false) continue;
-				$ctrlName = strtolower(str_replace('Controller.php', '', $controller));
-				$resource = ($module != 'default' ?$module.'.' :'').$ctrlName;
-				$resources[] = $resource;
-			}
-		}
-
-		return $resources;
-	}
-
-	protected function findPrivileges() {
-		$privileges = array();
-
-		$resources = $this->findResources();
-		foreach ($resources as $resource) {
-			$ex = explode('.', $resource);
-			$class = '';
-			if (isset($ex[1])) {
-				$class = ucfirst($ex[0]).'_';
-				$ex[0] = $ex[1];
-			}
-			$class = $class.ucfirst($ex[0]).'Controller';
-			$refClass = new ClassType($class);
-			$methods = $refClass->getMethods(ReflectionMethod::IS_PUBLIC);
-			foreach ($methods as $method) {
-				if (preg_match('~^(.+)Action$~', $method->name, $m)) {
-					$privileges[] = strtolower($m[1]);
-				}
-			}
-		}
-
-		return $privileges;
 	}
 
 }

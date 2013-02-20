@@ -49,6 +49,8 @@ common:
 		gcmMessanger:
 			class: app\services\GcmMessanger
 			tags: [inject]
+		codeParser: app\services\CodeParser
+
 
 		# Models
 		eventTable: app\models\events\EventTable

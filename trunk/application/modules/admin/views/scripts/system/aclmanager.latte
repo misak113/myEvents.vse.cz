@@ -14,7 +14,8 @@
 	<div class="hide privileges alert" id="privileges">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<a n:foreach="$privileges as $privilege"
-		href="#" class="selected-privilege label label-inverse" data-id="{$privilege->privilege_id}">{$privilege->name}</a>
+			data-uri-code="{$privilege->uri_code}"
+			href="#" class="selected-privilege label label-inverse" data-id="{$privilege->privilege_id}">{$privilege->name}</a>
 	</div>
 
 
@@ -35,6 +36,7 @@
 					<span title="{$role->description}">{$role->name}</span>
 				</td>
 				<td n:foreach="$resources as $resource" class="resource">
+					<small>{$role->uri_code}:{$resource->uri_code}</small><br />
 					<span class="label privilege" n:foreach="$role->getPrivileges($resource) as $privilege" data-id="{$privilege->privilege_id}">
 						<button type="button" class="close togglePrivilege">&times;</button>
 						<input type="hidden"
@@ -44,7 +46,9 @@
 						&nbsp;{$privilege->name}&nbsp;
 					</span>
 					<a href="#" class="btn btn-small add-privilege"
-					   data-name="permission[{$role->role_id}][{$resource->resource_id}]">
+					   data-name="permission[{$role->role_id}][{$resource->resource_id}]"
+						data-acceptable-privileges="{json_encode($acceptablePrivileges[$resource->uri_code])}"
+							>
 						<i class="icon-plus"></i>&nbsp;přidat
 					</a>
 				</td>
@@ -71,6 +75,8 @@
 					var privileges = $('#privileges').clone(true);
 					privileges.removeClass('hide');
 
+					var acceptable_uri_codes = $.parseJSON($(this).attr('data-acceptable-privileges'));
+
 					// odebrání toho, co už tam je
 					labelParent.find('.privilege').each(function () {
 						var activeId = $(this).attr('data-id');
@@ -80,6 +86,15 @@
 								$(this).remove();
 							}
 						});
+					});
+
+					// Obarvení těch co má smysl pridavat
+					privileges.find('.selected-privilege').each(function () {
+						var label = $(this);
+						var new_uri_code = $(this).attr('data-uri-code');
+						if (_.contains(acceptable_uri_codes, new_uri_code)) {
+							label.removeClass('label-inverse').addClass('label-info');
+						}
 					});
 
 					labelParent.append(privileges);
