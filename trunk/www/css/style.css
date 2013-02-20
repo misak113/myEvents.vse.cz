@@ -500,7 +500,7 @@ background: rgba(141,175,62,0.05);
 .item .btn {display: none; position: absolute; top: 15px; right: 10px; }
 
 .item:hover .btn {display: block; }
-.item .btn {background: #8daf3e; text-decoration: none; padding: 4px 10px; color: #fff; font-family: Arial;
+.btn {background: #8daf3e; text-decoration: none; padding: 4px 10px; color: #fff; font-family: Arial;
     font-size: 13px; border: 1px solid #7c9839; display: inline-block; border-bottom-width: 2px; font-weight: bold; cursor: pointer;}
 .btn.gr {   background-color: #CCCCCC;
     border-color: #9D9B9B;
