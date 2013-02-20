@@ -13,6 +13,11 @@ class Admin_ApproveController extends BaseController {
     protected $titleLoader;
     /** @var \app\models\events\EventTable */
     protected $eventTable;
+
+
+	public function init() {
+		$this->_helper->layout->setLayout('admin_approve');
+	}
     
     /**
      * @param TitleLoader $titleLoader 

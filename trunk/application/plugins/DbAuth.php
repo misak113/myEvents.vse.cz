@@ -22,7 +22,9 @@ class Application_Plugin_DbAuth extends PluginController implements IAuthenticat
     protected static $ROLE_REDIRECTIONS = array(
         "guest" => "eventList",
         "orgAdmin" => "adminEvents",
-        "sysAdmin" => "adminSystem"
+        "sysAdmin" => "adminSystem",
+		"controller" => "adminApprove",
+		"approver" => "adminApprove",
     );
 
     /** @var array */
