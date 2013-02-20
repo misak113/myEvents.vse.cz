@@ -202,6 +202,8 @@ class Application_Plugin_DbAuth extends PluginController implements IAuthenticat
 		foreach ($user->getRoles() as $role) {
 			$roles[] = $role->getUriCode();
 		}
+		$roles[] = $this->user->guestRole;
+		$roles[] = $this->user->authenticatedRole;
 		$userInfo->user = $user->toArray();
         $identity = new \Nette\Security\Identity($userInfo->user_id, $roles, $userInfo);
         $authStorage->setIdentity($identity);

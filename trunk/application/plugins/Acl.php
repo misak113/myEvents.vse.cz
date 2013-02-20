@@ -125,11 +125,11 @@ class Application_Plugin_Acl extends PluginController {
 			// přidá oprávnění
 			$resources = array();
 			// @todo nefunguje cache() na serveru 
-			foreach ($role->cache()->getResources() as $resource) {
+			foreach ($role->getResources() as $resource) {
 				$resources[] = $resource->getUriCode();
 			}
 			$privileges = array();
-			foreach ($role->cache()->getPrivileges() as $privilege) {
+			foreach ($role->getPrivileges() as $privilege) {
 				$privileges[] = $privilege->getUriCode();
 			}
 			$this->authorizator->allow($role->getUriCode(), $resources, $privileges);
