@@ -3,6 +3,10 @@
     {foreach $organizations as $org}
     <organization id="{$org->organization_id}">
         <name>{$org->name}</name>
+        <logo>
+            <url>{if $org->logo != null && $org->logo != "" && file_exists("./img/logo/{$org->logo}")}http://<?php echo $_SERVER["SERVER_NAME"] ?>/img/logo/{$org->logo}{/if}</url>
+            <crc>{if $org->logo != null && $org->logo != "" && file_exists("./img/logo/{$org->logo}")}<?php echo crc32(file_get_contents("./img/logo/{$org->logo}")) ?>{/if}</crc>
+        </logo>
         <website>{$org->website}</website>
         <info>{$org->info}</info>
         <email>{$org->email}</email>
