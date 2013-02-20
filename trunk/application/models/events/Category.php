@@ -8,19 +8,23 @@ use app\services\GcmMessanger;
 class Category extends Row {
 
     protected $gcmMessanger;
-    
+
     public function save() {
         parent::save();
 
         // GCM
-        $this->gcmMessanger->sendSyncEventsMessage();
+        if ($this->changed) {
+            $this->gcmMessanger->sendSyncDataMessage();
+        }
     }
 
     public function delete() {
         parent::delete();
 
         // GCM
-        $this->gcmMessanger->sendSyncEventsMessage();
+        if ($this->changed) {
+            $this->gcmMessanger->sendSyncDataMessage();
+        }
     }
 
     public function injectGcmMessanger(GcmMessanger $gcmMessanger) {

@@ -10,6 +10,7 @@ use Zette\Database\Row as ZetteRow;
  */
 class Row extends ZetteRow {
 	
+    protected $changed = false;
 	
    /**
      * Inflektor pro ziskani nazvu atributu
@@ -53,5 +54,13 @@ class Row extends ZetteRow {
         return parent::__call($method, $args);
     }
     
-	
+    public function __set($columnName, $value) {
+        parent::__set($columnName, $value);
+        $this->changed = true;
+    }
+    
+    public function __unset($columnName) {
+        parent::__unset($columnName);
+        $this->changed = true;
+    }
 }
