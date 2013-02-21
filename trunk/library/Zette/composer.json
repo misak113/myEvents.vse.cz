@@ -1,0 +1,22 @@
+{
+    "name": "avantcore/zette",         
+    "type": "library",
+    "description": "Zette is library to join Zend Framework 1.11 features with Nette Framework 2.0",  
+    "homepage": "http://zette.avantcore.cz/",      
+    "license": [
+      "MIT",
+      "GPL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Michael Žabka",
+            "email": "zabka@avantcore.cz",
+            "homepage": "http://zabka.avantcore.cz"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "nette/nette": "2.0.*",
+        "zend/zendframework" : "1.11.*"
+    }
+}
