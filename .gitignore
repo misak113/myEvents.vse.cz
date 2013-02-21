@@ -2,3 +2,4 @@ web/temp
 web/application/configs/config.local.neon
 web/www/img/picture
 web/log
+.idea
