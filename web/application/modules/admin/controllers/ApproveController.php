@@ -55,7 +55,9 @@ class Admin_ApproveController extends BaseController {
 
         $where = $this->eventTable->select()
                 ->where('active = 1')
-                ->where('ready_to_approve = 1');
+                ->where('ready_to_approve = 1')
+				->where('timeend > NOW()')
+				->order('timestart');
 
 			$where->where('(0');
         if($this->user->isAllowed('admin.approve', 'approve')){

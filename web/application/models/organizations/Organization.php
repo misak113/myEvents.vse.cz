@@ -18,7 +18,9 @@ class Organization extends Row {
      * @return \Zend_Db_Table_Rowset_Abstract
      */
     public function getEvents() {
-        $select = $this->select()->where('active = ?', 1);
+        $select = $this->select()
+				->where('active = ?', 1)
+				->where('timeend > NOW()');
         return $this->findManyToManyRowset('app\models\events\EventTable', 'app\models\organizations\OrganizationOwnEventTable', null, null, $select);
     }
 
