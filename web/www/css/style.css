@@ -803,3 +803,13 @@ h2.padding {
 .acl-manager .resource {
 	position: relative;
 }
+
+.users .add-role {
+	width: 80px;
+	display: block;
+}
+
+.users .roles {
+	position: absolute;
+	z-index: 15;
+}

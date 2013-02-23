@@ -7,6 +7,7 @@ use Nette\DI\Container;
 use app\models\authorization\ResourceTable;
 use app\models\authorization\PrivilegeTable;
 use app\models\authorization\PermissionTable;
+use app\models\authentication\UserTable;
 use app\services\CodeParser;
 
 /*
@@ -42,6 +43,8 @@ class Admin_SystemController extends BaseController {
 	protected $permissionTable;
 	/** @var \app\services\CodeParser */
 	protected $codeParser;
+	/** @var \app\models\authentication\UserTable */
+	protected $userTable;
 
 
     public function init() {
@@ -74,12 +77,7 @@ class Admin_SystemController extends BaseController {
 
             $this->organizationHasUserTable->saveAdmins($values);
 
-//            if( $form->isValid($this->_request->getPost()) ) {
-//                $formValues = $form->getValues();
-//                $this->template->formvalues = $formValues;
-            // $record->updateFromArray($formValues);
-            //TODO flashmessage zmeny ulozeny
-
+			$this->flashMessage('Admini organizací byli uloženi');
 
             $this->_helper->redirector->gotoRoute(
                     array(
@@ -127,7 +125,7 @@ class Admin_SystemController extends BaseController {
 			$status = $this->permissionTable->updatePermissions($permission);
 			if ($status) {
 				$this->flashMessage('Oprávnění byla uložena');
-				//$this->redirect('this'); // @todo redirection
+				$this->redirect('adminAclManager');
 			} else {
 				$this->flashMessage('Při ukládání oprávnění došlo k chybě', self::FLASH_ERROR);
 			}
@@ -143,10 +141,30 @@ class Admin_SystemController extends BaseController {
 		$this->template->acceptablePrivileges = $this->codeParser->findAcceptablePrivileges();
 	}
 
+	public function usersAction() {
+		$this->template->title = $this->titleLoader->getTitle('Admin:system:users');
+
+		if ($role = $this->getRequest()->getPost('role')) {
+			$status = $this->userTable->updateRoles($role);
+			if ($status) {
+				$this->flashMessage('Role byly uloženy');
+				$this->redirect('adminUsers');
+			} else {
+				$this->flashMessage('Při ukládání rolí došlo k chybě', self::FLASH_ERROR);
+			}
+		}
+
+		$users = $this->userTable->getUsers();
+		$roles = $this->roleTable->fetchAll();
+
+		$this->template->users = $users;
+		$this->template->roles = $roles;
+	}
+
 
     public function injectTables(
 		OrganizationTable $organizationTable, \app\models\organizations\OrganizationHasUserTable $organizationHasUserTable, app\models\authorization\RoleTable $roleTable, app\services\GcmMessanger $gcmMessanger
-		,ResourceTable $resourceTable, PrivilegeTable $privilegeTable, PermissionTable $permissionTable) {
+		,ResourceTable $resourceTable, PrivilegeTable $privilegeTable, PermissionTable $permissionTable, UserTable $userTable) {
         $this->organizationTable = $organizationTable;
         $this->organizationHasUserTable = $organizationHasUserTable;
         $this->roleTable = $roleTable;
@@ -154,6 +172,7 @@ class Admin_SystemController extends BaseController {
 		$this->privilegeTable = $privilegeTable;
         $this->gcmMessanger = $gcmMessanger;
 		$this->permissionTable = $permissionTable;
+		$this->userTable = $userTable;
     }
 
 	public function injectCodeParser(CodeParser $codeParser) {

@@ -1,0 +1,129 @@
+
+<div class="users">
+
+	<span class="label role hide" id="label-template">
+		<button type="button" class="close toggleRole">&times;</button>
+		<input type="hidden"
+			   class="role-input"
+			   name=""
+			   value="1">
+		&nbsp;<span class="name"></span>&nbsp;
+	</span>
+
+	<div class="hide roles alert" id="roles">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<a n:foreach="$roles as $role"
+		   data-uri-code="{$role->uri_code}"
+		   href="#" class="selected-role label label-inverse" data-id="{$role->role_id}">{$role->name}</a>
+	</div>
+
+	<form action="" method="post">
+		<table class="table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>e-mail</th>
+						<th>Příjmení a Jméno</th>
+						<th>Přihlášen</th>
+						<th>
+							Role
+						</th>
+						<th>
+							<input class="btn" type="submit" value="Uložit" name="save" />
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr n:foreach="$users as $user">
+						<td>{$user['user_id']}</td>
+						<td>{$user['email']}</td>
+						<td>{$user['last_name']} {$user['first_name']}</td>
+						<td>{$user['last_login_date']}</td>
+						<td colspan="2">
+							<a href="#" class="btn btn-small add-role"
+							   data-name="role[{$user->user_id}]"
+									>
+								<i class="icon-plus"></i>&nbsp;přidat
+							</a>
+							<div class="user_roles">
+								<span n:foreach="$user->getRoles() as $role" class="label role" data-id="{$role->role_id}">
+									<button type="button" class="close toggleRole">&times;</button>
+									<input type="hidden"
+										   class="role-input"
+										   name="role[{$user->user_id}][{$role->role_id}]"
+										   value="1">
+									&nbsp;<span class="name">{$role['name']}</span>&nbsp;
+								</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+		</table>
+	</form>
+
+</div>
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function ($) {
+		$('.add-role').bind('click', function (e) {
+			e.preventDefault();
+
+			var name = $(this).attr('data-name');
+			var labelParent = $(this).parent().find('.user_roles');
+
+			var roles = $('#roles').clone(true);
+			roles.removeClass('hide');
+
+			// odebrání toho, co už tam je
+			labelParent.find('.role').each(function () {
+				var activeId = $(this).attr('data-id');
+				roles.find('.selected-role').each(function () {
+					var newId = $(this).attr('data-id');
+					if (newId == activeId) {
+						$(this).remove();
+					}
+				});
+			});
+
+			labelParent.append(roles);
+			roles.find('.selected-role').bind('click', function (e) {
+				e.preventDefault();
+
+				var id = $(this).attr('data-id');
+				var roleName = name+'['+id+']';
+				var label = $('#label-template').clone(true);
+				label.attr('id', '');
+				label.attr('data-id', id);
+				var title = $(this).html();
+				label.removeClass('hide');
+				label.find('.name').html(title);
+				label.find('.role-input').attr('name', roleName);
+
+				labelParent.append(label);
+				roles.remove();
+			});
+		});
+
+		$('#roles .close').live('click', function (e) {
+			e.preventDefault();
+			$(this).parent().remove();
+		});
+
+		$('.toggleRole').live('click', function (e) {
+			e.preventDefault();
+
+			var input = $(this).parent().find('.role-input');
+			var val = input.val();
+			input.val(val=='1' ?'0' :'1');
+			$(this).parent().removeClass('label-success').removeClass('label-important');
+			if (val=='1') {
+				$(this).html('&laquo;');
+				$(this).parent().addClass('label-important');
+			} else {
+				$(this).html('&times;');
+				$(this).parent().addClass('label-success');
+			}
+		});
+	});
+</script>

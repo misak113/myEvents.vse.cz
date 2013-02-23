@@ -70,6 +70,7 @@ common:
 		privilegeTable: app\models\authorization\PrivilegeTable
 		authenticateProvidesTable: app\models\authentication\AuthenticateProvidesTable
 		classroomTable: app\models\events\ClassroomTable
+		userHasRoleTable: app\models\authorization\UserHasRoleTable
 
 
 	factories:
