@@ -44,7 +44,11 @@ class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBar
 			$this->exceptions = array();
 
 			$dir = LOG_DIR;
-			$files = scandir($dir);
+			$files = @scandir($dir);
+			if (!$files) {
+				_dBar('Nebyla nalezena složka s Logy');
+				return $this->exceptions;
+			}
 			foreach ($files as $file) {
 				if (!preg_match('~^exception-.*\.html$~', $file)) continue;
 				$path = $dir.'/'.$file;
