@@ -6,13 +6,12 @@ use Nette\DI\Container;
 use Nette\Diagnostics\Debugger;
 use Nette\Config\Compiler;
 use Zette\Config\Extensions\ZetteExtension;
+use Zette\Git\Helper;
 
 
 
 define('APP_DIR', APPLICATION_PATH);
 define('LIBS_DIR', realpath(APP_DIR.'/../library'));
-define('LOG_DIR', realpath(APP_DIR . '/../log'));
-define('TEMP_DIR', realpath(APP_DIR . '/../temp'));
 
 require LIBS_DIR . '/Nette/loader.php';
 require_once __DIR__.'/../shortcuts.php';
@@ -32,12 +31,20 @@ class Loader
 
 
 	public function load() {
+		$logDir = APP_DIR . '/../log';
+		$tempDir = APP_DIR . '/../temp';
 
-// Configure application
+		// Vytvoření temp složek, které jsou v ignoru
+		$this->forceCreateDir($logDir);
+		$this->forceCreateDir($tempDir);
+		define('LOG_DIR', realpath($logDir));
+		define('TEMP_DIR', realpath($tempDir));
+
+		// Configure application
 		$configurator = new Configurator;
 
-// Enable Nette Debugger for error visualisation & logging
-//$configurator->setDebugMode($configurator::AUTO);
+		// Enable Nette Debugger for error visualisation & logging
+		//$configurator->setDebugMode($configurator::AUTO);
 		$configurator->enableDebugger(LOG_DIR);
 
 		$debugMode = APPLICATION_ENV != 'production';
@@ -48,19 +55,32 @@ class Loader
 
 		Debugger::enable(!$debugMode);
 
-// Enable RobotLoader - this will load all classes automatically
+		// Enable RobotLoader - this will load all classes automatically
 		$configurator->setTempDirectory(TEMP_DIR);
 		$configurator->createRobotLoader()
 				->addDirectory(APP_DIR)
 				->addDirectory(LIBS_DIR)
 				->register();
 
-// Create Dependency Injection container from config.neon file
-		$configurator->addConfig(__DIR__ . '/../Config/config.default.neon', false);
+		// Create Dependency Injection container from config.neon file
+		$configurator->addConfig(__DIR__ . '/../Config/config.default.neon', Configurator::NONE);
 
+		// Globální config
 		$configurator->addConfig(APP_DIR . '/configs/config.neon', APPLICATION_ENV);
 
-		$configurator->addConfig(APP_DIR . '/configs/config.local.neon', false);
+		// Branch config
+		if($branch = Helper::parseRawGitDirectoryAndGetCurrentBranch()) {
+			$branchConfig = realpath(APP_DIR . "/configs/branch/$branch.neon");
+			if(file_exists($branchConfig)) {
+				$configurator->addConfig($branchConfig, Configurator::NONE);
+			}
+		}
+
+		// lokální config
+		$configLocal = APP_DIR . '/configs/config.local.neon';
+		$this->createIfNotExists($configLocal, APP_DIR . '/configs/config.local.neon.orig');
+		$configurator->addConfig($configLocal, Configurator::NONE);
+
 
 		$configurator->onCompile[] = function (Configurator $configurator, Compiler $compiler) {
 			$compiler->addExtension('zette', new ZetteExtension);
@@ -72,6 +92,29 @@ class Loader
 
 	public function getContext() {
 		return $this->context;
+	}
+
+
+	protected function forceCreateDir($path) {
+		if (!@file_exists($path)) {
+			_dBar('Created directory "'.$path.'"');
+			@mkdir($path, 0777, true);
+		}
+		if (!@is_dir($path)) {
+			return false;
+		}
+		return false;
+	}
+
+	protected function createIfNotExists($file, $templateFile) {
+		if (!@file_exists($file)) {
+			_dBar('Copied file "'.$templateFile.'" to "'.$file.'"');
+			@copy($templateFile, $file);
+		}
+		if (!@is_file($file)) {
+			return false;
+		}
+		return true;
 	}
 
 }
