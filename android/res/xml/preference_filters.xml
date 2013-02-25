@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:title="@string/settings_subscribtions">
+        <Preference
+            android:icon="@drawable/ic_group"
+            android:key="pref_main_organizations"
+            android:title="@string/settings_subscribed_organizations" >
+        </Preference>
+        <Preference
+            android:icon="@drawable/ic_category"
+            android:key="pref_main_event_types"
+            android:title="@string/settings_subscribed_event_types" >
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

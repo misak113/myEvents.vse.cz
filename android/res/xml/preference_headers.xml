@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header 
+        android:fragment="cz.vse.myevents.activity.SettingsActivity$EventsFragment"
+        android:title="@string/settings_events"
+        android:icon="@drawable/ic_events" />
+    <header 
+        android:fragment="cz.vse.myevents.activity.SettingsActivity$OrganizationsFragment"
+        android:title="@string/settings_subscribed_organizations"
+        android:icon="@drawable/ic_group"  />
+    <header 
+        android:fragment="cz.vse.myevents.activity.SettingsActivity$EventTypesFragment"
+        android:title="@string/settings_subscribed_event_types"
+        android:icon="@drawable/ic_category"  />
+</preference-headers>

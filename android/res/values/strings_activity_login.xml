@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_using_fb">Use Facebook to sign in</string>
+    <string name="login_progress_signing_in">Signing in&#8230;</string>
+    <string name="logged_in">Logged in</string>
+    <string name="login_error">Login error</string>
+    <string name="multiaccounting_restricted">Only one account is allowed</string>
+    <string name="afterlogin_message">You were successfuly logged in. The application will be ready after completing first sync, which is now being performed.</string>
+	<string name="email_to_recover">Enter your email</string>
+	<string name="password_recovery_status">Recovering password&#8230;</string>
+	<string name="password_recovered">Password recovered</string>
+	<string name="password_recovery_done">Your new password was sent to your email</string>
+	<string name="password_recovery_failed">Password recovery failed. Please try again later.</string>
+	<string name="password_recovery_no_such_account">Account with this email address does not exist</string>
+	<string name="fb_login_failed">An error occurred while communicating with Facebook</string>
+   
+</resources>

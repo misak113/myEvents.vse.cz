@@ -1,0 +1,87 @@
+<resources>
+
+    <!-- Headers -->
+    <string name="settings_events">Události</string>
+    <string name="settings_subscribed_organizations">Odebírané organizace</string>
+    <string name="settings_subscribed_event_types">Odebírané typy událostí</string>
+    <string name="settings_subscribtions">Filtr odebíraných událostí</string>
+
+    <!-- Strings related to settings -->
+    <string name="settings_activity_name">Nastavení</string>
+    
+    <string name="vibrations">Vibrace</string>
+    <string name="vibrations_on">Vibrace jsou zapnuty</string>
+    <string name="vibrations_off">Vibrace jsou vypnuty</string>
+    
+    <string name="notification_sound">Zvuk</string>
+    
+    <string name="reminder_title">Připomínání</string>
+    <string name="reminder_dialog_title">Připomínat začátky událostí předem</string>
+    
+    <string name="notify_new_events">Upozorňovat na nové</string>
+    <string name="notify_new_events_status_true">Při nové události je zobrazena notifikace</string>
+    <string name="notify_new_events_status_false">Na nové události není upozorňováno</string>
+    
+    <string name="subscribed_organizations">Odebírané organizace</string>
+    <string name="subscribed_event_types">Odebírané typy událostí</string>
+    <string name="subscribe_to_all">Odebírat všechny</string>
+    <string name="org_subscribtions">Odebírat organizace</string>
+    <string name="event_types_subscribtions">Odebírat události typu</string>
+    
+    <string name="subscribtion_summary_none">Nejsou odebírány žádné události</string>
+    
+    <!-- Organizaitons summaries -->
+    <string name="organizations_summary_all">Odebírány všechny organizace</string>
+    <string name="organizations_summary_count_1">Odebírána jedna organizace</string>
+    <string name="organizations_summary_count_24">Odebírány :count: organizace</string>
+    <string name="organizations_summary_count">Odebíráno :count: organizací</string>
+    
+    <!-- Event types summaries -->
+    <string name="event_types_summary_all">Odebírány všechny typy událostí</string>
+    <string name="event_types_summary_count_1">Odebírán jeden typ události</string>
+    <string name="event_types_summary_count_24">Odebírány :count: typy události</string>
+    <string name="event_types_summary_count">Odebíráno :count: typů událostí</string>
+    
+    <!-- Reminder summaries -->
+    <string name="reminder_summary_none">Události nejsou připomínány</string>
+    <string name="reminder_summary_1">Události jsou připomínány 1 minutu před začátkem</string>
+    <string name="reminder_summary_5">Události jsou připomínány 5 minut před začátkem</string>
+    <string name="reminder_summary_10">Události jsou připomínány 10 minut před začátkem</string>
+    <string name="reminder_summary_15">Události jsou připomínány 15 minut před začátkem</string>
+    <string name="reminder_summary_30">Události jsou připomínány 30 minut před začátkem</string>
+    <string name="reminder_summary_45">Události jsou připomínány 45 minut před začátkem</string>
+    <string name="reminder_summary_60">Události jsou připomínány 1 hodinu před začátkem</string>
+    <string name="reminder_summary_120">Události jsou připomínány 2 hodiny před začátkem</string>
+    <string name="reminder_summary_360">Události jsou připomínány 6 hodin před začátkem</string>
+    <string name="reminder_summary_1440">Události jsou připomínány den před začátkem</string>
+    <string name="reminder_summary_7200">Události jsou připomínány 5 dnů před začátkem</string>
+    
+    <string-array name="pref_reminder_entries">
+        <item>Nikdy</item>
+        <item>1 minutu</item>
+        <item>5 minut</item>
+        <item>10 minut</item>
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>45 minut</item>
+        <item>1 hodinu</item>
+        <item>2 hodiny</item>
+        <item>6 hodin</item>
+        <item>1 den</item>
+        <item>5 dnů</item>
+    </string-array>
+    <string-array name="pref_reminder_values">
+        <item>-1</item>
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>120</item>
+        <item>360</item>
+        <item>1440</item>
+        <item>7200</item>
+    </string-array>
+</resources>

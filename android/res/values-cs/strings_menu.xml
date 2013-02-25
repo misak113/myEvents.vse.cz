@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_settings">Nastavení</string>
+    <string name="menu_register">Zaregistrovat</string>
+    <string name="menu_lost_password">Obnovit ztracené heslo</string>
+    <string name="menu_search">Hledat</string>
+    <string name="menu_report_bug">Nahlásit chybu</string>
+    <string name="menu_about">O aplikaci</string>
+    <string name="menu_logout">Odhlásit</string>
+    <string name="menu_help">Nápověda</string>
+    <string name="menu_refresh">Aktualizovat</string>
+    <string name="menu_open_calendar">Otevřít kalendář</string>
+    
+</resources>

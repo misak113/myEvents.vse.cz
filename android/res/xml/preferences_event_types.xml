@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_event_types_screen"
+    android:title="@string/subscribed_event_types">
+    
+    <PreferenceCategory
+        android:key="pref_cat_event_types"
+        android:title="@string/settings_activity_name">
+     
+     <CheckBoxPreference
+         android:key="pref_event_types_subscribe_to_all"
+         android:title="@string/subscribe_to_all"
+         android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

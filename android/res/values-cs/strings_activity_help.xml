@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="title_activity_help">Nápověda</string>
+    <string name="help_chapter_login">Přihlášení</string>
+    <string name="help_chapter_events">Události</string>
+    <string name="help_chapter_settings">Nastavení</string>
+   
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_organizations_screen"
+    android:title="@string/subscribed_organizations">
+    
+    <PreferenceCategory
+        android:key="pref_cat_organizations"
+        android:title="@string/settings_activity_name">
+     
+     <CheckBoxPreference
+         android:key="pref_orgs_subscribe_to_all"
+         android:title="@string/subscribe_to_all"
+         android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

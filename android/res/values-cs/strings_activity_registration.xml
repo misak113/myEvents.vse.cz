@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="title_activity_registration">Registrace</string>
+    <string name="prompt_password_check">Heslo znovu</string>
+    <string name="prompt_name">Jméno a přijmení</string>
+    <string name="send_registration">Odeslat registraci</string>
+    <string name="registration_done">Registrace proběhla úspěšně. Nyní se můžete se zadaným emailem a heslem přihlásit.</string>
+    <string name="registration_done_activation_required">Registrace proběhla úspěšně. Váš účet je ale ještě potřeba aktivovat. Další instrukce byly odeslány na Vámi zadaný email.</string>
+    <string name="registration_failed">Registrace se nezdařila. Zkuste to prosím znovu později.</string>
+    <string name="registration_acc_already_exists">Účet s tímto e-mailem již existuje</string>
+    <string name="registration_progress_registering">Registrace probíhá&#8230;</string>
+    
+</resources>

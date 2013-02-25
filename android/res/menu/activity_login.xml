@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_register"
+        android:showAsAction="never"
+        android:title="@string/menu_register"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_add"/>
+    
+    <item
+        android:id="@+id/menu_lost_password"
+        android:showAsAction="never"
+        android:title="@string/menu_lost_password"
+        android:orderInCategory="200"
+        android:icon="@android:drawable/ic_menu_set_as"/>
+    
+    <item
+        android:id="@+id/menu_help"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_help"
+        android:orderInCategory="300"
+        android:icon="@android:drawable/ic_menu_help"/>
+
+</menu>

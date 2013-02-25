@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- New events notifications -->
+    <string name="notif_one_new_event_ticker">Vznikla nová událost</string>
+    <string name="notif_more_new_events_ticker">Vznikly nové události</string>
+    <string name="notif_one_new_event_title">Nová událost</string>
+    <string name="notif_more_new_events_title">Nové události</string>
+    <string name="notif_more_new_events_text">Na myEvents jsou nové události</string>
+
+</resources>

@@ -1,0 +1,60 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_search"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:actionViewClass="android.widget.SearchView" />
+    
+    <item
+        android:id="@+id/menu_open_calendar"
+        android:orderInCategory="150"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_open_calendar"
+        android:icon="@android:drawable/ic_menu_agenda" />
+    
+    <item
+        android:id="@+id/menu_settings"
+        android:orderInCategory="200"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_settings"
+        android:icon="@android:drawable/ic_menu_manage" />
+    
+    <item
+        android:id="@+id/menu_refresh"
+        android:orderInCategory="250"
+        android:showAsAction="never"
+        android:title="@string/menu_refresh"
+        android:icon="@android:drawable/ic_menu_rotate" />
+    
+    <item
+        android:id="@+id/menu_logout"
+        android:orderInCategory="300"
+        android:showAsAction="never"
+        android:title="@string/menu_logout"
+        android:icon="@android:drawable/ic_menu_revert" />
+    
+    <item
+        android:id="@+id/menu_report_bug"
+        android:orderInCategory="400"
+        android:showAsAction="never"
+        android:title="@string/menu_report_bug"
+        android:icon="@android:drawable/ic_menu_send" />
+    
+    <item
+        android:id="@+id/menu_help"
+        android:showAsAction="never"
+        android:title="@string/menu_help"
+        android:orderInCategory="500"
+        android:icon="@android:drawable/ic_menu_help"/>
+    
+    <item
+        android:id="@+id/menu_about"
+        android:orderInCategory="600"
+        android:showAsAction="never"
+        android:title="@string/menu_about"
+        android:icon="@android:drawable/ic_menu_info_details" />
+    
+</menu>

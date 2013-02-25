@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Heslo</string>
+    <string name="action_sign_in">Přihlásit</string>
+    <string name="action_sign_in_using_fb">Přihlásit přes Facebook</string>
+    <string name="login_progress_signing_in">Přihlašuji&#8230;</string>
+    <string name="logged_in">Přihlášen</string>
+    <string name="login_error">Chyba přihlášení</string>
+    <string name="multiaccounting_restricted">Je možno mít přihlášen pouze jeden účet</string>
+    <string name="afterlogin_message">Byl jste úspěšně přihlášen. Aplikace bude připravena k použití po provedení první synchronizace, která právě probíhá.</string>
+    <string name="email_to_recover">Zadejte váš email</string>
+	<string name="password_recovery_status">Obnovuji heslo&#8230;</string>
+	<string name="password_recovered">Heslo obnoveno</string>
+	<string name="password_recovery_done">Vaše nové heslo vám bylo zasláno na email</string>
+	<string name="password_recovery_failed">Obnova hesla se nezdařila. Zkuste to prosím později znovu.</string>
+	<string name="password_recovery_no_such_account">Účet s touto emailovou adresou neexistuje</string>
+	<string name="fb_login_failed">Došlo k chybě v komunikaci s Facebookem</string>
+
+</resources>

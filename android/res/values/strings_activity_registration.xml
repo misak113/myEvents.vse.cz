@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="title_activity_registration">Registration</string>
+    <string name="prompt_password_check">Password again</string>
+    <string name="prompt_name">Name and surname</string>
+    <string name="send_registration">Send registration</string>
+    <string name="registration_done">Registration was successful. You may now use your email and password to login.</string>
+    <string name="registration_done_activation_required">Registration was successful, but it is necessary to activate youre account. Further instructions were send to your email address.</string>
+    <string name="registration_failed">Registration failed. Please try again later.</string>
+    <string name="registration_acc_already_exists">Account with this email address already exists</string>
+    <string name="registration_progress_registering">Registering&#8230;</string>
+    
+</resources>

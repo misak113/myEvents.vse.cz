@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:key="pref_header_organizations"
+        android:title="@string/settings_subscribed_organizations" >
+    </Preference>
+    <Preference
+        android:key="pref_header_event_types"
+        android:title="@string/settings_subscribed_event_types" >
+    </Preference>
+
+</PreferenceScreen>

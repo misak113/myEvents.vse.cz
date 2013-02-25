@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Strings related to overview -->
+    <string name="no_upcoming_events">No upcoming events</string>
+    <string name="about_info">myEvents :version:\n\nAuthor: Jakub Macoun\nmyEvents VŠE team\n\u00A9 2012-:lastYear:\n\nAll rights reserved.</string>
+    <string name="bug_report_details_hint">Please fill in bug details - what happened?</string>
+    <string name="sending_bug_report">Sending the report&#8230;</string>
+    <string name="bug_report_sent">Report sent. Thank you.</string>
+    <string name="bug_report_failed">Sending report failed. Please try again later.</string>
+    <string name="notifications_question">Would you like to be notified about new events?\nThis option can be later changed in Settings section.</string>
+	
+</resources>

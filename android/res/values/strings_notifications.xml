@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- New events notifications -->
+    <string name="notif_one_new_event_ticker">A new event was arranged</string>
+    <string name="notif_more_new_events_ticker">A new events were arrenged</string>
+    <string name="notif_one_new_event_title">New event</string>
+    <string name="notif_more_new_events_title">New events</string>
+    <string name="notif_more_new_events_text">There are new events on myEvents</string>
+    
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/settings_events" >
+        <ListPreference
+            android:defaultValue="-1"
+            android:dialogTitle="@string/reminder_dialog_title"
+            android:entries="@array/pref_reminder_entries"
+            android:entryValues="@array/pref_reminder_values"
+            android:icon="@drawable/ic_lightbulb"
+            android:key="pref_reminder"
+            android:title="@string/reminder_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_bell"
+            android:key="pref_notifications"
+            android:summaryOff="@string/notify_new_events_status_false"
+            android:summaryOn="@string/notify_new_events_status_true"
+            android:title="@string/notify_new_events" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="pref_notifications"
+            android:icon="@drawable/ic_curve_wave"
+            android:key="pref_notifications_vibrations"
+            android:summaryOff="@string/vibrations_off"
+            android:summaryOn="@string/vibrations_on"
+            android:title="@string/vibrations" />
+
+        <RingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:dependency="pref_notifications"
+            android:icon="@drawable/ic_sound"
+            android:key="notification_sound"
+            android:ringtoneType="notification"
+            android:title="@string/notification_sound" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

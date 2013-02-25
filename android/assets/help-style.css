@@ -1,0 +1,15 @@
+﻿body {
+    background-image: url("./help-background.gif");
+    background-repeat: repeat;
+}
+
+img {
+    float: right;
+    width: 45%;
+    margin: 5px;
+}
+
+h2 {
+    color: #509C00;
+    border-bottom: 1px solid #428000;
+}

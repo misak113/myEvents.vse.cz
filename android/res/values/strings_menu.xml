@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_register">Register new account</string>
+    <string name="menu_lost_password">Lost my password</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_report_bug">Report bug</string>
+    <string name="menu_about">About app</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_open_calendar">Open calendar</string>
+    
+</resources>

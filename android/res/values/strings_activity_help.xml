@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="title_activity_help">Help</string>
+    <string name="help_chapter_login">Login</string>
+    <string name="help_chapter_events">Events</string>
+    <string name="help_chapter_settings">Settings</string>
+   
+</resources>

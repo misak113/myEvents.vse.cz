@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Strings related to overview -->
+    <string name="no_upcoming_events">Žádné události nejsou naplánovány</string>
+    <string name="about_info">myEvents :version: \n\nAutor: Jakub Macoun\nmyEvents VŠE tým\n\u00A9 2012-:lastYear:\n\nVšechna práva vyhrazena.</string>
+    <string name="bug_report_details_hint">Vyplňte prosím detaily chyby - co se stalo?</string>
+    <string name="sending_bug_report">Odesílám&#8230;</string>
+    <string name="bug_report_sent">Hlášení odesláno. Děkujeme.</string>
+    <string name="bug_report_failed">Odeslání selhalo. Zkuste to prosím později znovu.</string>
+    <string name="notifications_question">Přejete si zapnout notifikace o nových událostech?\nToto nastavení může být později změněno v Nastavení.</string>
+	
+</resources>

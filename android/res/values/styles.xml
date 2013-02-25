@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    
+    <!-- Colors -->
+    <color name="main">#93AE23</color>
+    <color name="action_bar_background">#88A122</color>
+    <color name="overview_grid_label_backgroung">#6F8A00</color>
+    <color name="action_focus">#B8DB65</color>
+    <color name="button_pressed_start">#A8C72A</color>
+    <color name="button_pressed_end">#C4E639</color>
+    <color name="button_released_start">#718A0C</color>
+    <color name="button_released_end">#93B30E</color>
+    <color name="fb_button_pressed_start">#8B9DC1</color>
+    <color name="fb_button_pressed_end">#8B9DC1</color>
+    <color name="fb_button_released_start">#3B5A9B</color>
+    <color name="fb_button_released_end">#3B5A9B</color>
+    
+    <!-- Buttons -->
+    <style name="RegularButton" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+    </style>
+    
+    <style name="FacebookButton" parent="RegularButton">
+        <item name="android:background">@drawable/fb_button_selector</item>
+        <item name="android:drawableLeft">@drawable/ic_facebook</item>
+    </style>
+    
+    <!-- Title bar -->
+	<style name="WindowTitle">     
+        <item name="android:background">@color/action_bar_background</item>
+        <item name="android:paddingLeft">8dp</item>
+    </style>
+    
+	<!-- Event list -->
+	<style name="EventImage">
+	    <item name="android:layout_width">0dp</item>
+	    <item name="android:layout_height">match_parent</item>
+	    <item name="android:scaleType">centerCrop</item>
+	</style>
+	<style name="EventName">
+	    <item name="android:layout_width">0dp</item>
+	    <item name="android:layout_height">match_parent</item>
+	    <item name="android:layout_weight">0.5</item>
+	    <item name="android:paddingLeft">3dp</item>
+	    <item name="android:paddingBottom">5dp</item>
+	    <item name="android:maxLines">2</item>
+	    <item name="android:ellipsize">end</item>
+	    <item name="android:textSize">12sp</item>
+	    <item name="android:visibility">invisible</item>
+	</style>
+        
+    <style name="AppTheme" parent="AppBaseTheme">
+	    <item name="android:windowBackground">@drawable/background</item>
+        <item name="android:buttonStyle">@style/RegularButton</item>
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitle</item>
+    </style>
+
+    <style name="LoginFormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+</resources>

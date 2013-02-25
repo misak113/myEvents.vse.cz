@@ -1,0 +1,14 @@
+<resources>
+
+    <!--
+        Base application theme for API 13+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v13/styles.xml on API 13+ devices.
+    -->
+    
+    <!-- Action bar -->
+    <style name="ActionBar.Text" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+	    <item name="android:textColor">@android:color/white</item>
+	</style>
+
+</resources>

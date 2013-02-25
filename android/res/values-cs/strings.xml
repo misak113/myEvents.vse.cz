@@ -1,0 +1,39 @@
+<resources>
+    
+    <string name="lang_code">cs</string>
+    <string name="no_internet_connection">Nelze se připojit k internetu. Zkontrolujte nastavení připojení.</string>
+    <string name="incorrect_login">Přihlašovací údaje jsou neplatné</string>
+    <string name="connection_failed">Spojení selhalo</string>
+    <string name="unable_to_dl_data">Stahování dat aplikace selhalo</string>
+    <string name="organizations">Studentské organizace</string>
+    <string name="fb_link">Odkaz an facebook</string>
+    <string name="event_url">Odkaz na web</string>
+    <string name="capacity">Kapacita</string>
+    <string name="search_nothing_found">Nebyly nalezeny žádné události</string>
+    <string name="searching">Vyhledávání</string>
+    <string name="send">Odeslat</string>
+    <string name="cancel">Zrušit</string>
+    <string name="error">Chyba</string>
+    <string name="connection_error">Chyba připojení</string>
+    <string name="error_invalid_email">Zadaný email není správný</string>
+    <string name="error_invalid_password">Heslo je příliš krátké</string>
+    <string name="error_incorrect_password">Nesprávné heslo</string>
+    <string name="error_password_missmatch">Hesla se neshodují</string>
+    <string name="error_field_required">Toto pole je povinné</string>
+    <string name="recover">Obnovit</string>
+    <string name="app_data">Data aplikace</string>
+    <string name="event_image">Ikona události</string>
+    <string name="start">Začátek</string>
+    <string name="today">Dnes</string>
+    <string name="tomorrow">Zítra</string>
+    <string name="at">v</string>
+    <string name="and">a</string>
+    <string name="sync_in_progress">Probíhá synchronizace. Čekejte prosím&#8230;</string>
+    <string name="new_events">Nové události</string>
+    <string name="default_one">Výchozí</string>
+    <string name="silent">Ticho</string>
+    <string name="event_arranged_by">Událost pořádá</string>
+    <string name="notifications">Notifikace</string>
+    <string name="menu">Menu</string>
+
+</resources>
