@@ -30,12 +30,12 @@ class Helper
 
 		do {
 			$file = $dir . DIRECTORY_SEPARATOR . '.git' . DIRECTORY_SEPARATOR . 'HEAD';
-			if(is_file($file)) {
-				$gitHead = explode("/", str_replace("\n", "", file_get_contents($file)));
+			if(@is_file($file)) {
+				$gitHead = explode("/", str_replace("\n", "", @file_get_contents($file)));
 				$currentBranch = end($gitHead);
 				return $currentBranch;
 			}
-		} while(($dir = dirname($dir)) && --$maxDepth > 0 );
+		} while(($dir = @dirname($dir)) && --$maxDepth > 0 );
 		return false;
 	}
 
