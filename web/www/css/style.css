@@ -722,6 +722,7 @@ width: 250px;
 }
 
 @media (max-width: 640px) {
+	.admin-nav {display: none;}
 
 #top { padding-bottom: 2em; }
 .logo {width: 80%; float: none;}
