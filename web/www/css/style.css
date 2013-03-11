@@ -229,7 +229,7 @@ input[type='text']:focus, input[type='date']:focus, input[type='url']:focus, inp
 
 #loginForm .head {background:#8daf3e; padding: 20px 10px 20px 20px; width: 100%;}
 #loginForm .head  h3 {color: #fff; font-size: 18px;}
-#loginForm .body {padding: 20px;}
+#loginForm .body {padding: 20px; padding-bottom: 40px;}
 
 #loginForm .btn {float: right;}
 
@@ -490,8 +490,21 @@ background: rgba(141,175,62,0.05);
   color: #3c3c3c;
   text-transform: uppercase;
   font-weight: bold;
+	text-overflow: ellipsis;
+	max-height: 38px;
+	overflow: hidden;
 }
 
+
+#loginForm .foot {
+	border-radius: 0 0 5px 5px;
+	background: #8daf3e;
+	padding: 20px 10px 20px 20px;
+	width: 100%;
+}
+#loginForm .foot a {
+	color: #000000;
+}
 
 
 

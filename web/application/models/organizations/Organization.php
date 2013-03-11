@@ -20,7 +20,7 @@ class Organization extends Row {
     public function getEvents() {
         $select = $this->select()
 				->where('active = ?', 1)
-				->where('timeend > NOW()');
+				->where('(timeend > NOW() OR timeend IS NULL)');
         return $this->findManyToManyRowset('app\models\events\EventTable', 'app\models\organizations\OrganizationOwnEventTable', null, null, $select);
     }
 
