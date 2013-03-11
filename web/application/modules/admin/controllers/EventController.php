@@ -126,7 +126,7 @@ class Admin_EventController extends BaseController {
 				return $e['event_id'];
 			}, $events);
 
-            if (!in_array($record->event_id, $eventIds)) {
+            if (!in_array($record->event_id, $eventIds) && !$this->user->isAllowed('admin.approve', 'control')) {
                 throw new Zend_Controller_Request_Exception('Not authorized for this event', 404);
 			}
         }
