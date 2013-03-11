@@ -1,0 +1,24 @@
+
+
+<ul class="nav admin-nav">
+
+		{* Organization *}
+<li n:if="$user->isAllowed('admin.event', 'index')"><a href="<?php echo $view->url(array(), 'adminEvents') ?>">Události</a></li>
+
+		{* Controlor a approver*}
+<li n:if="$user->isAllowed('admin.approve', 'approve') || $user->isAllowed('admin.approve', 'control')"
+		><a href="<?php echo $view->url(array(), 'adminApprove') ?>">Schvalování</a></li>
+
+
+
+		{* system Admin*}
+				{if $user->isInRole('sysAdmin')}
+<li><a href="<?php echo $view->url(array(), 'organizationAdmins') ?>">Organizace</a></li>
+<li><a href="<?php echo $view->url(array(), 'adminAclManager') ?>">Práva</a></li>
+<li><a href="<?php echo $view->url(array(), 'adminUsers') ?>">Uživatelé</a></li>
+<li><a href="<?php echo $view->url(array(), 'adminAndroid') ?>">Android</a></li>
+{*<li><a href="<?php echo $view->url(array(), 'adminApprove') ?>">Schvalování</a></li>
+<li><a href="<?php echo $view->url(array(), 'adminEvents') ?>">Události</a></li>*}
+	{/if}
+
+</ul>

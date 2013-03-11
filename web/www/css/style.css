@@ -313,7 +313,7 @@ width: 100%;
           border-radius: 0 0 5px 5px;
 		    background: #f1edf0;
         background: rgba(0,0,0,0.05);
-
+	position: relative;
 
   /*background-image: -moz-linear-gradient(top, #8daf3e, #8daf3e);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#8daf3e), to(#8daf3e));
@@ -812,4 +812,14 @@ h2.padding {
 .users .roles {
 	position: absolute;
 	z-index: 15;
+}
+
+
+.admin-nav {
+	position: absolute;
+	margin-top: 3px;
+	right: 0px;
+}
+.admin-nav li a:hover {
+	background-color: #FF9797;
 }
