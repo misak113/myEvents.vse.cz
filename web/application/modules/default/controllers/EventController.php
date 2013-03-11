@@ -51,7 +51,13 @@ class EventController extends BaseController {
 
 	public function detailAction() {
                 $id = $this->_getParam('id');
-                $eventRow = $this->eventTable->getEvent((int)$id);
+                
+                $onlyApprovedEvents = true;
+                if($this->user->isAllowed('admin.approve', 'approve') || $this->user->isAllowed('admin.approve', 'control')){
+                    $onlyApprovedEvents = false;
+                }
+                
+                $eventRow = $this->eventTable->getEvent((int)$id, $onlyApprovedEvents);
                 if (!$eventRow)
                     throw new Zend_Controller_Action_Exception('Akce neexistuje', 404);
                 
