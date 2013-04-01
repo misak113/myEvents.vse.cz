@@ -121,6 +121,7 @@ class FilterDispatcher
 	 */
 	protected function createFilter() {
 		$categories = $this->categoryTable->getCategories();
+		$places = $this->tagTable->getPlaces();
 		$tags = $this->tagTable->getTags();
 		$organizations = $this->organizationTable->getOrganizations();
 		$dates = $this->generateDates();
@@ -128,6 +129,7 @@ class FilterDispatcher
 		$filter = new FilterControl();
 		$filter->setDates($dates);
 		$filter->setCategories($categories);
+		$filter->setPlaces($places);
 		$filter->setTags($tags);
 		$filter->setOrganizations($organizations);
 
