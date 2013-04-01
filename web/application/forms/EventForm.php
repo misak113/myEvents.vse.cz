@@ -6,6 +6,7 @@
 class EventForm extends Zend_Form {
 
     protected $categories;
+	/** @var \app\models\events\TagTable */
     protected $tags;
 
     public function setCategories($categories) {
@@ -132,8 +133,8 @@ class EventForm extends Zend_Form {
         ));
         
         $options2 = array();
-        foreach ($this->tags->fetchAll() as $tag) {
-        	$options2 [$tag->tag_id] = " " . $tag->name;
+        foreach ($this->tags->getTags() as $tag) {
+        	$options2[$tag->tag_id] = " " . $tag->name;
         }
         $this->addElement('multiCheckbox', 'tags1', array(
         		'label' => 'Tagy: ',
@@ -143,6 +144,18 @@ class EventForm extends Zend_Form {
         	    'separator' => PHP_EOL
         		)
         );
+		$options2 = array();
+		foreach ($this->tags->getPlaces() as $tag) {
+			$options2[$tag->tag_id] = " " . $tag->name;
+		}
+		$this->addElement('multiCheckbox', 'places', array(
+				'label' => 'Místa: ',
+				'class' => 'checkBox',
+				'required' => false,
+				'multiOptions' => $options2,
+				'separator' => PHP_EOL
+			)
+		);
 
         $this->addElement('textarea', 'shortinfo', array(
             'label' => 'Krátký popis (200 znaků): ',
