@@ -6,6 +6,7 @@ use app\models\organizations\OrganizationTable;
 use app\models\events\EventTable;
 use app\models\events\TagTable;
 use Nette\DateTime;
+use Zette\Diagnostics\TimerPanel;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -44,6 +45,7 @@ class FilterDispatcher
 	}
 
 	public function getFilteredEvents($filter) {
+		TimerPanel::start('filteredEvents');
 		$select = $this->eventTable->select()->from(array('e'=>'event'))
                         ->where('active = 1')
                         ->where('public = 1')
@@ -101,7 +103,8 @@ class FilterDispatcher
 
 		$events = $this->eventTable->fetchAll($select, $order);
 		$eventsArray = $this->eventTable->createEventDated($events);
-_dBar($events);
+
+		TimerPanel::stop('filteredEvents');
 		return $eventsArray;
 	}
 
