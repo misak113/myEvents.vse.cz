@@ -134,7 +134,7 @@ class EventForm extends Zend_Form {
         
         $options2 = array();
         foreach ($this->tags->getTags() as $tag) {
-        	$options2[$tag->tag_id] = " " . $tag->name;
+			$options2[$tag['tag_id']] = " " . $tag['name'];
         }
         $this->addElement('multiCheckbox', 'tags1', array(
         		'label' => 'Tagy: ',
@@ -146,7 +146,7 @@ class EventForm extends Zend_Form {
         );
 		$options2 = array();
 		foreach ($this->tags->getPlaces() as $tag) {
-			$options2[$tag->tag_id] = " " . $tag->name;
+			$options2[$tag['tag_id']] = " " . $tag['name'];
 		}
 		$this->addElement('multiCheckbox', 'places', array(
 				'label' => 'Místa: ',

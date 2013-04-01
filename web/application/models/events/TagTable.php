@@ -22,19 +22,19 @@ class TagTable extends Table
 	 */
 	protected $_rowClass = 'app\models\events\Tag';
 
-	/** @return Zend_Db_Table_Rowset */
+	/** @return array */
 	public function getTags() {
 		$where = array('tag_type_id = ?' => self::TYPE_TAGS);
 		$res = $this->fetchAll($where, 'name');
 	
-		return $res;
+		return $res->toArray();
 	}
-	/** @return Zend_Db_Table_Rowset */
+	/** @return array */
 	public function getPlaces() {
 		$where = array('tag_type_id = ?' => self::TYPE_PLACES);
 		$res = $this->fetchAll($where, 'name');
 
-		return $res;
+		return $res->toArray();
 	}
 }
 
