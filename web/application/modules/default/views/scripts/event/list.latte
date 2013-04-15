@@ -1,1 +1,162 @@
-{block content}		<div id="leftSide">       {control filter}    </div>    <div id="rightSide">		<div class="background">			<div class="inside">			<h1 class="abs">Seznam akcí</h1>        {foreach $eventDates as $date => $events}        {var $date = new DateTime($date)}					<div class="dayBox">				<div class="day">					<strong>{$dayOfWeek[date('w', $date->getTimestamp())]} <span>{$date->format('d.m.')}</span></strong>				</div>			</div>                                           {foreach $events as $event}                    {var $sponsors = $event->getSponsors()}                    {var $organizations = $event->getOrganizations()}                    {var $organization = $organizations->current()}                    {dump $organization}                    <div class="item">                                                            <div class="img">                                    {if !$event->picture}                                        {if @$organization->logo}                                            <img src="{$view->baseUrl()}/img/logo/{$organization->logo}" alt="" />                                        {else}                                            <img src="{$view->baseUrl()}/img/action-screen.jpg" alt="" />                                        {/if}                                    {else}                                        <img src="{$view->baseUrl()}/img/picture/{$event->picture}" alt="" />                                    {/if}                                </div>                                <div class="info">                                    <h2>{$event->name}</h2>                                    <div class="basic"><!--										<div class="part"><span class="speaker"></span><strong>Ivan Novák, Ivan Novák</strong></div>-->										<div class="part"><span class="start"></span><strong>{date('H:i', strtotime($event->timestart))}</strong> </div>										<div class="part"><span class="room"></span><strong>{$event->location}</strong> </div>										<div class="part"><span class="org"></span>   										{foreach $organizations as $organization}                                        <strong><a href="{$view->url(                                                       array('id' => $organization->organization_id,'title' => $view->cleanUrl($organization->name)                                                                       ), 'organization' ,true)}">{$organization->name}</a></strong> {if !$iterator->isLast()}|{/if}                                        {/foreach}</div>									                                        </div>										<div  class="closed">									<p>{$event->shortinfo}</p>																							{ifset $event->capacity}													<div class="other">														<span>Kapacita: </span>														<strong>{$event->capacity}</strong>													</div>												{/ifset}												{if count($sponsors) > 1}													<div class="other">														<span>Sponzor: </span>														<strong>															{foreach $sponsors as $sponsor}																<a href="{$view->addHttp($view->cleanUrl($sponsor->url))}">{$sponsor->name}</a> {if !$iterator->isLast()}|{/if}															{/foreach}														</strong>													</div>												{/if}												{if strlen($event->fburl) > 0}													<div class="other">														<span>															Odkaz na FB:														</span>														<strong>															<a href="{$view->addHttp($view->cleanUrl($event->fburl))}">{$event->fburl}</a>														</strong>													</div>												{/if}										<div class="social">											<a href="{$view->addHttp($view->cleanUrl($event->fburl))}" class="fb"></a>											<a href="" class="tw"></a>											<a href="" class="gog"></a>											<a href="" class="mail"></a>										</div>	                      									</div>                                </div>							                            								<a href="{$view->url(                                                       array('id' => $event->event_id,'title' => $view->cleanUrl($event->name)),                                                                'event',true)}" class="btn">V novém okně</a>							                    </div>                {/foreach}                {/foreach}			<h2 class="padding" n:if="empty($events)">Bohužel na uvedené období nejsou k dispozici žádné akce :/</h2>					</div>		</div>		    </div><script type="text/javascript">    $(function() {        //        var toggleEvent = function(scope) {//            var item = $(scope.parents(".item")[0]);//            if (item.length < 1) item = scope;//            if (item.hasClass("curr"))//                item.removeClass("curr");//            else//                item.addClass("curr");//            item.find(".closed").toggle();//            item.find(".opened").toggle();//            return false;//        }//        //        $("body").on("click", ".item", function(e) {//            if ((e.target.tagName !== "A") && (e.target.parentElement.className.indexOf("action") == -1))//                toggleEvent($(this));//            //        })//        //        $("body").on("click", "a.detail-btn", function() {////            toggleEvent($(this));//            return false;//        })                $("body").on("click", ".item", function(e){            var openCurr = true;            if($(this).hasClass("curr")){                openCurr = false;            }            $("body").find(".curr").removeClass("curr");            $("body").find(".opened").hide();            $("body").find(".closed").hide();                        if(openCurr){                $(this).find(".closed").show();                $(this).find(".opened").show();                $(this).addClass("curr");            }        });                  })</script>{/block}
+
+{block content}
+	
+	<div id="leftSide">
+       {control filter}
+    </div>
+
+
+    <div id="rightSide">
+		<div class="background">
+			<div class="inside">
+			<h1 class="abs">Seznam akcí</h1>
+        {foreach $eventDates as $date => $events}
+        {var $date = new DateTime($date)}
+		
+			<div class="dayBox">
+				<div class="day">
+					<strong>{$dayOfWeek[date('w', $date->getTimestamp())]} <span>{$date->format('d.m.')}</span></strong>
+				</div>
+			</div>
+           
+                
+                {foreach $events as $event}
+                    {var $sponsors = $event->getSponsors()}
+                    {var $organizations = $event->getOrganizations()}
+                    {var $organization = $organizations->current()}
+                    {dump $organization}
+                    <div class="item">
+                            
+                                <div class="img">
+                                    {if !$event->picture}
+                                        {if @$organization->logo}
+                                            <img src="{$view->baseUrl()}/img/logo/{$organization->logo}" alt="" />
+                                        {else}
+                                            <img src="{$view->baseUrl()}/img/action-screen.jpg" alt="" />
+                                        {/if}
+                                    {else}
+                                        <img src="{$view->baseUrl()}/img/picture/{$event->picture}" alt="" />
+                                    {/if}
+                                </div>
+                                <div class="info">
+                                    <h2>{$event->name}</h2>
+                                    <div class="basic">
+<!--										<div class="part"><span class="speaker"></span><strong>Ivan Novák, Ivan Novák</strong></div>-->
+										<div class="part"><span class="start"></span><strong>{date('H:i', strtotime($event->timestart))}</strong> </div>
+										<div class="part"><span class="room"></span><strong>{$event->location}</strong> </div>
+										<div class="part"><span class="org"></span>   
+										{foreach $organizations as $organization}
+                                        <strong><a href="{$view->url(
+                                                       array('id' => $organization->organization_id,'title' => $view->cleanUrl($organization->name)
+                                                                       ), 'organization' ,true)}">{$organization->name}</a></strong> {if !$iterator->isLast()}|{/if}
+                                        {/foreach}</div>
+									    
+                                    </div>
+										<div  class="closed">
+									<p>{$event->shortinfo}</p>		
+									
+												{ifset $event->capacity}
+													<div class="other">
+														<span>Kapacita: </span>
+														<strong>{$event->capacity}</strong>
+													</div>
+												{/ifset}
+												{if count($sponsors) > 1}
+													<div class="other">
+														<span>Sponzor: </span>
+														<strong>
+															{foreach $sponsors as $sponsor}
+																<a href="{$view->addHttp($view->cleanUrl($sponsor->url))}">{$sponsor->name}</a> {if !$iterator->isLast()}|{/if}
+															{/foreach}
+														</strong>
+													</div>
+												{/if}
+												{if strlen($event->fburl) > 0}
+													<div class="other">
+														<span>
+															Odkaz na FB:
+														</span>
+														<strong>
+															<a href="{$view->addHttp($view->cleanUrl($event->fburl))}">{$event->fburl}</a>
+														</strong>
+													</div>
+												{/if}
+
+										<div class="social">
+											<a href="{$view->addHttp($view->cleanUrl($event->fburl))}" class="fb"></a>
+											<a href="" class="tw"></a>
+											<a href="" class="gog"></a>
+											<a href="" class="mail"></a>
+										</div>	                      
+									</div>
+
+                                </div>
+							
+                            
+								<a href="{$view->url(
+                                                       array('id' => $event->event_id,'title' => $view->cleanUrl($event->name)),
+                                                                'event',true)}" class="btn">V novém okně</a>
+							
+                    </div>
+
+                {/foreach}
+        
+        {/foreach}
+
+			<h2 class="padding" n:if="empty($events)">Bohužel na uvedené období nejsou k dispozici žádné akce :/</h2>
+		
+			</div>
+		</div>		
+    </div>
+
+
+
+<script type="text/javascript">
+    $(function() {
+        
+//        var toggleEvent = function(scope) {
+//            var item = $(scope.parents(".item")[0]);
+//            if (item.length < 1) item = scope;
+//            if (item.hasClass("curr"))
+//                item.removeClass("curr");
+//            else
+//                item.addClass("curr");
+//            item.find(".closed").toggle();
+//            item.find(".opened").toggle();
+//            return false;
+//        }
+//        
+//        $("body").on("click", ".item", function(e) {
+//            if ((e.target.tagName !== "A") && (e.target.parentElement.className.indexOf("action") == -1))
+//                toggleEvent($(this));
+//            
+//        })
+//        
+//        $("body").on("click", "a.detail-btn", function() {
+//
+//            toggleEvent($(this));
+//            return false;
+//        })
+        
+        $("body").on("click", ".item", function(e){
+            var openCurr = true;
+            if($(this).hasClass("curr")){
+                openCurr = false;
+            }
+            $("body").find(".curr").removeClass("curr");
+            $("body").find(".opened").hide();
+            $("body").find(".closed").hide();
+            
+            if(openCurr){
+                $(this).find(".closed").show();
+                $(this).find(".opened").show();
+                $(this).addClass("curr");
+            }
+        });
+
+        
+      
+    })
+</script>
+
+{/block}

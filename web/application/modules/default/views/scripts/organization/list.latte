@@ -1,1 +1,38 @@
-<div class="background">				    <div class="inside">        <h1>Seznam organizací</h1>                    {foreach $view->organizations as $organization}            <div class="item" onclick="location.href = '<?php echo $view->url(array("id" => $organization->organization_id, "title" => $view->cleanUrl($organization->name)), "organization", true) ?>'">				                <div class="img">                    {if $organization->logo}                    {dump $organization->logo}                        <img src="{$view->baseUrl()}/img/logo/{$organization->logo}" width="100" alt="{$organization->name}" />                    {else}                        <img src="{$view->baseUrl()}/img/logo/vse_logo.png" width="100" alt="" />                    {/if}                </div>			                <div class="info">			                    <h2>{$organization->name}</h2>						                    {if $organization->getContactUser() != null}                    <div class="basic">                        <div class="part"><span class="speaker"></span><strong>{$organization->getContactUser()->first_name} {$organization->getContactUser()->last_name}</strong></div>                        <div class="part"><span class="org"></span><strong>{$organization->getContactUser()->email}</strong></div>                    </div>                    {/if}                    <div class="closed">	                        <p>{$organization->info}</p>		                        <div class="social">                            <a href="{$organization->fb_url}" class="fb"></a>                            <a href="{$organization->website}" class="tw"></a>                            <a href="" class="gog"></a>                            <a href="{$organization->email}" class="mail"></a>                        </div>	                    </div>									                </div>						            </div>            {/foreach}            </div></div>
+<div class="background">				
+    <div class="inside">
+        <h1>Seznam organizací</h1>
+        
+            {foreach $view->organizations as $organization}
+            <div class="item" onclick="location.href = '<?php echo $view->url(array("id" => $organization->organization_id, "title" => $view->cleanUrl($organization->name)), "organization", true) ?>'">				
+                <div class="img">
+                    {if $organization->logo}
+                    {dump $organization->logo}
+                        <img src="{$view->baseUrl()}/img/logo/{$organization->logo}" width="100" alt="{$organization->name}" />
+                    {else}
+                        <img src="{$view->baseUrl()}/img/logo/vse_logo.png" width="100" alt="" />
+                    {/if}
+                </div>			
+                <div class="info">			
+                    <h2>{$organization->name}</h2>						
+                    {if $organization->getContactUser() != null}
+                    <div class="basic">
+                        <div class="part"><span class="speaker"></span><strong>{$organization->getContactUser()->first_name} {$organization->getContactUser()->last_name}</strong></div>
+
+                        <div class="part"><span class="org"></span><strong>{$organization->getContactUser()->email}</strong></div>
+                    </div>
+                    {/if}
+                    <div class="closed">	
+                        <p>{$organization->info}</p>		
+                        <div class="social">
+                            <a href="{$organization->fb_url}" class="fb"></a>
+                            <a href="{$organization->website}" class="tw"></a>
+                            <a href="" class="gog"></a>
+                            <a href="{$organization->email}" class="mail"></a>
+                        </div>	
+                    </div>									
+                </div>						
+            </div>
+            {/foreach}
+        
+    </div>
+</div>

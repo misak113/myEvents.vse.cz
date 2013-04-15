@@ -1,1 +1,25 @@
-<?php/** * @var Zend_View $view */?><h1><?php echo $view->escape($title); ?></h1><h2><?php echo $view->escape($message); ?></h2><?php if ($env == 'development' || strstr($env, 'localhost') !== false): ?><h3>Informace o výjimce:</h3><p>	<b>Zpráva:</b> <?php echo $view->exception->getMessage(); ?></p><h3>Trasování:</h3><pre><?php echo $view->exception->getTraceAsString(); ?></pre><h3>Parametry požadavku:</h3><pre><?php var_dump($view->request->getParams()); ?></pre><?php endif; ?><p>Vraťte se na <a href="<?php echo $view->url(						            array('controller' => 'index'),						            'default',						            true) ?>">úvodní stránku...</a></p>
+<?php
+/**
+ * @var Zend_View $view
+ */
+?>
+<h1><?php echo $view->escape($title); ?></h1>
+
+<h2><?php echo $view->escape($message); ?></h2>
+
+<?php if ($env == 'development' || strstr($env, 'localhost') !== false): ?>
+<h3>Informace o výjimce:</h3>
+<p>
+	<b>Zpráva:</b> <?php echo $view->exception->getMessage(); ?>
+</p>
+<h3>Trasování:</h3>
+<pre><?php echo $view->exception->getTraceAsString(); ?></pre>
+
+<h3>Parametry požadavku:</h3>
+<pre><?php var_dump($view->request->getParams()); ?></pre>
+<?php endif; ?>
+
+<p>Vraťte se na <a href="<?php echo $view->url(
+						            array('controller' => 'index'),
+						            'default',
+						            true) ?>">úvodní stránku...</a></p>

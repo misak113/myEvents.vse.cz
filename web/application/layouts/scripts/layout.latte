@@ -1,1 +1,42 @@
-<!DOCTYPE html><html><head>{include 'blocks/head.latte'}<!-- Android detection --><script type="text/javascript">    $(document).ready(function() {        if ({$isAndroid} && $.cookie("androidAsked") != "true") {            $.cookie("androidAsked", "true");                        if (confirm("myEvents existuje i jako aplikace pro Android! Přejete si jí stáhnout pro pohodlnější prohlížení akcí?")) {                window.location = "https://play.google.com/store/apps/details?id=cz.vse.myevents";            }        }    });</script></head><body><div id="wrap"><!-- Hlavicka -->{include 'blocks/header/default.latte'}<div class="messages" n:if="count($flashes)">        <div class="message info" n:foreach="$infoFlashes as $flash">{$flash}</div>        <div class="message error" n:foreach="$errorFlashes as $flash">{$flash}</div></div><!-- Obsah --><div id="main">	{*block content}{/block*}	{!$view->layout()->content}</div><!-- Paticka -->{include 'blocks/footer.latte'}{include 'blocks/javascripts.latte'}</div></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+{include 'blocks/head.latte'}
+
+<!-- Android detection -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        if ({$isAndroid} && $.cookie("androidAsked") != "true") {
+            $.cookie("androidAsked", "true");
+            
+            if (confirm("myEvents existuje i jako aplikace pro Android! Přejete si jí stáhnout pro pohodlnější prohlížení akcí?")) {
+                window.location = "https://play.google.com/store/apps/details?id=cz.vse.myevents";
+            }
+        }
+    });
+</script>
+</head>
+
+<body>
+<div id="wrap">
+<!-- Hlavicka -->
+{include 'blocks/header/default.latte'}
+
+<div class="messages" n:if="count($flashes)">
+        <div class="message info" n:foreach="$infoFlashes as $flash">{$flash}</div>
+        <div class="message error" n:foreach="$errorFlashes as $flash">{$flash}</div>
+</div>
+
+<!-- Obsah -->
+<div id="main">
+	{*block content}{/block*}
+	{!$view->layout()->content}
+</div>
+
+<!-- Paticka -->
+{include 'blocks/footer.latte'}
+
+{include 'blocks/javascripts.latte'}
+</div>
+</body>
+</html>
