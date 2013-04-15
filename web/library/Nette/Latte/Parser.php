@@ -86,7 +86,8 @@ class Parser extends Nette\Object
 	    	$input = substr($input, 3);
 	    }
 		if (!Strings::checkEncoding($input)) {
-			throw new Nette\InvalidArgumentException('Template is not valid UTF-8 stream.');
+			// @todo odstranino, ptze na webhosting.vse.cz nejdou naeíst latte tempaltes
+			//throw new Nette\InvalidArgumentException('Template is not valid UTF-8 stream.');
 		}
 		$input = str_replace("\r\n", "\n", $input);
 		$this->input = $input;

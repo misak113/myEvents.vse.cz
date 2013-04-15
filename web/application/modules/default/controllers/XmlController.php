@@ -2,6 +2,7 @@
 
 use Zette\UI\BaseController;
 use app\services\TitleLoader;
+use app\models\authentication\GcmRegistrationTable;
 
 /**
  * Controller pro XML data
@@ -10,13 +11,22 @@ use app\services\TitleLoader;
 class XmlController extends BaseController {
 
     /** @var TitleLoader */
+	/** @var \app\models\events\EventTable */
     protected $eventTable;
+	/** @var \app\models\organizations\OrganizationTable */
     protected $organizationTable;
+	/** @var \app\models\organizations\OrganizationOwnEventTable */
     protected $organizationOwnEventTable;
+	/** @var \app\models\authentication\AuthenticateTable */
     protected $authenticateTable;
+	/** @var \app\models\events\CategoryTable */
     protected $categoryTable;
+	/** @var \app\models\events\TagTable */
     protected $tagTable;
+	/** @var \app\services\GcmMessanger */
     protected $gcmMessanger;
+	/** @var \app\models\authentication\GcmRegistrationTable */
+	protected $gcmRegistrationTable;
     
     const SALT_TOKEN_SALT = "9HA7Ekef";
     const GCM_TOKEN_SALT = "s8atUbru";
@@ -40,6 +50,7 @@ class XmlController extends BaseController {
             app\models\events\EventTable $eventTable,
             app\models\events\CategoryTable $categoryTable,
             app\models\events\TagTable $tagTable,
+			GcmRegistrationTable $gcmRegistrationTable,
             app\services\GcmMessanger $gcmMessanger) {
         
         $this->organizationTable = $organizationTable;
@@ -49,6 +60,7 @@ class XmlController extends BaseController {
         $this->categoryTable = $categoryTable;
         $this->tagTable = $tagTable;
         $this->gcmMessanger = $gcmMessanger;
+		$this->gcmRegistrationTable = $gcmRegistrationTable;
     }
 
     public function userdataAction() {
@@ -60,6 +72,7 @@ class XmlController extends BaseController {
         $select->where("(verification = ? OR recovered_verification = ?)", $password);
         $select->where("authenticate_provides_id = 1");
         $select->where("active = 1");
+		/** @var \app\models\authentication\Authenticate $auth  */
         $auth = $this->authenticateTable->fetchRow($select);
         
         if ($auth != null) {
@@ -141,7 +154,7 @@ class XmlController extends BaseController {
         }
         $eTypesInCond .= ")";
 
-        $select = My_Model::get('app\models\events\EventTable')->select();
+		$select = $this->eventTable->select();
         
         $select->setIntegrityCheck(false);
         $select->from("event");
