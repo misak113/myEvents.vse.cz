@@ -29,6 +29,9 @@
 .filter-control .filter .organizations:hover .filter-item.organization input {
 	opacity: 1;
 }
+.filter-control .filter .places:hover .filter-item.place input {
+	opacity: 1;
+}
 .filter-control .filter .tags:hover .filter-item.tag input {
 	opacity: 1;
 }

@@ -89,7 +89,7 @@ class FbImportDispatcher
 		$end = isset($result['end_time']) ?\DateTime::createFromFormat('Y-m-d\TH:i:sO', $result['end_time']) :null;
 
 		$data = array(
-			'name' => Strings::substring($result['name'], 0, 44),
+			'name' => Strings::substring($result['name'], 0, 120),
 			'location' => isset($result['location']) ?Strings::substring($result['location'], 0, 44) :null,
 			'timestart' => $start ?$start->format('Y-m-d H:i:s') :null,
 			'timeend' => $end ?$end->format('Y-m-d H:i:s') :null, // @todo prý je povinný

@@ -31,10 +31,13 @@ class ZetteBootstrap extends \Zend_Application_Bootstrap_Bootstrap
 	protected function loadZette() {
 		// ZetteLoader
 		\Zend_Loader::loadClass('\Zette\DI\Loader');
+
+		TimerPanel::start('loading Zette');
 		$zetteLoader = new \Zette\DI\Loader();
 		$zetteLoader->load();
 		$this->context = $zetteLoader->getContext();
 
+		TimerPanel::stop('loading Zette');
 		TimerPanel::traceTime('Zette loaded');
 	}
 	protected function configDatabase($options) {

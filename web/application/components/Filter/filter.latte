@@ -25,7 +25,7 @@
             
 		<ul>
 
-			<li class="title"><span>Datum</span>
+			<li n:if="$dates" class="title"><span>Datum</span>
 				<ul class="dates">
 					<li class="filter-item date" n:foreach="$dates as $item">
 						<label><span class="filter-item-label">{$item['title']}</span>
@@ -37,7 +37,7 @@
 				</ul>
 			</li>
 
-			<li class="title"><span>Typ akce</span>
+			<li n:if="$categories" class="title"><span>Typ akce</span>
 				<ul class="categories">
 					<li class="filter-item category" n:foreach="$categories as $item">
 						<label><span class="filter-item-label">{$item['name']}</span>
@@ -49,7 +49,19 @@
 				</ul>
 			</li>
 
-			<li class="title"><span>Štítek akce</span>
+			<li n:if="$places" class="title"><span>Místo</span>
+				<ul class="places">
+					<li class="filter-item place" n:foreach="$places as $item">
+						<label><span class="filter-item-label">{$item['name']}</span>
+							<input class="{$placeFilterActivated?showed:''} filter-input"
+								   name="filter[place][{$item['tag_id']}]" value="1" type="checkbox"
+							{ifset $filter['place'][$item['tag_id']]}checked="checked"{/ifset}
+							/></label>
+					</li>
+				</ul>
+			</li>
+
+			<li n:if="$tags" class="title"><span>Štítek akce</span>
 				<ul class="tags">
 					<li class="filter-item tag" n:foreach="$tags as $item">
 						<label><span class="filter-item-label">{$item['name']}</span>
@@ -61,7 +73,7 @@
 				</ul>
 			</li>
 
-			<li class="title"><span>Organizace</span>
+			<li n:if="$organizations" class="title"><span>Organizace</span>
 				<ul class="organizations">
 					<li class="filter-item organization" n:foreach="$organizations as $item" title="{$item['name']}">
 						<label><span class="filter-item-label">{$item['name']}</span>

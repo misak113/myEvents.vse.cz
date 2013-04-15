@@ -20,6 +20,8 @@ class FilterControl extends BaseControl
 	/** @var array */
 	protected $tags;
 	/** @var array */
+	protected $places;
+	/** @var array */
 	protected $organizations;
 
 	/**
@@ -48,6 +50,14 @@ class FilterControl extends BaseControl
 		$this->tags = $tags;
 		return $this;
 	}
+	/**
+	 * @param array $places
+	 * @return FilterControl
+	 */
+	public function setPlaces(array $places) {
+		$this->places = $places;
+		return $this;
+	}
 	
 	/**
 	 * @param array $organizations
@@ -71,12 +81,14 @@ class FilterControl extends BaseControl
 		$this->template->dateFilterActivated = isset($filter['date']);
 		$this->template->categoryFilterActivated = isset($filter['category']);
 		$this->template->tagFilterActivated = isset($filter['tag']);
+		$this->template->placeFilterActivated = isset($filter['place']);
 		$this->template->organizationFilterActivated = isset($filter['organization']);
 		$this->template->filter = $filter;
 
 		$this->template->dates = $this->dates;
 		$this->template->categories = $this->categories;
 		$this->template->tags = $this->tags;
+		$this->template->places = $this->places;
 		$this->template->organizations = $this->organizations;
 
 		$this->template->render();

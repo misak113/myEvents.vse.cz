@@ -13,16 +13,20 @@ use DateTime;
  * Time: 22:33
  * To change this template use File | Settings | File Templates.
  */
-class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBarPanel {
+class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBarPanel, \Zette\Caching\ICacheable {
 
 	/** @var array */
 	private $exceptions;
 
 	protected $httpRequest;
+	/** @var \Zette\Caching\ClassCache */
+	protected $classCache;
 
-	public function __construct(Request $httpRequest) {
+	public function __construct(Request $httpRequest, \Zette\Caching\ClassCache $classCache) {
+		$this->classCache = $classCache;
 		$this->httpRequest = $httpRequest;
 
+		\Zette\Diagnostics\TimerPanel::start('construct ExceptionLogPanel');
 		// @todo to je shit
 		if ($exc = $this->getExceptionByUrl((string)$this->httpRequest->url)) {
 			echo $exc['source'];
@@ -33,6 +37,8 @@ class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBar
 			echo 'exception resolved (wait to go back) <script>history.go(-1);</script>';
 			die();
 		}
+		\Zette\Diagnostics\TimerPanel::stop('construct ExceptionLogPanel');
+
 	}
 
 	protected function resolve($exc) {
@@ -50,6 +56,7 @@ class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBar
 				return $this->exceptions;
 			}
 			foreach ($files as $file) {
+				\Zette\Diagnostics\TimerPanel::start('exception file ExceptionLogPanel');
 				if (!preg_match('~^exception-.*\.html$~', $file)) continue;
 				$path = $dir.'/'.$file;
 				$date = DateTime::createFromFormat('Y-m-d-H-i-s', substr($file, 10, 19));
@@ -69,13 +76,16 @@ class ExceptionLogPanel extends \Nette\Object implements \Nette\Diagnostics\IBar
 					'filePath' => $path,
 					'date' => $date,
 				);
+				\Zette\Diagnostics\TimerPanel::stop('exception file ExceptionLogPanel');
 			}
 		}
 		return $this->exceptions;
 	}
 
 	public function getExceptionByUrl($url) {
-		$excs = $this->getExceptions();
+
+
+		$excs = $this->classCache->getCachedInstance($this)->getExceptions();
 		foreach ($excs as $exc) {
 			if ($exc['url'] == $url) {
 				return $exc;
