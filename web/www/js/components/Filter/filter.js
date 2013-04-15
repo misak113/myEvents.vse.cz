@@ -1,17 +1,3 @@
-/**
- * Hiding filter on mouse over
- */
-jQuery(document).ready(function($){
-    /* @todo nejak me to sere :D
-	$('.nav-header ul').hide();
-	$('.filter .nav-header').hover(function(){
-			$(this).find('ul').stop().slideDown();
-		}, function(){
-			$(this).find('ul').stop().slideUp();
-	});*/
-});
-
-
 
 /**
  * Filtering events
