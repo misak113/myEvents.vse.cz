@@ -1,2 +1,43 @@
 
 /* #c55050 */
+
+#filter .head {
+	background: #c55050;
+}
+
+form #filter > ul > li {
+	border-top: 1px solid #c55050;
+}
+
+.nav li a:hover, .nav li a.active {
+	background: #c55050;
+}
+
+.btn {
+	background: #c55050;
+	border: 1px solid #925050;
+}
+
+a {
+	color: #925050;
+}
+
+a:hover {
+	color: #925060;
+}
+
+.item.curr {
+	background: #c55050;
+}
+
+.item.curr .btn {
+	color: #c55050;
+}
+
+.item .basic strong {
+	color: #925050;
+}
+
+.team h3 {
+	color: #925050;
+}
