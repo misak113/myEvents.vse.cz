@@ -3,6 +3,23 @@ SetEnv APPLICATION_ENV localhost
 
 <ifModule mod_rewrite.c>
 	RewriteEngine on
+
+	RewriteCond %{HTTP_HOST} ^(vse.my-events.cz|myevents.vse.cz)
+	RewriteCond %{REQUEST_FILENAME} favicon.ico
+	RewriteRule .* favicon.blue.ico
+	
+	RewriteCond %{HTTP_HOST} ^cvut.my-events.cz
+	RewriteCond %{REQUEST_FILENAME} favicon.ico
+	RewriteRule .* favicon.red.ico
+
+	RewriteCond %{HTTP_HOST} ^(vse.my-events.cz|myevents.vse.cz)
+	RewriteCond %{REQUEST_FILENAME} img/logo-horizontal.png
+	RewriteRule .* img/logo-horizontal-blue.png
+
+	RewriteCond %{HTTP_HOST} ^cvut.my-events.cz
+	RewriteCond %{REQUEST_FILENAME} img/logo-horizontal.png
+	RewriteRule .* img/logo-horizontal-red.png
+
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule .* index.php
 </ifModule>

@@ -834,6 +834,6 @@ h2.padding {
 	margin-top: 3px;
 	right: 0px;
 }
-.admin-nav li a:hover {
+.admin-nav.nav li a:hover {
 	background-color: #FF9797;
 }

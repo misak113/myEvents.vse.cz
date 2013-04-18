@@ -1,6 +1,7 @@
 <?php
 namespace Zette\Templating;
 
+use Nette\Application\UI\Presenter;
 use Nette\DI\Container;
 use Nette\Templating\FileTemplate;
 use Nette\Caching\Storages\PhpFileStorage;
@@ -91,13 +92,15 @@ class LatteView extends \Zend_View
 
 
 		// default parameters
-
+		/** @var Presenter $presenter  */
 		$presenter = $this->presenter;
 
 
 		$template->control = $template->_control = $this;
 
 		$template->presenter = $template->_presenter = $presenter;
+
+		$template->netteHttpRequest = $this->context->getService('httpRequest');
 
 		if ($presenter instanceof Presenter) {
 
@@ -106,6 +109,8 @@ class LatteView extends \Zend_View
 			$template->user = $presenter->getUser();
 
 			$template->netteHttpResponse = $presenter->getHttpResponse();
+
+			$template->netteHttpRequest = $presenter->getHttpRequest();
 
 			$template->netteCacheStorage = $presenter->getContext()->getByType('Nette\Caching\IStorage');
 

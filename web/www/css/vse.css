@@ -1,0 +1,43 @@
+
+/* #6794ad */
+
+#filter .head {
+	background: #6794ad;
+}
+
+form #filter > ul > li {
+	border-top: 1px solid #6794ad;
+}
+
+.nav li a:hover, .nav li a.active {
+	background: #6794ad;
+}
+
+.btn {
+	background: #6794ad;
+	border: 1px solid #4684ad;
+}
+
+a {
+	color: #4684ad;
+}
+
+a:hover {
+	color: #0084ab;
+}
+
+.item.curr {
+	background: #6794ad;
+}
+
+.item.curr .btn {
+	color: #6794ad;
+}
+
+.item .basic strong {
+	color: #4684ad;
+}
+
+.team h3 {
+	color: #4684ad;
+}

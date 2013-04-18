@@ -34,6 +34,17 @@
 		->appendStylesheet($view->baseUrl() . '/css/style.css')		
 	;
 
+	$domain = $netteHttpRequest->getUrl()->host;
+	switch ($domain) {
+		case 'vse.my-events.cz':
+		case 'myevents.vse.cz':
+			$view->headLink()->appendStylesheet($view->baseUrl() . '/css/vse.css');
+			break;
+		case 'cvut.my-events.cz':
+			$view->headLink()->appendStylesheet($view->baseUrl() . '/css/cvut.css');
+			break;
+	}
+
 	echo $view->headLink();
 	?>
         
