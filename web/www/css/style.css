@@ -837,3 +837,11 @@ h2.padding {
 .admin-nav.nav li a:hover {
 	background-color: #FF9797;
 }
+
+.inside.listA form{
+        float: right;
+        margin: 20px 15px;
+}
+.inside.listA > h1{
+        float: left;
+}

@@ -5,6 +5,25 @@
 				
 <h1>Kontrola akcí</h1>
 {if $events}
+    <form n:if="$user->isAllowed('admin.approve', 'approve')"
+          action="<?php echo $view->url(
+          array('module' => 'admin',
+          'controller' => 'approve',
+          'action' => 'approveall'),
+          'default',
+          true); ?>" method="post">
+        <input type="submit" value="Schválit vše" class="btn"/>
+    </form>
+    <form n:if="$user->isAllowed('admin.approve', 'control')"
+          action="<?php echo $view->url(
+          array('module' => 'admin',
+          'controller' => 'approve',
+          'action' => 'controlall'),
+          'default',
+          true); ?>" method="post">
+        <input type="submit" value="Zkontrolovat vše" class="btn"/>
+    </form>
+
     <table class=" table table-striped">
         <tr>
             <th>Organizace</th>
