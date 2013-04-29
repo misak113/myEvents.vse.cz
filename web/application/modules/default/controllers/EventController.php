@@ -102,6 +102,11 @@ class EventController extends BaseController {
             
             $select = $this->eventTable->select();
             $select->where("name like ?", array('%'.$q.'%'))
+                    ->where("timestart > NOW()")
+                    ->where("active = 1")
+                    ->where("public = 1")
+                    ->where("approved is not null")
+                    ->where("controlled is not null")
                     ->limit(20);
             $events = $this->eventTable->fetchAll($select);
             
