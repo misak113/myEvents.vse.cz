@@ -1,5 +1,6 @@
 
 <ifModule mod_rewrite.c>
 	RewriteEngine on
+	#RewriteCond !-f
 	RewriteRule ^(.*)$ /www/$1
 </ifModule>

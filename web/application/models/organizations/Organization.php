@@ -20,7 +20,9 @@ class Organization extends Row {
     public function getEvents() {
         $select = $this->select()
 				->where('active = ?', 1)
-				->where('(timeend > NOW() OR timeend IS NULL)');
+				->where('(timeend > NOW() OR timeend IS NULL)')
+                ->where('(timestart > NOW() - INTERVAL 7 DAY OR timestart IS NULL)')
+		;
         return $this->findManyToManyRowset('app\models\events\EventTable', 'app\models\organizations\OrganizationOwnEventTable', null, null, $select);
     }
 

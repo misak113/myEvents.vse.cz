@@ -51,6 +51,18 @@ h1 {
 	vertical-align: middle;
 }
 
+.table-striped tr.error td {
+    background-color: darksalmon;
+}
+.table-striped tr.success td {
+    background-color: #62c462;
+}
+.table-striped tr.error:nth-child(2n+3)  td {
+    background-color: salmon;
+}
+.table-striped:nth-child(2n+3)  tr.success td {
+    background-color: #499249;
+}
 
 
 input[type='text'], select, input[type='date'], input[type='url'], input[type='password'] , input[type='time'], textarea {
